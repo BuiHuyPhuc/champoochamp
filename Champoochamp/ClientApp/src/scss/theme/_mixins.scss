@@ -1,0 +1,9 @@
+@mixin flex($justify-content, $align-items, $flex-direction:'row'){
+    display: flex;
+    justify-content: $justify-content;
+    align-items: $align-items;
+}
+
+@mixin border($color){
+    border: solid 1px $color;
+}

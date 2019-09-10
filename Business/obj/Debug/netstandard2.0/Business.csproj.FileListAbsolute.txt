@@ -1,0 +1,12 @@
+D:\UIT DATA\THESIS\Champoochamp\Business\bin\Debug\netstandard2.0\Business.deps.json
+D:\UIT DATA\THESIS\Champoochamp\Business\bin\Debug\netstandard2.0\Business.dll
+D:\UIT DATA\THESIS\Champoochamp\Business\bin\Debug\netstandard2.0\Business.pdb
+D:\UIT DATA\THESIS\Champoochamp\Business\bin\Debug\netstandard2.0\Data.dll
+D:\UIT DATA\THESIS\Champoochamp\Business\bin\Debug\netstandard2.0\Data.pdb
+D:\UIT DATA\THESIS\Champoochamp\Business\obj\Debug\netstandard2.0\Business.csprojAssemblyReference.cache
+D:\UIT DATA\THESIS\Champoochamp\Business\obj\Debug\netstandard2.0\Business.csproj.CoreCompileInputs.cache
+D:\UIT DATA\THESIS\Champoochamp\Business\obj\Debug\netstandard2.0\Business.AssemblyInfoInputs.cache
+D:\UIT DATA\THESIS\Champoochamp\Business\obj\Debug\netstandard2.0\Business.AssemblyInfo.cs
+D:\UIT DATA\THESIS\Champoochamp\Business\obj\Debug\netstandard2.0\Business.csproj.CopyComplete
+D:\UIT DATA\THESIS\Champoochamp\Business\obj\Debug\netstandard2.0\Business.dll
+D:\UIT DATA\THESIS\Champoochamp\Business\obj\Debug\netstandard2.0\Business.pdb

@@ -1,0 +1,9 @@
+D:\UIT DATA\THESIS\Champoochamp\Data\bin\Debug\netstandard2.0\Data.deps.json
+D:\UIT DATA\THESIS\Champoochamp\Data\bin\Debug\netstandard2.0\Data.dll
+D:\UIT DATA\THESIS\Champoochamp\Data\obj\Debug\netstandard2.0\Data.csproj.CoreCompileInputs.cache
+D:\UIT DATA\THESIS\Champoochamp\Data\obj\Debug\netstandard2.0\Data.AssemblyInfoInputs.cache
+D:\UIT DATA\THESIS\Champoochamp\Data\obj\Debug\netstandard2.0\Data.AssemblyInfo.cs
+D:\UIT DATA\THESIS\Champoochamp\Data\bin\Debug\netstandard2.0\Data.pdb
+D:\UIT DATA\THESIS\Champoochamp\Data\obj\Debug\netstandard2.0\Data.dll
+D:\UIT DATA\THESIS\Champoochamp\Data\obj\Debug\netstandard2.0\Data.pdb
+D:\UIT DATA\THESIS\Champoochamp\Data\obj\Debug\netstandard2.0\Data.csprojAssemblyReference.cache

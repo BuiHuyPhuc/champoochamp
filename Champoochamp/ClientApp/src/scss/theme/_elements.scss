@@ -1,0 +1,117 @@
+* {
+  font-family: $main-font;
+  font-size: 16px;
+  color: $black;
+}
+
+.container {
+  width: 90%;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.section-gap {
+  padding: 70px 0;
+
+  @media (max-width: $sm) {
+    padding: 50px 0;
+  }
+}
+
+.light-bg {
+  background: $offwhite;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  line-height: 1.4;
+  font-weight: 700 !important;
+}
+
+h1 {
+  font-size: 3.5rem;
+
+  @media (max-width: $lg) {
+    font-size: 2.2rem;
+  }
+
+  @media (max-width: $sm) {
+    font-size: 2rem;
+  }
+}
+
+h2 {
+  font-size: 2.6rem;
+
+  @media (max-width: $lg) {
+    font-size: 2rem;
+  }
+
+  @media (max-width: $sm) {
+    font-size: 1.8rem;
+  }
+}
+
+h3 {
+  font-size: 2rem;
+
+  @media (max-width: $lg) {
+    font-size: 1.6rem;
+  }
+
+  @media (max-width: $sm) {
+    font-size: 1.4rem;
+  }
+}
+
+p {
+  line-height: 1.5;
+  margin: 1rem 0;
+}
+
+img {
+  max-width: 100%;
+  display: inline-block;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.btn {
+  outline: none;
+  border: none;
+  padding: 0 2rem;
+  line-height: 50px;
+  margin: 1rem 0;
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  letter-spacing: 2px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  transition: all 0.2s ease-out;
+
+  @media (max-width: $md) {
+    font-size: 0.8rem;
+  }
+}
+
+.primary-btn {
+  @extend .btn;
+  background: $white;
+  color: $black;
+  @include border(black);
+
+  &:hover {
+    background: $black;
+    color: $white;
+  }
+}
