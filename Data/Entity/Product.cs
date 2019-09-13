@@ -13,10 +13,10 @@ namespace Data.Entity
 
         public short Id { get; set; }
         public string Name { get; set; }
-        public string MetaTittle { get; set; }
+        public string MetaTitle { get; set; }
         public decimal? Price { get; set; }
         public decimal? PromotionPrice { get; set; }
-        public sbyte? IsDiscount { get; set; }
+        public bool? IsDiscount { get; set; }
         public short? DiscountAmount { get; set; }
         public short? TotalQuantity { get; set; }
         public string Description { get; set; }
@@ -30,7 +30,7 @@ namespace Data.Entity
         public string MetaDescriptions { get; set; }
         public int? Views { get; set; }
         public bool? Status { get; set; }
-        public short MeterialId { get; set; }
+        public short MaterialId { get; set; }
         public short BrandId { get; set; }
         public short CategoryId { get; set; }
         public short? CollectionId { get; set; }
@@ -40,7 +40,7 @@ namespace Data.Entity
         public virtual Brand Brand { get; set; }
         public virtual Category Category { get; set; }
         public virtual Collection Collection { get; set; }
-        public virtual Material Meterial { get; set; }
+        public virtual Material Material { get; set; }
         public virtual Suplier Suplier { get; set; }
         public virtual Unit Unit { get; set; }
         public virtual ICollection<ProductVariant> ProductVariant { get; set; }
