@@ -1,0 +1,12 @@
+E:\HocTap\TaiLieuHocTap\LuanAn\Source_Github\champoochamp\Business\bin\Debug\netcoreapp2.2\Business.deps.json
+E:\HocTap\TaiLieuHocTap\LuanAn\Source_Github\champoochamp\Business\bin\Debug\netcoreapp2.2\Business.dll
+E:\HocTap\TaiLieuHocTap\LuanAn\Source_Github\champoochamp\Business\bin\Debug\netcoreapp2.2\Business.pdb
+E:\HocTap\TaiLieuHocTap\LuanAn\Source_Github\champoochamp\Business\obj\Debug\netcoreapp2.2\Business.csprojAssemblyReference.cache
+E:\HocTap\TaiLieuHocTap\LuanAn\Source_Github\champoochamp\Business\obj\Debug\netcoreapp2.2\Business.csproj.CoreCompileInputs.cache
+E:\HocTap\TaiLieuHocTap\LuanAn\Source_Github\champoochamp\Business\obj\Debug\netcoreapp2.2\Business.AssemblyInfoInputs.cache
+E:\HocTap\TaiLieuHocTap\LuanAn\Source_Github\champoochamp\Business\obj\Debug\netcoreapp2.2\Business.AssemblyInfo.cs
+E:\HocTap\TaiLieuHocTap\LuanAn\Source_Github\champoochamp\Business\obj\Debug\netcoreapp2.2\Business.dll
+E:\HocTap\TaiLieuHocTap\LuanAn\Source_Github\champoochamp\Business\obj\Debug\netcoreapp2.2\Business.pdb
+E:\HocTap\TaiLieuHocTap\LuanAn\Source_Github\champoochamp\Business\bin\Debug\netcoreapp2.2\Data.dll
+E:\HocTap\TaiLieuHocTap\LuanAn\Source_Github\champoochamp\Business\bin\Debug\netcoreapp2.2\Data.pdb
+E:\HocTap\TaiLieuHocTap\LuanAn\Source_Github\champoochamp\Business\obj\Debug\netcoreapp2.2\Business.csproj.CopyComplete

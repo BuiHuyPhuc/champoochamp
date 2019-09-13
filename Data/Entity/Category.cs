@@ -7,6 +7,7 @@ namespace Data.Entity
     {
         public Category()
         {
+            InverseParent = new HashSet<Category>();
             Product = new HashSet<Product>();
         }
 
@@ -24,6 +25,8 @@ namespace Data.Entity
         public string MetaDescriptions { get; set; }
         public bool? Status { get; set; }
 
+        public virtual Category Parent { get; set; }
+        public virtual ICollection<Category> InverseParent { get; set; }
         public virtual ICollection<Product> Product { get; set; }
     }
 }

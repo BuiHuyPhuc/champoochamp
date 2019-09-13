@@ -1,0 +1,11 @@
+E:\HocTap\TaiLieuHocTap\LuanAn\Source_Github\champoochamp\Data\bin\Debug\netcoreapp2.2\Data.deps.json
+E:\HocTap\TaiLieuHocTap\LuanAn\Source_Github\champoochamp\Data\bin\Debug\netcoreapp2.2\Data.dll
+E:\HocTap\TaiLieuHocTap\LuanAn\Source_Github\champoochamp\Data\obj\Debug\netcoreapp2.2\Data.csprojAssemblyReference.cache
+E:\HocTap\TaiLieuHocTap\LuanAn\Source_Github\champoochamp\Data\obj\Debug\netcoreapp2.2\Data.csproj.CoreCompileInputs.cache
+E:\HocTap\TaiLieuHocTap\LuanAn\Source_Github\champoochamp\Data\obj\Debug\netcoreapp2.2\Data.AssemblyInfoInputs.cache
+E:\HocTap\TaiLieuHocTap\LuanAn\Source_Github\champoochamp\Data\obj\Debug\netcoreapp2.2\Data.AssemblyInfo.cs
+E:\HocTap\TaiLieuHocTap\LuanAn\Source_Github\champoochamp\Data\bin\Debug\netcoreapp2.2\Data.runtimeconfig.json
+E:\HocTap\TaiLieuHocTap\LuanAn\Source_Github\champoochamp\Data\bin\Debug\netcoreapp2.2\Data.runtimeconfig.dev.json
+E:\HocTap\TaiLieuHocTap\LuanAn\Source_Github\champoochamp\Data\bin\Debug\netcoreapp2.2\Data.pdb
+E:\HocTap\TaiLieuHocTap\LuanAn\Source_Github\champoochamp\Data\obj\Debug\netcoreapp2.2\Data.dll
+E:\HocTap\TaiLieuHocTap\LuanAn\Source_Github\champoochamp\Data\obj\Debug\netcoreapp2.2\Data.pdb

@@ -17,3 +17,22 @@ D:\UIT DATA\THESIS\Champoochamp\API\obj\Debug\netcoreapp2.2\API.RazorTargetAssem
 D:\UIT DATA\THESIS\Champoochamp\API\obj\Debug\netcoreapp2.2\API.csproj.CopyComplete
 D:\UIT DATA\THESIS\Champoochamp\API\obj\Debug\netcoreapp2.2\API.dll
 D:\UIT DATA\THESIS\Champoochamp\API\obj\Debug\netcoreapp2.2\API.pdb
+E:\HocTap\TaiLieuHocTap\LuanAn\Source_Github\champoochamp\API\bin\Debug\netcoreapp2.2\API.deps.json
+E:\HocTap\TaiLieuHocTap\LuanAn\Source_Github\champoochamp\API\bin\Debug\netcoreapp2.2\API.runtimeconfig.json
+E:\HocTap\TaiLieuHocTap\LuanAn\Source_Github\champoochamp\API\bin\Debug\netcoreapp2.2\API.runtimeconfig.dev.json
+E:\HocTap\TaiLieuHocTap\LuanAn\Source_Github\champoochamp\API\bin\Debug\netcoreapp2.2\API.dll
+E:\HocTap\TaiLieuHocTap\LuanAn\Source_Github\champoochamp\API\bin\Debug\netcoreapp2.2\API.pdb
+E:\HocTap\TaiLieuHocTap\LuanAn\Source_Github\champoochamp\API\obj\Debug\netcoreapp2.2\API.csprojAssemblyReference.cache
+E:\HocTap\TaiLieuHocTap\LuanAn\Source_Github\champoochamp\API\obj\Debug\netcoreapp2.2\API.csproj.CoreCompileInputs.cache
+E:\HocTap\TaiLieuHocTap\LuanAn\Source_Github\champoochamp\API\obj\Debug\netcoreapp2.2\API.RazorAssemblyInfo.cache
+E:\HocTap\TaiLieuHocTap\LuanAn\Source_Github\champoochamp\API\obj\Debug\netcoreapp2.2\API.RazorAssemblyInfo.cs
+E:\HocTap\TaiLieuHocTap\LuanAn\Source_Github\champoochamp\API\obj\Debug\netcoreapp2.2\API.AssemblyInfoInputs.cache
+E:\HocTap\TaiLieuHocTap\LuanAn\Source_Github\champoochamp\API\obj\Debug\netcoreapp2.2\API.AssemblyInfo.cs
+E:\HocTap\TaiLieuHocTap\LuanAn\Source_Github\champoochamp\API\obj\Debug\netcoreapp2.2\API.RazorTargetAssemblyInfo.cache
+E:\HocTap\TaiLieuHocTap\LuanAn\Source_Github\champoochamp\API\obj\Debug\netcoreapp2.2\API.dll
+E:\HocTap\TaiLieuHocTap\LuanAn\Source_Github\champoochamp\API\obj\Debug\netcoreapp2.2\API.pdb
+E:\HocTap\TaiLieuHocTap\LuanAn\Source_Github\champoochamp\API\bin\Debug\netcoreapp2.2\Business.dll
+E:\HocTap\TaiLieuHocTap\LuanAn\Source_Github\champoochamp\API\bin\Debug\netcoreapp2.2\Data.dll
+E:\HocTap\TaiLieuHocTap\LuanAn\Source_Github\champoochamp\API\bin\Debug\netcoreapp2.2\Business.pdb
+E:\HocTap\TaiLieuHocTap\LuanAn\Source_Github\champoochamp\API\bin\Debug\netcoreapp2.2\Data.pdb
+E:\HocTap\TaiLieuHocTap\LuanAn\Source_Github\champoochamp\API\obj\Debug\netcoreapp2.2\API.csproj.CopyComplete
