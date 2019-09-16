@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNet.OData.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -26,7 +27,10 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddOData();
+            services.AddMvc()
+                    .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+                    .AddJsonOptions(opt => opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -42,9 +46,13 @@ namespace API
                 app.UseHsts();
             }
 
-            app.UseCors(builder => builder.WithOrigins("http://localhost:8888"));
+            app.UseCors(builder => builder.WithOrigins("http://localhost:5000"));
             app.UseHttpsRedirection();
-            app.UseMvc();
+            app.UseMvc(b =>
+            {
+                b.EnableDependencyInjection();
+                b.Expand().Select().OrderBy().Filter();
+            });
         }
     }
 }

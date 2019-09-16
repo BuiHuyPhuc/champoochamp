@@ -27,7 +27,7 @@ namespace Data.Entity
         public short CreatedBy { get; set; }
         public DateTime? ModifiedDate { get; set; }
         public short? ModifiedBy { get; set; }
-        public sbyte? Status { get; set; }
+        public short? Status { get; set; }
         public int UserId { get; set; }
         public short EmployeeId { get; set; }
 

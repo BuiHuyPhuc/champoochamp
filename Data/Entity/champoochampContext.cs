@@ -48,7 +48,8 @@ namespace Data.Entity
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseMySql("server=localhost;database=champoochamp;user=root");
+                optionsBuilder
+                .UseMySql("server=localhost;database=champoochamp;user=root");
             }
         }
 
@@ -66,11 +67,11 @@ namespace Data.Entity
 
                 entity.Property(e => e.CreatedDate)
                     .HasColumnType("datetime")
-                    .HasDefaultValueSql("'CURRENT_TIMESTAMP'");
+                    .HasDefaultValueSql("'current_timestamp()'");
 
                 entity.Property(e => e.DisplayOrder)
                     .HasColumnType("smallint(6)")
-                    .HasDefaultValueSql("'0'");
+                    .HasDefaultValueSql("'1'");
 
                 entity.Property(e => e.Logo).HasColumnType("varchar(255)");
 
@@ -92,17 +93,20 @@ namespace Data.Entity
             {
                 entity.ToTable("category");
 
+                entity.HasIndex(e => e.ParentId)
+                    .HasName("fk_category__category");
+
                 entity.Property(e => e.Id).HasColumnType("smallint(6)");
 
                 entity.Property(e => e.CreatedBy).HasColumnType("smallint(6)");
 
                 entity.Property(e => e.CreatedDate)
                     .HasColumnType("datetime")
-                    .HasDefaultValueSql("'CURRENT_TIMESTAMP'");
+                    .HasDefaultValueSql("'current_timestamp()'");
 
                 entity.Property(e => e.DisplayOrder)
                     .HasColumnType("smallint(6)")
-                    .HasDefaultValueSql("'0'");
+                    .HasDefaultValueSql("'1'");
 
                 entity.Property(e => e.MetaDescriptions).HasColumnType("varchar(2555)");
 
@@ -124,6 +128,11 @@ namespace Data.Entity
                     .HasDefaultValueSql("'b\\'1\\''");
 
                 entity.Property(e => e.Thumbnail).HasColumnType("varchar(255)");
+
+                entity.HasOne(d => d.Parent)
+                    .WithMany(p => p.InverseParent)
+                    .HasForeignKey(d => d.ParentId)
+                    .HasConstraintName("fk_category__category");
             });
 
             modelBuilder.Entity<Collection>(entity =>
@@ -136,11 +145,11 @@ namespace Data.Entity
 
                 entity.Property(e => e.CreatedDate)
                     .HasColumnType("datetime")
-                    .HasDefaultValueSql("'CURRENT_TIMESTAMP'");
+                    .HasDefaultValueSql("'current_timestamp()'");
 
                 entity.Property(e => e.DisplayOrder)
                     .HasColumnType("smallint(6)")
-                    .HasDefaultValueSql("'0'");
+                    .HasDefaultValueSql("'1'");
 
                 entity.Property(e => e.MetaDescriptions).HasColumnType("varchar(2555)");
 
@@ -172,11 +181,11 @@ namespace Data.Entity
 
                 entity.Property(e => e.CreatedDate)
                     .HasColumnType("datetime")
-                    .HasDefaultValueSql("'CURRENT_TIMESTAMP'");
+                    .HasDefaultValueSql("'current_timestamp()'");
 
                 entity.Property(e => e.DisplayOrder)
                     .HasColumnType("smallint(6)")
-                    .HasDefaultValueSql("'0'");
+                    .HasDefaultValueSql("'1'");
 
                 entity.Property(e => e.ModifiedBy).HasColumnType("smallint(6)");
 
@@ -202,7 +211,7 @@ namespace Data.Entity
 
                 entity.Property(e => e.CreatedDate)
                     .HasColumnType("datetime")
-                    .HasDefaultValueSql("'CURRENT_TIMESTAMP'");
+                    .HasDefaultValueSql("'current_timestamp()'");
 
                 entity.Property(e => e.District).HasColumnType("varchar(255)");
 
@@ -245,7 +254,7 @@ namespace Data.Entity
 
                 entity.Property(e => e.CreatedDate)
                     .HasColumnType("datetime")
-                    .HasDefaultValueSql("'CURRENT_TIMESTAMP'");
+                    .HasDefaultValueSql("'current_timestamp()'");
 
                 entity.Property(e => e.DateOfBirth).HasColumnType("date");
 
@@ -323,7 +332,7 @@ namespace Data.Entity
 
                 entity.Property(e => e.CreatedDate)
                     .HasColumnType("datetime")
-                    .HasDefaultValueSql("'CURRENT_TIMESTAMP'");
+                    .HasDefaultValueSql("'current_timestamp()'");
 
                 entity.Property(e => e.Email).HasColumnType("varchar(255)");
 
@@ -357,7 +366,7 @@ namespace Data.Entity
 
                 entity.Property(e => e.CreatedDate)
                     .HasColumnType("datetime")
-                    .HasDefaultValueSql("'CURRENT_TIMESTAMP'");
+                    .HasDefaultValueSql("'current_timestamp()'");
 
                 entity.Property(e => e.ModifiedBy).HasColumnType("smallint(6)");
 
@@ -397,7 +406,7 @@ namespace Data.Entity
 
                 entity.Property(e => e.CreatedDate)
                     .HasColumnType("datetime")
-                    .HasDefaultValueSql("'CURRENT_TIMESTAMP'");
+                    .HasDefaultValueSql("'current_timestamp()'");
 
                 entity.Property(e => e.GoodsReceiptId).HasColumnType("smallint(6)");
 
@@ -449,7 +458,7 @@ namespace Data.Entity
 
                 entity.Property(e => e.CreatedDate)
                     .HasColumnType("datetime")
-                    .HasDefaultValueSql("'CURRENT_TIMESTAMP'");
+                    .HasDefaultValueSql("'current_timestamp()'");
 
                 entity.Property(e => e.Discription).HasColumnType("varchar(2555)");
 
@@ -486,7 +495,7 @@ namespace Data.Entity
 
                 entity.Property(e => e.CreatedDate)
                     .HasColumnType("datetime")
-                    .HasDefaultValueSql("'CURRENT_TIMESTAMP'");
+                    .HasDefaultValueSql("'current_timestamp()'");
 
                 entity.Property(e => e.CustomerAddress).HasColumnType("varchar(255)");
 
@@ -519,7 +528,7 @@ namespace Data.Entity
                     .HasDefaultValueSql("'0'");
 
                 entity.Property(e => e.Status)
-                    .HasColumnType("tinyint(4)")
+                    .HasColumnType("smallint(6)")
                     .HasDefaultValueSql("'1'");
 
                 entity.Property(e => e.Total)
@@ -557,7 +566,7 @@ namespace Data.Entity
 
                 entity.Property(e => e.CreatedDate)
                     .HasColumnType("datetime")
-                    .HasDefaultValueSql("'CURRENT_TIMESTAMP'");
+                    .HasDefaultValueSql("'current_timestamp()'");
 
                 entity.Property(e => e.InvoiceId).HasColumnType("int(11)");
 
@@ -609,7 +618,7 @@ namespace Data.Entity
 
                 entity.Property(e => e.CreatedDate)
                     .HasColumnType("datetime")
-                    .HasDefaultValueSql("'CURRENT_TIMESTAMP'");
+                    .HasDefaultValueSql("'current_timestamp()'");
 
                 entity.Property(e => e.ModifiedBy).HasColumnType("smallint(6)");
 
@@ -638,7 +647,7 @@ namespace Data.Entity
 
                 entity.Property(e => e.CreatedDate)
                     .HasColumnType("datetime")
-                    .HasDefaultValueSql("'CURRENT_TIMESTAMP'");
+                    .HasDefaultValueSql("'current_timestamp()'");
 
                 entity.Property(e => e.EmployeeId).HasColumnType("smallint(6)");
 
@@ -712,7 +721,7 @@ namespace Data.Entity
                 entity.HasIndex(e => e.CollectionId)
                     .HasName("fk_product__collection");
 
-                entity.HasIndex(e => e.MeterialId)
+                entity.HasIndex(e => e.MaterialId)
                     .HasName("fk_product__material");
 
                 entity.HasIndex(e => e.SuplierId)
@@ -733,7 +742,7 @@ namespace Data.Entity
 
                 entity.Property(e => e.CreatedDate)
                     .HasColumnType("datetime")
-                    .HasDefaultValueSql("'CURRENT_TIMESTAMP'");
+                    .HasDefaultValueSql("'current_timestamp()'");
 
                 entity.Property(e => e.Description).HasColumnType("varchar(2555)");
 
@@ -744,16 +753,17 @@ namespace Data.Entity
                     .HasDefaultValueSql("'0'");
 
                 entity.Property(e => e.IsDiscount)
-                    .HasColumnType("tinyint(1)")
-                    .HasDefaultValueSql("'0'");
+                    .IsRequired()
+                    .HasColumnType("bit(1)")
+                    .HasDefaultValueSql("'b\\'0\\''");
+
+                entity.Property(e => e.MaterialId).HasColumnType("smallint(6)");
 
                 entity.Property(e => e.MetaDescriptions).HasColumnType("varchar(2555)");
 
                 entity.Property(e => e.MetaKeywords).HasColumnType("varchar(255)");
 
-                entity.Property(e => e.MetaTittle).HasColumnType("varchar(255)");
-
-                entity.Property(e => e.MeterialId).HasColumnType("smallint(6)");
+                entity.Property(e => e.MetaTitle).HasColumnType("varchar(255)");
 
                 entity.Property(e => e.ModifiedBy).HasColumnType("smallint(6)");
 
@@ -805,9 +815,9 @@ namespace Data.Entity
                     .HasForeignKey(d => d.CollectionId)
                     .HasConstraintName("fk_product__collection");
 
-                entity.HasOne(d => d.Meterial)
+                entity.HasOne(d => d.Material)
                     .WithMany(p => p.Product)
-                    .HasForeignKey(d => d.MeterialId)
+                    .HasForeignKey(d => d.MaterialId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_product__material");
 
@@ -834,7 +844,7 @@ namespace Data.Entity
 
                 entity.Property(e => e.CreatedDate)
                     .HasColumnType("datetime")
-                    .HasDefaultValueSql("'CURRENT_TIMESTAMP'");
+                    .HasDefaultValueSql("'current_timestamp()'");
 
                 entity.Property(e => e.ImageUrls).HasColumnType("varchar(2555)");
 
@@ -872,7 +882,7 @@ namespace Data.Entity
 
                 entity.Property(e => e.CreatedDate)
                     .HasColumnType("datetime")
-                    .HasDefaultValueSql("'CURRENT_TIMESTAMP'");
+                    .HasDefaultValueSql("'current_timestamp()'");
 
                 entity.Property(e => e.ModifiedBy).HasColumnType("smallint(6)");
 
@@ -936,7 +946,7 @@ namespace Data.Entity
 
                 entity.Property(e => e.CreatedDate)
                     .HasColumnType("datetime")
-                    .HasDefaultValueSql("'CURRENT_TIMESTAMP'");
+                    .HasDefaultValueSql("'current_timestamp()'");
 
                 entity.Property(e => e.ProductId).HasColumnType("smallint(6)");
 
@@ -972,7 +982,7 @@ namespace Data.Entity
 
                 entity.Property(e => e.CreatedDate)
                     .HasColumnType("datetime")
-                    .HasDefaultValueSql("'CURRENT_TIMESTAMP'");
+                    .HasDefaultValueSql("'current_timestamp()'");
 
                 entity.Property(e => e.Discription).HasColumnType("varchar(2555)");
 
@@ -1008,15 +1018,17 @@ namespace Data.Entity
 
                 entity.Property(e => e.Id).HasColumnType("smallint(6)");
 
+                entity.Property(e => e.CategoryId).HasColumnType("smallint(6)");
+
                 entity.Property(e => e.CreatedBy).HasColumnType("smallint(6)");
 
                 entity.Property(e => e.CreatedDate)
                     .HasColumnType("datetime")
-                    .HasDefaultValueSql("'CURRENT_TIMESTAMP'");
+                    .HasDefaultValueSql("'current_timestamp()'");
 
                 entity.Property(e => e.DisplayOrder)
                     .HasColumnType("smallint(6)")
-                    .HasDefaultValueSql("'0'");
+                    .HasDefaultValueSql("'1'");
 
                 entity.Property(e => e.ModifiedBy).HasColumnType("smallint(6)");
 
@@ -1040,13 +1052,13 @@ namespace Data.Entity
 
                 entity.Property(e => e.CreatedDate)
                     .HasColumnType("datetime")
-                    .HasDefaultValueSql("'CURRENT_TIMESTAMP'");
+                    .HasDefaultValueSql("'current_timestamp()'");
 
                 entity.Property(e => e.Discription).HasColumnType("varchar(2555)");
 
                 entity.Property(e => e.DisplayOrder)
                     .HasColumnType("smallint(6)")
-                    .HasDefaultValueSql("'0'");
+                    .HasDefaultValueSql("'1'");
 
                 entity.Property(e => e.Image).HasColumnType("varchar(255)");
 
@@ -1074,7 +1086,7 @@ namespace Data.Entity
 
                 entity.Property(e => e.CreatedDate)
                     .HasColumnType("datetime")
-                    .HasDefaultValueSql("'CURRENT_TIMESTAMP'");
+                    .HasDefaultValueSql("'current_timestamp()'");
 
                 entity.Property(e => e.Description).HasColumnType("varchar(2555)");
 
@@ -1106,7 +1118,7 @@ namespace Data.Entity
 
                 entity.Property(e => e.CreatedDate)
                     .HasColumnType("datetime")
-                    .HasDefaultValueSql("'CURRENT_TIMESTAMP'");
+                    .HasDefaultValueSql("'current_timestamp()'");
 
                 entity.Property(e => e.ModifiedBy).HasColumnType("smallint(6)");
 
@@ -1130,7 +1142,7 @@ namespace Data.Entity
 
                 entity.Property(e => e.CreatedDate)
                     .HasColumnType("datetime")
-                    .HasDefaultValueSql("'CURRENT_TIMESTAMP'");
+                    .HasDefaultValueSql("'current_timestamp()'");
 
                 entity.Property(e => e.ModifiedBy).HasColumnType("smallint(6)");
 
@@ -1158,7 +1170,7 @@ namespace Data.Entity
 
                 entity.Property(e => e.CreatedDate)
                     .HasColumnType("datetime")
-                    .HasDefaultValueSql("'CURRENT_TIMESTAMP'");
+                    .HasDefaultValueSql("'current_timestamp()'");
 
                 entity.Property(e => e.DateOfBirth).HasColumnType("date");
 

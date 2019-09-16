@@ -18,6 +18,7 @@ namespace Data.Entity
         public DateTime? ModifiedDate { get; set; }
         public short? ModifiedBy { get; set; }
         public bool? Status { get; set; }
+        public short CategoryId { get; set; }
 
         public virtual ICollection<ProductVariant> ProductVariant { get; set; }
     }
