@@ -1,84 +1,122 @@
-/* Banner area*/
+/* Banner*/
 
 .home-banner-wrapper {
-  padding-top: 120px;
-  @include flex(center, center);
-
-  @media (max-width: $sm) {
-    padding-top: 80px;
+  height: 100vh;
+  
+  .single-slide {
+    background: url("https://i1.adis.ws/i/lucky/20190912_middleImage");
+    background-size: cover;
+    background-position: center center;
+    position: relative;
+    height: 100%;
   }
 
   .content-wrapper {
-    padding-left: 60px;
+    position: absolute;
+    padding: 3% 5%;
+    bottom: 0;
+    left: 0;
 
-    @media (max-width: $xl) {
-      padding-left: 30px;
-    }
+    .banner-title {
+      line-height: 1.5;
 
-    @media (max-width: $md) {
-      padding-top: 1rem;
-      padding-left: 0;
-    }
-
-    .sub-title {
-      font-size: 1.2rem;
-      color: $dark-gray;
-
-      @media (max-width: $lg) {
-        font-size: 1rem;
+      .inner {
+        padding: 0 5px;
+        margin: 10px 0;
+        font-size: inherit !important;
+        font-weight: 400 !important;
+        background: $white;
       }
     }
   }
 }
 
-/* Collections area*/
-.collections-wrapper{
-  .collections{
+/* Slider*/
+
+.slick-prev,
+.slick-next {
+  width: 40px;
+  height: 40px;
+  z-index: 2;
+
+  &:before {
+    opacity: 0.3;
+    font-size: 40px;
+  }
+}
+
+.slick-prev {
+  left: 2%;
+}
+
+.slick-next {
+  right: 2%;
+}
+
+/* Section title*/
+
+.section-title-wrapper {
+  margin-bottom: 50px;
+
+  @media (max-width: $sm) {
+    margin-bottom: 30px;
+  }
+
+  .section-title {
+    text-align: center;
+  }
+}
+
+/* Card*/
+
+.card {
+  background: $white;
+  padding: 10px;
+  @include border(transparent);
+
+  .card-header {
+    cursor: pointer;
+    @include flex(center, center);
+  }
+
+  .card-body {
+    padding-top: 40px;
+
+    @media (max-width: $sm) {
+      padding-top: 20px;
+    }
+
+    .quick-actions {
+      visibility: hidden;
+
+      .quick-look {
+        @include border-bottom(transparent);
+
+        &:hover {
+          cursor: pointer;
+          @include border-bottom($black);
+        }
+      }
+    }
+  }
+
+  &:hover {
+    @include border($dark-gray);
+
+    .quick-actions {
+      visibility: visible;
+    }
+  }
+}
+
+/* Collections*/
+.collections-wrapper {
+  .collections {
     margin-bottom: 1rem;
-    .single-collection{
+    .single-collection {
       background: url(../assets/product1.jpg);
-        background-size: cover;
-        height: 500px;
-    }
-  }
-}
-
-/* Hottest products area*/
-.hottest-products-wrapper {
-  .section-title-wrapper {
-    @include flex(space-between, top);
-
-    .section-title {
-      position: relative;
-      padding-bottom: 20px;
-      margin-bottom: 50px;
-
-      &:after {
-        content: "";
-        position: absolute;
-        width: 100px;
-        height: 5px;
-        background: $main-color;
-        top: 100%;
-        left: 0;
-      }
-    }
-
-  }
-
-  .product-grid {
-    padding-top: 2rem;
-
-    .single-product {
-      .product-image {
-        background: url(../assets/product1.jpg);
-        background-size: cover;
-        height: 400px;
-      }
-
-      .product-detail {
-        padding: 1rem 0;
-      }
+      background-size: cover;
+      height: 500px;
     }
   }
 }

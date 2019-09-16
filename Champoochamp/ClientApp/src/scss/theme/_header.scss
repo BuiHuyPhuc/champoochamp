@@ -1,5 +1,5 @@
 .header-wrapper {
-  border-bottom: solid 1px $light-gray;
+  //border-bottom: solid 1px $light-gray;
   background: white;
   position: fixed;
   top: 0;
@@ -11,6 +11,7 @@
   .navbar {
     @include flex(space-between, center);
     height: 80px;
+    font-weight: 600;
 
     @media (max-width: $sm) {
       height: 60px;
@@ -35,6 +36,11 @@
       border: none;
       background: transparent;
 
+      .navbar-item {
+        font-size: 14px;
+        letter-spacing: 1px;
+      }
+
       .anticon {
         margin-right: 0;
         vertical-align: middle;
@@ -56,13 +62,9 @@
   }
 }
 
-.drawer-menu {
-  .ant-drawer-content-wrapper {
-    width: 70% !important;
-    max-width: 500px;
-  }
+.vercital-menu {
 
-  .ant-menu-inline {
+  &.ant-menu-inline {
     border: none;
   }
 }

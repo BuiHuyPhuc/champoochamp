@@ -1,10 +1,5 @@
 const MENU_ITEMS = [
   {
-    isDropdownMenu: false,
-    name: "Xu hướng",
-    url: "/xu-huong"
-  },
-  {
     isDropdownMenu: true,
     name: "Nam",
     url: "/nam"
@@ -23,7 +18,7 @@ const MENU_ITEMS = [
     isDropdownMenu: true,
     name: "Bộ sưu tập",
     url: "/bo-suu-tap"
-  },
+  }
 ];
 
 export default MENU_ITEMS;

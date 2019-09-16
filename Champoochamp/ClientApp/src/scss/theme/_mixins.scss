@@ -7,3 +7,7 @@
 @mixin border($color){
     border: solid 1px $color;
 }
+
+@mixin border-bottom($color){
+    border-bottom: solid 1px $color;
+}

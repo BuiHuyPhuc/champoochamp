@@ -1,0 +1,137 @@
+/* Breadcrumb */
+
+.breadcrumb-wrapper {
+  .small-breadcrumb {
+    @include flex(flex-start, center);
+    flex-wrap: wrap;
+    margin-top: 20px;
+
+    .breadcrumb-link {
+      font-weight: 600;
+      display: inline-block;
+      color: $black;
+      font-size: 12px;
+      padding-bottom: 5px;
+      @include border-bottom($gray);
+
+      &:hover {
+        border-color: $black;
+      }
+    }
+
+    .breadcrumb-separator {
+      vertical-align: middle;
+      color: $gray;
+      margin: 0 7px;
+    }
+  }
+
+  .current-page {
+    margin-top: 30px;
+  }
+}
+
+/* Product list */
+
+.product-list-wrapper {
+
+  .filter-panel {
+    padding-right: 20px;
+    margin-bottom: 20px;
+
+    @media (max-width: $md) {
+      padding-right: 0;
+    }
+
+    .filter-header {
+      @include border-bottom($light-gray);
+      padding-bottom: 10px;
+      padding-top: 50px;
+      margin-bottom: 30px;
+      position: relative;
+
+      &:before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 30px;
+        height: 5px;
+        background: $main-color;
+      }
+
+      .title-text {
+        font-size: 20px;
+        font-weight: 700;
+      }
+
+      .selected-items-wrapper {
+        margin-top: 30px;
+
+        .selected-item {
+          display: inline-block;
+          padding: 10px;
+          margin: 0 10px 10px 0;
+          background: $black;
+          color: $white;
+          font-size: 13px;
+
+          .delete-filter {
+            margin-left: 10px;
+
+            svg {
+              fill: $white;
+              font-size: 13px;
+            }
+          }
+        }
+      }
+    }
+
+    .filter-body {
+      .filter-item {
+        padding: 10px 0;
+
+        .filter-item-title {
+          font-size: 14px;
+          font-weight: 700;
+        }
+
+        .single-filter {
+          font-size: 14px;
+          margin: 10px 0;
+          padding: 0;
+          background: transparent;
+          outline: none;
+          border: none;
+          cursor: pointer;
+          @include border-bottom(transparent);
+
+          &:hover {
+            @include border-bottom($black);
+          }
+        }
+
+        .ant-collapse-header {
+          padding: 10px 0;
+
+          .ant-collapse-arrow svg {
+            font-size: 12px;
+          }
+        }
+
+        .ant-collapse-content-box {
+          padding: 10px 0;
+        }
+      }
+    }
+  }
+
+  .product-grid{
+    padding-left: 20px;
+
+    @media (max-width: $md) {
+      padding-left: 0;
+    }
+  }
+}
