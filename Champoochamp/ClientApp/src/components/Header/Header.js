@@ -57,9 +57,10 @@ class Header extends Component {
               })}
             </Menu>
           </div>
-          
+
           <div className="navbar-right">
             <Menu className="navbar-nav" mode="horizontal">
+              <Menu.Item className="navbar-item collapse-menu">Đăng nhập</Menu.Item>
               <Menu.Item className="navbar-item">
                 <Icon type="search"></Icon>
               </Menu.Item>
@@ -73,18 +74,17 @@ class Header extends Component {
           </div>
 
           <Drawer
-            className="drawer-menu"
             placement="right"
             closable={false}
             onClose={this.onCloseDrawer}
             visible={this.state.isDrawerVisible}
           >
-            <Menu className="navbar-nav" mode="inline">
+            <Menu className="vercital-menu" mode="inline">
               {MENU_ITEMS.map(item => {
                 if (item.isDropdownMenu) {
                   return (
                     <Menu.SubMenu
-                      title={<span className="navbar-item">{item.name}</span>}
+                      title={<span className="menu-item">{item.name}</span>}
                     >
                       <Menu.ItemGroup title="Quần">
                         <Menu.Item>Quần jeans</Menu.Item>
@@ -98,7 +98,7 @@ class Header extends Component {
                   );
                 } else {
                   return (
-                    <Menu.Item className="navbar-item">{item.name}</Menu.Item>
+                    <Menu.Item className="menu-item">{item.name}</Menu.Item>
                   );
                 }
               })}

@@ -2,8 +2,10 @@ import React, { Component } from "react";
 
 import Header from "../Header";
 import Banner from "./components/Banner";
-import HottestProducts from './components/HottestProducts';
-import Collection from './components/Collection';
+import TopProducts from './components/TopProducts';
+
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 class Homepage extends Component {
   render() {
@@ -11,9 +13,8 @@ class Homepage extends Component {
       <div>
         <Header></Header>
         <Banner></Banner>
-        <Collection></Collection>
-        <HottestProducts></HottestProducts>
-        <HottestProducts></HottestProducts>
+        <TopProducts sectionTitle="Best sellers"></TopProducts>
+        <TopProducts sectionTitle="Sản phẩm mới"></TopProducts>
       </div>
     );
   }
