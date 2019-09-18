@@ -74,6 +74,10 @@
   padding: 10px;
   @include border(transparent);
 
+  @media (max-width: $sm) {
+    padding: 5px;
+  }
+
   .card-header {
     cursor: pointer;
     @include flex(center, center);

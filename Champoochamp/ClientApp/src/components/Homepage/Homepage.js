@@ -13,7 +13,7 @@ class Homepage extends Component {
       <div>
         <Header></Header>
         <Banner></Banner>
-        <TopProducts sectionTitle="Best sellers"></TopProducts>
+        <TopProducts sectionTitle="Bestsellers"></TopProducts>
         <TopProducts sectionTitle="Sản phẩm mới"></TopProducts>
       </div>
     );
