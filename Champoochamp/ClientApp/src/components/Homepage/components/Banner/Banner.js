@@ -27,7 +27,7 @@ class Banner extends Component {
             </div>
           </div>
         </div>
-        <div className="home-banner-wrapper">
+        <div className="home-banner-wrapper first-section-gap">
           <div className="single-slide">
             <div className="content-wrapper">
               <h2 className="banner-title">

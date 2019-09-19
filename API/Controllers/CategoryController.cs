@@ -24,5 +24,14 @@ namespace API.Controllers
             }
         }
 
+        [EnableQuery]
+        [Route("GetCategoryById-{id}")]
+        public Category GetCategoryById(int id)
+        {
+            using (champoochampContext db = new champoochampContext())
+            {
+                return db.Category.Where(p => p.Id == id).Include(p => p.Parent).ThenInclude(p => p.Parent).SingleOrDefault();
+            }
+        }
     }
 }

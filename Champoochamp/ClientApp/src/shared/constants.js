@@ -7,5 +7,7 @@ const BREAKPOINTS = {
   xl: 1200
 };
 
-export {BREAKPOINTS};
+const API_PORT = "http://localhost:4000";
+
+export {BREAKPOINTS, API_PORT};
 

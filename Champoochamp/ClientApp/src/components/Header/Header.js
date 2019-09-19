@@ -1,5 +1,8 @@
 import React, { Component } from "react";
+import { NavLink } from 'react-router-dom';
 import { Menu, Icon, Drawer } from "antd";
+import { API_PORT } from '../../shared/constants.js';
+
 
 import logo from "../../assets/logo.png";
 import MENU_ITEMS from "../Header/constants";
@@ -10,12 +13,14 @@ class Header extends Component {
         this.state = {
             isDrawerVisible: false,
             categoryMenu: []
-        };
+        };        
+    }
 
-        fetch(`http://localhost:4000/api/Category/GetCategory?$filter=parent eq null`, { method: `GET` })
-            .then(response => response.json())
-            .then(data => this.setState({ categoryMenu: data }))
-            .catch(error => console.log(`ERROR_GetCategory: ` + error));
+    componentDidMount() {
+        fetch(`${API_PORT}/api/Category/GetCategory?$filter=parent eq null`, { method: `GET` })
+        .then(response => response.json())
+        .then(data => this.setState({ categoryMenu: data }))
+        .catch(error => console.log(`ERROR_GetCategory: ` + error));
     }
 
     onShowDrawer = () => {
@@ -30,29 +35,30 @@ class Header extends Component {
         });
     };
 
-    menu = categories => categories.map(category => {
+    menu = (categories, url) => categories.map(category => {
         if (!category.parentId) {
-            if (category.inverseParent.length > 0) {
-                return (
-                    <Menu.SubMenu title={<span className="navbar-item">{category.name}</span>}>
-                        {this.menu(category.inverseParent)}
-                    </Menu.SubMenu>
-                )
-            }
-            else {
-                return (<Menu.Item className="navbar-item">{category.name}</Menu.Item>)
-            }
+            return (
+                <Menu.SubMenu key={category.id} title={<span className="navbar-item">{category.name}</span>}>
+                    {this.menu(category.inverseParent, `${url}/${category.metaTitle}`)}
+                </Menu.SubMenu>
+            )
         }
         else if (category.inverseParent.length > 0) {
             return (
-                <Menu.ItemGroup title={category.name}>
-                    {this.menu(category.inverseParent)}
+                <Menu.ItemGroup key={category.id} title={category.name}>
+                    {this.menu(category.inverseParent, `${url}/${category.metaTitle}`)}
                 </Menu.ItemGroup>
             );
         }
-        else if (category.inverseParent.length == 0) {
-            return (<Menu.Item>{category.name}</Menu.Item>);
+        else if (category.inverseParent.length === 0) {
+            return (
+                <Menu.Item key={category.id}>
+                    <NavLink to={`${url}/${category.metaTitle}-${category.id}`}>{category.name}</NavLink>                    
+                </Menu.Item>
+            );
         }
+
+        return true;
     })
 
     render() {
@@ -62,13 +68,13 @@ class Header extends Component {
                 <div className="container navbar">
                     <div className="navbar-left">
                         <div className="navbar-brand">
-                            <a href="/" rel="noopener noreferrer">
+                            <NavLink className="breadcrumb-link" to="/">
                                 <img src={logo} alt="logo" />
-                            </a>
+                            </NavLink>
                         </div>
 
                         <Menu className="navbar-nav collapse-menu" mode="horizontal">
-                            {this.menu(categoryMenu)}
+                            {this.menu(categoryMenu, "/san-pham")}
                         </Menu>
                     </div>
 
