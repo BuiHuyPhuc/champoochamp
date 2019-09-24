@@ -1,16 +1,15 @@
 import React, { Component } from "react";
-import { NavLink } from 'react-router-dom';
-import { API_PORT } from '../../../../shared/constants.js';
+import axios from "axios";
+import { NavLink } from "react-router-dom";
+import { Spin } from "antd";
+import { API_PORT } from "../../../../shared/constants";
 
 class Breadcrumb extends Component {
-    constructor() {
-        super();
-        this.state = {
-            isLoading: false,
-            idCategory: 0,
-            category: null
-        };
-    }
+    state = {
+        isLoading: false,
+        idCategory: 0,
+        category: null
+    };
 
     componentDidMount() {
         this.getCategory(this.props.idCategory);
@@ -23,14 +22,14 @@ class Breadcrumb extends Component {
     }
 
     getCategory = (idCategory) => {
-        fetch(`${API_PORT}/api/Category/GetCategoryById-${idCategory}`, { method: `GET` })
-            .then(response => response.json())
+        axios.get(`${API_PORT}/api/Category/GetCategoryById-${idCategory}`)
+            .then(response => response.data)
             .then(data => this.setState({
                 isLoading: true,
-                idCategory: idCategory,
+                idCategory,
                 category: data
             }))
-            .catch(error => console.log(`ERROR_GetCategory: ` + error));
+            .catch(error => console.log(`ERROR_Breadcrumb_GetCategoryById: ` + error));
     }
 
     getAllCategory = (category, objTemp) => {
@@ -75,9 +74,7 @@ class Breadcrumb extends Component {
         }
 
         return (
-            <div className="container breadcrumb-wrapper first-section-gap">
-                Loading ...
-            </div>
+            <div className="container breadcrumb-wrapper first-section-gap"><Spin /></div>
         );
     }
 }

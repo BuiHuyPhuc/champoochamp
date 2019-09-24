@@ -51,7 +51,7 @@ namespace API
             app.UseMvc(b =>
             {
                 b.EnableDependencyInjection();
-                b.Expand().Select().OrderBy().Filter();
+                b.Expand().Select().OrderBy().Filter().MaxTop(null).Count();
             });
         }
     }

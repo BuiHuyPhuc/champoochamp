@@ -15,8 +15,8 @@ namespace API.Controllers
     public class CategoryController : ControllerBase
     {
         [EnableQuery]
-        [Route("GetCategory")]
-        public IEnumerable<Category> GetCategory()
+        [Route("GetAllCategories")]
+        public IEnumerable<Category> GetAllCategories()
         {
             using (champoochampContext db = new champoochampContext())
             {
