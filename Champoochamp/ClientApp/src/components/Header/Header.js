@@ -9,11 +9,14 @@ import logo from "../../assets/logo.png";
 import MENU_ITEMS from "../Header/constants";
 
 class Header extends Component {
-    state = {
-        isDrawerVisible: false,
-        isLoading: false,
-        categoryMenu: []
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+            isDrawerVisible: false,
+            isLoading: false,
+            categoryMenu: []
+        };
+    }
 
     componentDidMount() {
         axios.get(`${API_PORT}/api/Category/GetAllCategories`, {

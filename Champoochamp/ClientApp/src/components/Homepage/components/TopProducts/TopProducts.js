@@ -8,10 +8,13 @@ import ProductCard from "../../../ProductCard";
 import SectionTitle from "../SectionTitle";
 
 class TopProducts extends Component {
-    state = {
-        isLoading: false,
-        products: []
-    }
+    constructor(props) {
+        super(props);
+        this.state = {
+            isLoading: false,
+            products: []
+        }
+    }    
 
     componentDidMount() {
         if (this.props.sectionTitle === TOP_PRODUCTS.DISCOUNT_PRODUCTS) {
@@ -19,7 +22,7 @@ class TopProducts extends Component {
                 params: {
                     $filter: "isDiscount eq true",
                     $orderby: "discountAmount desc",
-                    $top: "6"
+                    $top: "10"
                 }
             })
                 .then(response => response.data)
@@ -33,7 +36,7 @@ class TopProducts extends Component {
             axios.get(`${API_PORT}/api/Product/GetAllProducts`, {
                 params: {
                     $orderby: "createdDate desc",
-                    $top: "6"
+                    $top: "10"
                 }
             })
                 .then(response => response.data)
@@ -53,8 +56,8 @@ class TopProducts extends Component {
             infinite: true,
             autoplay: true,
             autoplaySpeed: 5000,
-            slidesToShow: 4,
-            slidesToScroll: 4,
+            slidesToShow: 5,
+            slidesToScroll: 5,
             speed: 500,
             responsive: [
                 {

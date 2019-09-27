@@ -5,23 +5,26 @@ import { Spin } from "antd";
 import { API_PORT } from "../../../../shared/constants";
 
 class Breadcrumb extends Component {
-    state = {
-        isLoading: false,
-        idCategory: 0,
-        category: null
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+            isLoading: false,
+            idCategory: 0,
+            category: null
+        };
+    }
 
     componentDidMount() {
-        this.getCategory(this.props.idCategory);
+        this.getCategories(this.props.idCategory);
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
         if (nextProps.idCategory !== this.props.idCategory) {
-            this.getCategory(nextProps.idCategory);
+            this.getCategories(nextProps.idCategory);
         }
     }
 
-    getCategory = (idCategory) => {
+    getCategories = idCategory => {
         axios.get(`${API_PORT}/api/Category/GetCategoryById-${idCategory}`)
             .then(response => response.data)
             .then(data => this.setState({
@@ -47,7 +50,9 @@ class Breadcrumb extends Component {
         objTemp.url += `/${category.metaTitle}`;
         return (
             <li key={category.id} className="breadcrumb-item">
-                <NavLink className="breadcrumb-link" to={`${objTemp.url}-${category.id}`}>{category.name}</NavLink>
+                <NavLink className="breadcrumb-link" to={`${objTemp.url}-${category.id}`}>
+                    {category.name}
+                </NavLink>
                 <span className="breadcrumb-separator">/</span>
             </li>
         );

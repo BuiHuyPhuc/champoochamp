@@ -28,7 +28,7 @@ class CategoryPage extends Component {
         return (
             <div>
                 <Breadcrumb idCategory={this.getIdCategory()}></Breadcrumb>
-                <ProductList idCategory={this.getIdCategory()}></ProductList>
+                <ProductList idCategory={this.getIdCategory()}></ProductList>                
             </div>
         );
     }
