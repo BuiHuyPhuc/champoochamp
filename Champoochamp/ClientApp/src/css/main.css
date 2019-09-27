@@ -120,6 +120,36 @@ button, .btn, .primary-btn, .banner-btn {
     background: #fff;
     color: #000; }
 
+/* DropDown */
+.dropdown {
+  width: 200px;
+  -webkit-transition: all 0.5s;
+  transition: all 0.5s;
+  position: relative; }
+  .dropdown .dropdown-header {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    border: solid 1px #000;
+    padding: 10px 20px;
+    position: relative; }
+  .dropdown .dropdown-list {
+    background: #fff;
+    border: solid 1px #000;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    z-index: 100; }
+    .dropdown .dropdown-list .dropdown-list-item {
+      padding: 10px 20px; }
+
 .header-wrapper {
   background: white;
   position: fixed;

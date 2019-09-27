@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Icon } from "antd";
 
 class ProductCard extends Component {
+
   render() {
     const { imageUrl, name, price } = this.props;
 

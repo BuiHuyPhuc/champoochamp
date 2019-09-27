@@ -11,7 +11,7 @@ class FilterPanel extends Component {
           <Panel
             header={
               <button className="collapse-filter-btn">
-                <i class="fas fa-sliders-h"></i>Bộ lọc
+                <i className="fas fa-sliders-h"></i>Bộ lọc
               </button>
             }
             showArrow={false}
@@ -20,7 +20,7 @@ class FilterPanel extends Component {
               <div className="filter-header">
                 <h4 className="title-text">Lọc sản phẩm</h4>
                 <button className="clear-all">
-                  <i class="far fa-minus-square"></i>Xoá tất cả
+                  <i className="far fa-minus-square"></i>Xoá tất cả
                 </button>
                 <div className="selected-items-wrapper">
                   <span className="selected-item">
@@ -124,7 +124,7 @@ class FilterPanel extends Component {
             <div className="filter-header">
               <h4 className="title-text">Lọc sản phẩm</h4>
               <button className="clear-all">
-                <i class="far fa-minus-square"></i>Xoá tất cả
+                <i className="far fa-minus-square"></i>Xoá tất cả
               </button>
               <div className="selected-items-wrapper">
                 <span className="selected-item">

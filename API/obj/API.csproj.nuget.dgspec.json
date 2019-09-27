@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "E:\\HocTap\\TaiLieuHocTap\\LuanAn\\Source_Github\\champoochamp\\API\\API.csproj": {}
+    "D:\\UIT DATA\\THESIS\\Champoochamp\\API\\API.csproj": {}
   },
   "projects": {
-    "E:\\HocTap\\TaiLieuHocTap\\LuanAn\\Source_Github\\champoochamp\\API\\API.csproj": {
+    "D:\\UIT DATA\\THESIS\\Champoochamp\\API\\API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\HocTap\\TaiLieuHocTap\\LuanAn\\Source_Github\\champoochamp\\API\\API.csproj",
+        "projectUniqueName": "D:\\UIT DATA\\THESIS\\Champoochamp\\API\\API.csproj",
         "projectName": "API",
-        "projectPath": "E:\\HocTap\\TaiLieuHocTap\\LuanAn\\Source_Github\\champoochamp\\API\\API.csproj",
-        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-        "outputPath": "E:\\HocTap\\TaiLieuHocTap\\LuanAn\\Source_Github\\champoochamp\\API\\obj\\",
+        "projectPath": "D:\\UIT DATA\\THESIS\\Champoochamp\\API\\API.csproj",
+        "packagesPath": "C:\\Users\\phuph\\.nuget\\packages\\",
+        "outputPath": "D:\\UIT DATA\\THESIS\\Champoochamp\\API\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\phuph\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -30,8 +30,8 @@
         "frameworks": {
           "netcoreapp2.2": {
             "projectReferences": {
-              "E:\\HocTap\\TaiLieuHocTap\\LuanAn\\Source_Github\\champoochamp\\Business\\Business.csproj": {
-                "projectPath": "E:\\HocTap\\TaiLieuHocTap\\LuanAn\\Source_Github\\champoochamp\\Business\\Business.csproj"
+              "D:\\UIT DATA\\THESIS\\Champoochamp\\Business\\Business.csproj": {
+                "projectPath": "D:\\UIT DATA\\THESIS\\Champoochamp\\Business\\Business.csproj"
               }
             }
           }
@@ -79,20 +79,20 @@
         }
       }
     },
-    "E:\\HocTap\\TaiLieuHocTap\\LuanAn\\Source_Github\\champoochamp\\Business\\Business.csproj": {
+    "D:\\UIT DATA\\THESIS\\Champoochamp\\Business\\Business.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\HocTap\\TaiLieuHocTap\\LuanAn\\Source_Github\\champoochamp\\Business\\Business.csproj",
+        "projectUniqueName": "D:\\UIT DATA\\THESIS\\Champoochamp\\Business\\Business.csproj",
         "projectName": "Business",
-        "projectPath": "E:\\HocTap\\TaiLieuHocTap\\LuanAn\\Source_Github\\champoochamp\\Business\\Business.csproj",
-        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-        "outputPath": "E:\\HocTap\\TaiLieuHocTap\\LuanAn\\Source_Github\\champoochamp\\Business\\obj\\",
+        "projectPath": "D:\\UIT DATA\\THESIS\\Champoochamp\\Business\\Business.csproj",
+        "packagesPath": "C:\\Users\\phuph\\.nuget\\packages\\",
+        "outputPath": "D:\\UIT DATA\\THESIS\\Champoochamp\\Business\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\phuph\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -105,8 +105,8 @@
         "frameworks": {
           "netcoreapp2.2": {
             "projectReferences": {
-              "E:\\HocTap\\TaiLieuHocTap\\LuanAn\\Source_Github\\champoochamp\\Data\\Data.csproj": {
-                "projectPath": "E:\\HocTap\\TaiLieuHocTap\\LuanAn\\Source_Github\\champoochamp\\Data\\Data.csproj"
+              "D:\\UIT DATA\\THESIS\\Champoochamp\\Data\\Data.csproj": {
+                "projectPath": "D:\\UIT DATA\\THESIS\\Champoochamp\\Data\\Data.csproj"
               }
             }
           }
@@ -135,20 +135,20 @@
         }
       }
     },
-    "E:\\HocTap\\TaiLieuHocTap\\LuanAn\\Source_Github\\champoochamp\\Data\\Data.csproj": {
+    "D:\\UIT DATA\\THESIS\\Champoochamp\\Data\\Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\HocTap\\TaiLieuHocTap\\LuanAn\\Source_Github\\champoochamp\\Data\\Data.csproj",
+        "projectUniqueName": "D:\\UIT DATA\\THESIS\\Champoochamp\\Data\\Data.csproj",
         "projectName": "Data",
-        "projectPath": "E:\\HocTap\\TaiLieuHocTap\\LuanAn\\Source_Github\\champoochamp\\Data\\Data.csproj",
-        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-        "outputPath": "E:\\HocTap\\TaiLieuHocTap\\LuanAn\\Source_Github\\champoochamp\\Data\\obj\\",
+        "projectPath": "D:\\UIT DATA\\THESIS\\Champoochamp\\Data\\Data.csproj",
+        "packagesPath": "C:\\Users\\phuph\\.nuget\\packages\\",
+        "outputPath": "D:\\UIT DATA\\THESIS\\Champoochamp\\Data\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\phuph\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
