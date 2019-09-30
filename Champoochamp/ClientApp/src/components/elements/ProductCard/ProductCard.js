@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import { Icon } from "antd";
 
 class ProductCard extends Component {
-    getImageUrl = (imageName, imageGroup) => require(`../../assets/images/${imageGroup}/${imageName}`)
+    getImageUrl = (imageName, imageGroup) => require(`../../../assets/images/${imageGroup}/${imageName}`)
 
     render() {
-        const { imageName, imageGroup, name, price } = this.props;
+        const { imageGroup, imageName, name, price } = this.props;
 
         return (
             <div className="card">

@@ -54,7 +54,7 @@ class Breadcrumb extends Component {
             this.getAllCategory(category.parent, objTemp);
         }
 
-        if (category.id !== this.state.category.id) {
+        if (category.id !== this.state.currentCategory.id) {
             objTemp.arrCategories.push(category);
         }
 
@@ -94,7 +94,7 @@ class Breadcrumb extends Component {
                     </li>
                     {this.getBreadcrumb(objTemp)}
                 </ul>
-                <h3 className="current-page">{category.name}</h3>
+                <h3 className="current-page">{currentCategory.name}</h3>
             </div>
         );        
     }

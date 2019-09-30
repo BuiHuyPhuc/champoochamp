@@ -4,7 +4,7 @@ import axios from "axios";
 import { Spin } from "antd";
 import { BREAKPOINTS, API_PORT, TOP_PRODUCTS, IMAGE_GROUP } from "../../../../shared/constants";
 
-import ProductCard from "../../../ProductCard";
+import ProductCard from "../../../elements/ProductCard";
 import SectionTitle from "../SectionTitle";
 
 class TopProducts extends Component {

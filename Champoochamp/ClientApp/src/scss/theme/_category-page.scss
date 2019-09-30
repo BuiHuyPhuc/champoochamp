@@ -34,21 +34,74 @@
 /* Product list */
 
 .product-list-wrapper {
+  .collapse-filter-panel {
+    margin-bottom: 10px;
+
+    & > .ant-collapse-item {
+      border-bottom: none;
+    }
+
+    @media (min-width: $lg) {
+      display: none;
+    }
+
+    & .ant-collapse-header:first-of-type {
+      padding: 5px 0 !important;
+    }
+
+    @media (min-width: $md) {
+      & .ant-collapse-header:first-of-type {
+        padding: 10px 0 !important;
+      }
+    }
+
+    .collapse-filter-btn {
+      font-weight: 700;
+      padding: 0 10px;
+
+      @media (max-width: $sm) {
+        padding: 0 5px;
+      }
+
+      i {
+        margin-right: 10px;
+      }
+    }
+
+    .ant-collapse-content-box {
+      padding: 0;
+    }
+  }
+
+  .visible-filter-panel {
+    display: none;
+
+    @media (min-width: $lg) {
+      display: block;
+    }
+  }
 
   .filter-panel {
     padding-right: 20px;
     margin-bottom: 20px;
 
-    @media (max-width: $md) {
-      padding-right: 0;
+    @media (max-width: $lg) {
+      padding: 0 10px;
+    }
+
+    @media (max-width: $sm) {
+      padding: 0 5px;
     }
 
     .filter-header {
       @include border-bottom($light-gray);
       padding-bottom: 10px;
       padding-top: 50px;
-      margin-bottom: 30px;
       position: relative;
+
+      @media (max-width: $lg) {
+        padding-top: 20px;
+      }
 
       &:before {
         content: "";
@@ -65,6 +118,14 @@
         font-weight: 700;
       }
 
+      .clear-all {
+        margin-top: 10px;
+
+        i {
+          margin-right: 10px;
+        }
+      }
+
       .selected-items-wrapper {
         margin-top: 30px;
 
@@ -78,6 +139,7 @@
 
           .delete-filter {
             margin-left: 10px;
+            cursor: pointer;
 
             svg {
               fill: $white;
@@ -98,6 +160,7 @@
         }
 
         .single-filter {
+          text-align: left;
           font-size: 14px;
           margin: 10px 0;
           padding: 0;
@@ -127,10 +190,10 @@
     }
   }
 
-  .product-grid{
+  .product-grid {
     padding-left: 20px;
 
-    @media (max-width: $md) {
+    @media (max-width: $lg) {
       padding-left: 0;
     }
   }

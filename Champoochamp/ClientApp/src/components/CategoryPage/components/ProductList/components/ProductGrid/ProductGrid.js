@@ -3,7 +3,8 @@ import axios from "axios";
 import { Row, Col, Spin } from "antd";
 import { API_PORT, IMAGE_GROUP } from "../../../../../../shared/constants";
 
-import ProductCard from "../../../../../ProductCard";
+import ProductCard from "../../../../../elements/ProductCard";
+import DropDown from '../../../../../elements/DropDown';
 
 class ProductGrid extends Component {
     constructor(props) {
@@ -16,7 +17,25 @@ class ProductGrid extends Component {
             pageSize: 6,
             page: 1,
             totalProducts: 0,
-            productList: []
+            productList: [],
+            sortItems: [
+                {
+                    id: 0,
+                    name: "Nổi bật nhất"
+                },
+                {
+                    id: 1,
+                    name: "Mới nhất"
+                },
+                {
+                    id: 2,
+                    name: "Giá tăng dần"
+                },
+                {
+                    id: 3,
+                    name: "Giá giảm dần"
+                },
+            ]
         }
     }
 
@@ -124,8 +143,12 @@ class ProductGrid extends Component {
         }, () => this.getMoreProducts(categoryId))
     }
 
+    callback = (selectedOption) => {
+        // do something.
+    }
+
     render() {
-        const { isLoading, totalProducts, productList } = this.state
+        const { isLoading, totalProducts, productList, sortItems } = this.state
 
         if (isLoading) {
             return (
@@ -136,6 +159,7 @@ class ProductGrid extends Component {
         return (
             <div className="product-grid">
                 <p>Tổng sản phẩm: {totalProducts}</p>
+                <DropDown title="Sắp xếp" optionList={sortItems} callback={this.callback}></DropDown>
                 <Row>
                     {productList.map(product => {
                         return (
