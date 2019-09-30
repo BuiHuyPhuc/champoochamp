@@ -9,64 +9,81 @@ class ProductGrid extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isLoading: false,
+            categoryId: this.props.categoryId,
+            isCategoryChanged: false,
+            isLoading: true,
             isLoadMore: true,
             pageSize: 6,
             page: 1,
             totalProducts: 0,
-            products: []
+            productList: []
+        }
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.categoryId !== prevState.categoryId) {
+            return {
+                categoryId: nextProps.categoryId,
+                isCategoryChanged: true
+            };
+        }
+
+        return null;
+    }
+
+    componentDidUpdate() {
+        const { isCategoryChanged, categoryId } = this.state;
+
+        if (isCategoryChanged) {
+            this.getTotalProducts(categoryId);
+            this.initProductList(categoryId);
         }
     }
 
     componentDidMount() {
-        this.getTotalProducts(this.state.idCategory);
-        this.getProductsInit(this.state.idCategory);
+        const { categoryId } = this.state;
+
+        this.getTotalProducts(categoryId);
+        this.initProductList(categoryId);
         this.scrollListener = window.addEventListener("scroll", e => {
             this.handleScroll(e);          
         });
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) {
-        if (nextProps.idCategory !== this.props.idCategory) {            
-            this.getTotalProducts(nextProps.idCategory);
-            this.getProductsInit(nextProps.idCategory);
-        }
-    }
-
-    getTotalProducts = idCategory => {
-        axios.get(`${API_PORT}/api/Product/GetProductsByIdCategory-${idCategory}`)
+    getTotalProducts = categoryId => {
+        axios.get(`${API_PORT}/api/Product/GetProductsByCategoryId-${categoryId}`)
             .then(response => response.data)
             .then(data => this.setState({
                 totalProducts: data.length,
             }))
-            .catch(error => console.log(`ERROR_ProductGrid_GetProductsByIdCategory: ` + error));
+            .catch(error => console.log(`ERROR_ProductGrid_GetProductsByCategoryId: ` + error));
     }
 
-    getProductsInit = idCategory => {
+    initProductList = categoryId => {
         const { pageSize } = this.state;
-        axios.get(`${API_PORT}/api/Product/GetProductsByIdCategory-${idCategory}`, {
+
+        axios.get(`${API_PORT}/api/Product/GetProductsByCategoryId-${categoryId}`, {
             params: {
                 $top: `${pageSize}`
             }
         })
-            .then(response => {
-                console.log(response)
-                return response.data
-            })
+            .then(response => response.data)
             .then(data => {
                 this.setState({
-                    isLoading: true,
+                    isCategoryChanged: false,
+                    isLoading: false,
                     isLoadMore: true,
                     page: 1,
-                    products: data
+                    productList: data
                 })
             })
-            .catch(error => console.log(`ERROR_ProductGrid_GetProductsByIdCategory: ` + error));
+            .catch(error => console.log(`ERROR_ProductGrid_GetProductsByCategoryId: ` + error));
     }
 
-    getProductsMore = idCategory => {
-        const { page, pageSize, products } = this.state;
-        axios.get(`${API_PORT}/api/Product/GetProductsByIdCategory-${idCategory}`, {
+    getMoreProducts = categoryId => {
+        const { page, pageSize, productList } = this.state;
+
+        axios.get(`${API_PORT}/api/Product/GetProductsByCategoryId-${categoryId}`, {
             params: {
                 $skip: `${(page - 1) * pageSize}`,
                 $top: `${pageSize}`
@@ -74,17 +91,19 @@ class ProductGrid extends Component {
         })
             .then(response => response.data)
             .then(data => this.setState({
-                isLoading: true,
+                isLoading: false,
                 isLoadMore: true,
-                products: [...products, ...data]
+                productList: [...productList, ...data]
             }))
-            .catch(error => console.log(`ERROR_ProductGrid_GetProductsByIdCategory: ` + error));
+            .catch(error => console.log(`ERROR_ProductGrid_GetProductsByCategoryId: ` + error));
     }
 
     handleScroll = e => {
         const { isLoadMore, totalProducts, page, pageSize } = this.state;
+
         if (!isLoadMore) return;
         if (totalProducts <= (page * pageSize)) return;
+
         const lastCol = document.querySelector("div.product-grid .ant-col:last-child");
         if (lastCol) {
             const lastColOffset = lastCol.offsetTop + lastCol.clientHeight;
@@ -97,39 +116,42 @@ class ProductGrid extends Component {
     }
 
     loadMore = () => {
+        const { page, categoryId } = this.state;
+
         this.setState({
             isLoadMore: false,
-            page: this.state.page + 1
-        }, () => this.getProductsMore(this.state.idCategory))
+            page: page + 1
+        }, () => this.getMoreProducts(categoryId))
     }
 
     render() {
-        console.log("render")
-        const { isLoading, totalProducts, products } = this.state
+        const { isLoading, totalProducts, productList } = this.state
+
         if (isLoading) {
             return (
-                <div className="product-grid">
-                    <p>Tổng sản phẩm: {totalProducts}</p>
-                    <Row>
-                        {products.map(product => {
-                            return (
-                                <Col xs={12} lg={8} key={product.id}>
-                                    <ProductCard
-                                        key={product.id}
-                                        imageGroup={IMAGE_GROUP.PRODUCTS}
-                                        imageName={product.productVariant[0].thumbnail}
-                                        name={product.name}
-                                        price={product.promotionPrice}>
-                                    </ProductCard>
-                                </Col>
-                            );
-                        })}
-                    </Row>
-                </div>
+                <div className="product-grid"><Spin /></div>
             );
         }
+
         return (
-            <div className="product-grid"><Spin /></div>
+            <div className="product-grid">
+                <p>Tổng sản phẩm: {totalProducts}</p>
+                <Row>
+                    {productList.map(product => {
+                        return (
+                            <Col xs={12} lg={8} key={product.id}>
+                                <ProductCard
+                                    key={product.id}
+                                    imageGroup={IMAGE_GROUP.PRODUCTS}
+                                    imageName={product.productVariant[0].thumbnail}
+                                    name={product.name}
+                                    price={product.promotionPrice}>
+                                </ProductCard>
+                            </Col>
+                        );
+                    })}
+                </Row>
+            </div>
         );
     }
 }

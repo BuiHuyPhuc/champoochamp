@@ -11,8 +11,8 @@ class TopProducts extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isLoading: false,
-            products: []
+            isLoading: true,
+            productList: []
         }
     }    
 
@@ -27,8 +27,8 @@ class TopProducts extends Component {
             })
                 .then(response => response.data)
                 .then(data => this.setState({
-                    isLoading: true,
-                    products: data
+                    isLoading: false,
+                    productList: data
                 }))
                 .catch(error => console.log(`ERROR_TopProducts_GetAllProducts_Discount: ` + error));
         }
@@ -41,17 +41,16 @@ class TopProducts extends Component {
             })
                 .then(response => response.data)
                 .then(data => this.setState({
-                    isLoading: true,
-                    products: data
+                    isLoading: false,
+                    productList: data
                 }))
                 .catch(error => console.log(`ERROR_TopProducts_GetAllProducts_New: ` + error));
         }
     }
 
     render() {
-        const { isLoading, products } = this.state;
+        const { isLoading, productList } = this.state;
         const { sectionTitle } = this.props;
-
         const settings = {
             infinite: true,
             autoplay: true,
@@ -86,31 +85,31 @@ class TopProducts extends Component {
 
         if (isLoading) {
             return (
-                <div className="hottest-products-wrapper section-gap">
-                    <div className="container">
-                        <SectionTitle sectionTitle={sectionTitle}></SectionTitle>
-
-                        <Slider {...settings}>
-                            {products.map(product => {
-                                return (
-                                    <ProductCard
-                                        key={product.id}
-                                        imageGroup={IMAGE_GROUP.PRODUCTS}
-                                        imageName={product.productVariant[0].thumbnail}
-                                        name={product.name}
-                                        price={product.promotionPrice}>
-                                    </ProductCard>
-                                );
-                            })}
-                        </Slider>
-                    </div>
-                </div>
-            );
+                <div className="hottest-productList-wrapper section-gap"><Spin /></div>
+            ); 
         }
 
         return (
-            <div className="hottest-products-wrapper section-gap"><Spin /></div>
-        );        
+            <div className="hottest-productList-wrapper section-gap">
+                <div className="container">
+                    <SectionTitle sectionTitle={sectionTitle}></SectionTitle>
+
+                    <Slider {...settings}>
+                        {productList.map(product => {
+                            return (
+                                <ProductCard
+                                    key={product.id}
+                                    imageGroup={IMAGE_GROUP.PRODUCTS}
+                                    imageName={product.productVariant[0].thumbnail}
+                                    name={product.name}
+                                    price={product.promotionPrice}>
+                                </ProductCard>
+                            );
+                        })}
+                    </Slider>
+                </div>
+            </div>
+        );               
     }
 }
 

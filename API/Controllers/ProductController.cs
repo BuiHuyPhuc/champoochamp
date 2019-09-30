@@ -28,7 +28,7 @@ namespace API.Controllers
         }
 
         [EnableQuery]
-        [Route("GetProductsByIdCategory-{id}")]
+        [Route("GetProductsByCategoryId-{id}")]
         public IEnumerable<Product> GetProductsByIdCategory(int id)
         {
             using (champoochampContext db = new champoochampContext())

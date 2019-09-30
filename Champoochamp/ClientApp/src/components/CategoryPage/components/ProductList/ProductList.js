@@ -8,14 +8,18 @@ class ProductList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            idCategory: this.props.idCategory
+            categoryId: this.props.categoryId
         }
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) {
-        if (nextProps.idCategory !== this.props.idCategory) {
-            this.setState({ idCategory: nextProps.idCategory });
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.categoryId !== prevState.categoryId) {
+            return {
+                categoryId: nextProps.categoryId,
+            };
         }
+
+        return null;
     }
 
     render() {
@@ -26,7 +30,7 @@ class ProductList extends Component {
                         <FilterPanel></FilterPanel>
                     </Col>
                     <Col xs={24} lg={18}>
-                        <ProductGrid idCategory={this.state.idCategory}></ProductGrid>
+                        <ProductGrid categoryId={this.state.categoryId}></ProductGrid>
                     </Col>
                 </Row>
             </div>
