@@ -1,42 +1,59 @@
 import React, { Component } from "react";
-import { NavLink } from 'react-router-dom';
-import { API_PORT } from '../../../../shared/constants.js';
+import axios from "axios";
+import { NavLink } from "react-router-dom";
+import { Spin } from "antd";
+import { API_PORT } from "../../../../shared/constants";
 
 class Breadcrumb extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
-            isLoading: false,
-            idCategory: 0,
-            category: null
+            categoryId: this.props.categoryId,
+            isCategoryChanged: false,
+            isLoading: true,
+            currentCategory: null
         };
     }
 
-    componentDidMount() {
-        this.getCategory(this.props.idCategory);
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.categoryId !== prevState.categoryId) {
+            return {
+                categoryId: nextProps.categoryId,
+                isCategoryChanged: true
+            };
+        }
+
+        return null;
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) {
-        if (nextProps.idCategory !== this.props.idCategory) {
-            this.getCategory(nextProps.idCategory);
+    componentDidUpdate() {
+        const { isCategoryChanged, categoryId } = this.state;
+
+        if (isCategoryChanged) {
+            this.getCategoryById(categoryId);
         }
     }
 
-    getCategory = (idCategory) => {
-        fetch(`${API_PORT}/api/Category/GetCategoryById-${idCategory}`, { method: `GET` })
-            .then(response => response.json())
+    componentDidMount() {
+        this.getCategoryById(this.state.categoryId);
+    }
+
+    getCategoryById = categoryId => {
+        axios.get(`${API_PORT}/api/Category/GetCategoryById-${categoryId}`)
+            .then(response => response.data)
             .then(data => this.setState({
-                isLoading: true,
-                idCategory: idCategory,
-                category: data
+                isCategoryChanged: false,
+                isLoading: false,
+                currentCategory: data
             }))
-            .catch(error => console.log(`ERROR_GetCategory: ` + error));
+            .catch(error => console.log(`ERROR_Breadcrumb_GetCategoryById: ` + error));
     }
 
     getAllCategory = (category, objTemp) => {
         if (category.parent) {
             this.getAllCategory(category.parent, objTemp);
         }
+
         if (category.id !== this.state.category.id) {
             objTemp.arrCategories.push(category);
         }
@@ -44,41 +61,42 @@ class Breadcrumb extends Component {
         return true;
     }
 
-    breadcrumb = objTemp => objTemp.arrCategories.map(category => {
+    getBreadcrumb = objTemp => objTemp.arrCategories.map(category => {
         objTemp.url += `/${category.metaTitle}`;
+
         return (
             <li key={category.id} className="breadcrumb-item">
-                <NavLink className="breadcrumb-link" to={`${objTemp.url}-${category.id}`}>{category.name}</NavLink>
+                <NavLink className="breadcrumb-link" to={`${objTemp.url}-${category.id}`}>
+                    {category.name}
+                </NavLink>
                 <span className="breadcrumb-separator">/</span>
             </li>
         );
     })
 
     render() {
+        const { isLoading, currentCategory } = this.state;
         let objTemp = { url: "/san-pham", arrCategories: [] };
-        const { isLoading, category } = this.state;
 
         if (isLoading) {
-            this.getAllCategory(category, objTemp);
             return (
-                <div className="container breadcrumb-wrapper first-section-gap">
-                    <ul className="small-breadcrumb">
-                        <li className="breadcrumb-item">
-                            <NavLink className="breadcrumb-link" to="/">Trang chủ</NavLink>
-                            <span className="breadcrumb-separator">/</span>
-                        </li>
-                        {this.breadcrumb(objTemp)}
-                    </ul>
-                    <h3 className="current-page">{category.name}</h3>
-                </div>
+                <div className="container breadcrumb-wrapper first-section-gap"><Spin /></div>
             );
         }
 
+        this.getAllCategory(currentCategory, objTemp);
         return (
             <div className="container breadcrumb-wrapper first-section-gap">
-                Loading ...
+                <ul className="small-breadcrumb">
+                    <li className="breadcrumb-item">
+                        <NavLink className="breadcrumb-link" to="/">Trang chủ</NavLink>
+                        <span className="breadcrumb-separator">/</span>
+                    </li>
+                    {this.getBreadcrumb(objTemp)}
+                </ul>
+                <h3 className="current-page">{category.name}</h3>
             </div>
-        );
+        );        
     }
 }
 

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { TOP_PRODUCTS } from "../../shared/constants"
 
 import Header from "../Header";
 import Banner from "./components/Banner";
@@ -12,9 +13,9 @@ class Homepage extends Component {
     return (
       <div>
         <Header></Header>
-        <Banner></Banner>
-        <TopProducts sectionTitle="Best sellers"></TopProducts>
-        <TopProducts sectionTitle="Sản phẩm mới"></TopProducts>
+            <Banner></Banner>
+            <TopProducts sectionTitle={TOP_PRODUCTS.DISCOUNT_PRODUCTS}></TopProducts>
+            <TopProducts sectionTitle={TOP_PRODUCTS.NEW_PRODUCTS}></TopProducts>
       </div>
     );
   }

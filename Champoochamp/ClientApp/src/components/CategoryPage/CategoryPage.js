@@ -4,7 +4,7 @@ import Breadcrumb from './components/Breadcrumb';
 import ProductList from './components/ProductList';
 
 class CategoryPage extends Component {
-    getIdCategory = () => {
+    getCategoryId = () => {
         const { lv1, lv2, lv3 } = this.props.match.params;
         if (lv3) {
             return this.getIdInMetaTitle(lv3);
@@ -27,8 +27,8 @@ class CategoryPage extends Component {
     render() {        
         return (
             <div>
-                <Breadcrumb idCategory={this.getIdCategory()}></Breadcrumb>
-                <ProductList idCategory={this.getIdCategory()}></ProductList>
+                <Breadcrumb categoryId={this.getCategoryId()}></Breadcrumb>
+                <ProductList categoryId={this.getCategoryId()}></ProductList>                
             </div>
         );
     }
