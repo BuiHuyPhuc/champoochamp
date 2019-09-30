@@ -1,11 +1,24 @@
-// Responsive breakpoints
+﻿// Responsive breakpoints
 
 const BREAKPOINTS = {
-  sm: 576,
-  md: 768,
-  lg: 992,
-  xl: 1200
+  SM: 576,
+  MD: 768,
+  LG: 992,
+  XL: 1200
 };
 
-export {BREAKPOINTS};
+const API_PORT = "http://localhost:4000";
+
+const TOP_PRODUCTS = {
+    DISCOUNT_PRODUCTS: "Giảm giá",
+    NEW_PRODUCTS: "Sản phẩm mới"
+};
+
+const IMAGE_GROUP = {
+    PRODUCTS: "products",
+    USERS: "users",
+    COLLECTIONS: "collections"
+};
+
+export {BREAKPOINTS, API_PORT, TOP_PRODUCTS, IMAGE_GROUP};
 

@@ -1,79 +1,37 @@
 import React, { Component } from "react";
 
-import Header from "../Header";
-import Breadcrumb from "./components/Breadcrumb";
-import ProductList from "./components/ProductList";
-import DropDown from "../DropDown";
+import Breadcrumb from './components/Breadcrumb';
+import ProductList from './components/ProductList';
 
 class CategoryPage extends Component {
-  constructor() {
-    super();
-    this.state = {
-      location: [
-        {
-          id: 0,
-          title: "New York",
-          selected: false,
-          key: "location"
-        },
-        {
-          id: 1,
-          title: "Dublin",
-          selected: false,
-          key: "location"
-        },
-        {
-          id: 2,
-          title: "California",
-          selected: false,
-          key: "location"
-        },
-        {
-          id: 3,
-          title: "Istanbul",
-          selected: false,
-          key: "location"
-        },
-        {
-          id: 4,
-          title: "Izmir",
-          selected: false,
-          key: "location"
-        },
-        {
-          id: 5,
-          title: "Oslo",
-          selected: false,
-          key: "location"
+    getCategoryId = () => {
+        const { lv1, lv2, lv3 } = this.props.match.params;
+        if (lv3) {
+            return this.getIdInMetaTitle(lv3);
         }
-      ]
-    };
-  }
+        else if (lv2) {
+            return this.getIdInMetaTitle(lv2);
+        }
+        else if (lv1) {
+            return this.getIdInMetaTitle(lv1);
+        }
 
-  toggleSelected = (id, key) => {
-    let temp = this.state[key];
-    temp[id].selected = !temp[id].selected;
-    this.setState({
-      [key]: temp
-    });
-  }
+        return true;
+    }
 
-  render() {
-    const { location } = this.state;
+    getIdInMetaTitle = metaTitle => {
+        const metaTitleArr = metaTitle.split(`-`);
+        return metaTitleArr[metaTitleArr.length - 1];
+    }
 
-    return (
-      <div>
-        <Header></Header>
-        <Breadcrumb></Breadcrumb>
-        <DropDown
-          title="Demo Dropdown"
-          list={location}
-          toggleItem={this.toggleSelected}
-        ></DropDown>
-        <ProductList></ProductList>
-      </div>
-    );
-  }
+    render() {        
+        return (
+            <div>
+                <Breadcrumb categoryId={this.getCategoryId()}></Breadcrumb>
+                <ProductList categoryId={this.getCategoryId()}></ProductList>                
+            </div>
+        );
+    }
 }
 
 export default CategoryPage;
