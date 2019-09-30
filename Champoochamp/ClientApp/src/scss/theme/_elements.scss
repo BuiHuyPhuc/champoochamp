@@ -1,6 +1,6 @@
 * {
   font-family: $main-font;
-  font-size: 16px;
+  font-size: 14px;
   color: $black;
 
   @media (max-width: $sm) {
@@ -148,33 +148,4 @@ button {
     background: $white;
     color: $black;
   }
-}
-
-/* DropDown */
-.dropdown{
-  width: 200px;
-  transition: all 0.5s;
-  position: relative;
-
-  .dropdown-header{
-    @include flex(space-between, center);
-    @include border($black);
-    padding: 10px 20px;
-    position: relative;
-  }
-
-  .dropdown-list{
-    background: $white;
-    @include border($black);
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    z-index: 100;
-
-    .dropdown-list-item{
-      padding: 10px 20px;
-    }
-  }
-  
 }
