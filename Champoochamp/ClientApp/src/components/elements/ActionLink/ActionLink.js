@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import COLORS from "../../../shared/color";
 import AwesomeIcon from "../AwesomeIcon";
 
-const StyledActionLink = styled("button")`
+const Wrapper = styled("button")`
   align-items: center;
   background: none;
   color: ${COLORS.BLACK};
@@ -31,16 +31,16 @@ class ActionLink extends Component {
     const { title, iconType } = this.props;
 
     return (
-      <StyledActionLink>
+      <Wrapper>
         {iconType && <AwesomeIcon type={iconType}></AwesomeIcon>}
         <Title iconType={iconType}>{title}</Title>
-      </StyledActionLink>
+      </Wrapper>
     );
   }
 }
 
 ActionLink.propsTypes = {
-  type: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
   iconType: PropTypes.string
 };
 
