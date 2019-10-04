@@ -4,12 +4,12 @@ import PropTypes from "prop-types";
 
 import COLORS from "../../../shared/color";
 
-const StyledButton = styled("button")`
+const Wrapper = styled("button")`
   background: ${props => (props.isSecondary ? COLORS.WHITE : COLORS.BLACK)};
   border: solid 1px ${COLORS.BLACK};
   color: ${props => (props.isSecondary ? COLORS.BLACK : COLORS.WHITE)};
   cursor: pointer;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.8px;
   outline: none;
   padding: 1rem 2rem;
   margin: 0;
@@ -24,14 +24,16 @@ const StyledButton = styled("button")`
 
 class Button extends Component {
   render() {
-    const { title, isSecondary } = this.props;
+    const { title, isSecondary, onClick } = this.props;
 
-    return <StyledButton isSecondary={isSecondary}>{title}</StyledButton>;
+    return <Wrapper isSecondary={isSecondary} onClick={onClick}>{title}</Wrapper>;
   }
 }
 
 Button.propsTypes = {
-  type: PropTypes.string.isRequired
+  title: PropTypes.string.isRequired,
+  isSecondary: PropTypes.bool,
+  onClick: PropTypes.func
 };
 
 export default Button;
