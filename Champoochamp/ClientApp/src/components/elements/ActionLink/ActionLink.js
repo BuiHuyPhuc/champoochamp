@@ -27,11 +27,15 @@ const Title = styled("span")`
 `;
 
 class ActionLink extends Component {
+  getItem = (group, filterItem, callback) => {
+    callback(group, filterItem);
+  }
+
   render() {
-    const { title, iconType } = this.props;
+    const { group, filterItem, title, iconType, callback  } = this.props;
 
     return (
-      <StyledActionLink>
+      <StyledActionLink onClick={() => this.getItem(group, filterItem, callback)}>
         {iconType && <AwesomeIcon type={iconType}></AwesomeIcon>}
         <Title iconType={iconType}>{title}</Title>
       </StyledActionLink>
@@ -40,8 +44,11 @@ class ActionLink extends Component {
 }
 
 ActionLink.propsTypes = {
-  type: PropTypes.string.isRequired,
-  iconType: PropTypes.string
+  group: PropTypes.string,
+  filterItem: PropTypes.object,
+  title: PropTypes.string.isRequired,
+  iconType: PropTypes.string,
+  callback: PropTypes.func
 };
 
 export default ActionLink;

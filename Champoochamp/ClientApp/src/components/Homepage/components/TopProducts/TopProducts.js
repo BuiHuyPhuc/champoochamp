@@ -1,116 +1,107 @@
 import React, { Component } from "react";
 import Slider from "react-slick";
-import axios from "axios";
 import { Spin } from "antd";
-import { BREAKPOINTS, API_PORT, TOP_PRODUCTS, IMAGE_GROUP } from "../../../../shared/constants";
+import { BREAKPOINTS, TOP_PRODUCTS, IMAGE_GROUP } from "../../../../shared/constants";
 
+import CallAPI from "../../../../shared/utils/CallAPI";
 import ProductCard from "../../../elements/ProductCard";
 import SectionTitle from "../SectionTitle";
 
 class TopProducts extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            isLoading: true,
-            productList: []
-        }
-    }    
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoading: true,
+      productList: []
+    }
+  }
 
-    componentDidMount() {
-        if (this.props.sectionTitle === TOP_PRODUCTS.DISCOUNT_PRODUCTS) {
-            axios.get(`${API_PORT}/api/Product/GetAllProducts`, {
-                params: {
-                    $filter: "isDiscount eq true",
-                    $orderby: "discountAmount desc",
-                    $top: "10"
-                }
-            })
-                .then(response => response.data)
-                .then(data => this.setState({
-                    isLoading: false,
-                    productList: data
-                }))
-                .catch(error => console.log(`ERROR_TopProducts_GetAllProducts_Discount: ` + error));
+  componentDidMount() {
+    if (this.props.sectionTitle === TOP_PRODUCTS.DISCOUNT_PRODUCTS) {
+      const url = `Product/GetAllProducts`;
+      const query = `?$filter=isDiscount eq true&$orderby=discountAmount desc&$top=10`;
+
+      CallAPI(url, query).then(res => this.setState({
+        isLoading: false,
+        productList: res.data
+      }));
+    }
+    else if (this.props.sectionTitle === TOP_PRODUCTS.NEW_PRODUCTS) {
+      const url = `Product/GetAllProducts`;
+      const query = `?$orderby=createdDate desc&$top=10`;
+
+      CallAPI(url, query).then(res => this.setState({
+        isLoading: false,
+        productList: res.data
+      }));
+    }
+  }
+
+  renderTopProducts = productList => productList.map(product => {
+    return (
+      <ProductCard
+        key={product.id}
+        imageGroup={IMAGE_GROUP.PRODUCTS}
+        imageName={product.productVariant[0].thumbnail}
+        name={product.name}
+        price={product.promotionPrice}>
+      </ProductCard>
+    );
+  })
+
+  render() {
+    const { isLoading, productList } = this.state;
+    const { sectionTitle } = this.props;
+    const settings = {
+      infinite: true,
+      autoplay: true,
+      autoplaySpeed: 5000,
+      slidesToShow: 5,
+      slidesToScroll: 5,
+      speed: 500,
+      responsive: [
+        {
+          breakpoint: BREAKPOINTS.LG,
+          settings: {
+            slidesToShow: 3,
+            slidesToScroll: 3
+          }
+        },
+        {
+          breakpoint: BREAKPOINTS.MD,
+          settings: {
+            slidesToShow: 2,
+            slidesToScroll: 2
+          }
+        },
+        {
+          breakpoint: BREAKPOINTS.SM,
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1
+          }
         }
-        else if (this.props.sectionTitle === TOP_PRODUCTS.NEW_PRODUCTS) {
-            axios.get(`${API_PORT}/api/Product/GetAllProducts`, {
-                params: {
-                    $orderby: "createdDate desc",
-                    $top: "10"
-                }
-            })
-                .then(response => response.data)
-                .then(data => this.setState({
-                    isLoading: false,
-                    productList: data
-                }))
-                .catch(error => console.log(`ERROR_TopProducts_GetAllProducts_New: ` + error));
-        }
+      ]
+    };
+
+    if (isLoading) {
+      return (
+        <div className="hottest-productList-wrapper section-gap"><Spin /></div>
+      );
     }
 
-    render() {
-        const { isLoading, productList } = this.state;
-        const { sectionTitle } = this.props;
-        const settings = {
-            infinite: true,
-            autoplay: true,
-            autoplaySpeed: 5000,
-            slidesToShow: 5,
-            slidesToScroll: 5,
-            speed: 500,
-            responsive: [
-                {
-                    breakpoint: BREAKPOINTS.LG,
-                    settings: {
-                        slidesToShow: 3,
-                        slidesToScroll: 3
-                    }
-                },
-                {
-                    breakpoint: BREAKPOINTS.MD,
-                    settings: {
-                        slidesToShow: 2,
-                        slidesToScroll: 2
-                    }
-                },
-                {
-                    breakpoint: BREAKPOINTS.SM,
-                    settings: {
-                        slidesToShow: 1,
-                        slidesToScroll: 1
-                    }
-                }
-            ]
-        };
+    return (
+      <div className="hottest-productList-wrapper section-gap">
+        <div className="container">
+          <SectionTitle sectionTitle={sectionTitle}></SectionTitle>
 
-        if (isLoading) {
-            return (
-                <div className="hottest-productList-wrapper section-gap"><Spin /></div>
-            ); 
-        }
-
-        return (
-            <div className="hottest-productList-wrapper section-gap">
-                <div className="container">
-                    <SectionTitle sectionTitle={sectionTitle}></SectionTitle>
-
-                    <Slider {...settings}>
-                        {productList.map(product => {
-                            return (
-                                <ProductCard
-                                    key={product.id}
-                                    imageGroup={IMAGE_GROUP.PRODUCTS}
-                                    imageName={product.productVariant[0].thumbnail}
-                                    name={product.name}
-                                    price={product.promotionPrice}>
-                                </ProductCard>
-                            );
-                        })}
-                    </Slider>
-                </div>
-            </div>
-        );               
-    }
+          <Slider {...settings}>
+            {this.renderTopProducts(productList)}
+          </Slider>
+        </div>
+      </div>
+    );
+  }
 }
 
 export default TopProducts;
