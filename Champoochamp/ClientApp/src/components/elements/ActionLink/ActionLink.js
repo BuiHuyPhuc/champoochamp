@@ -18,22 +18,25 @@ const Wrapper = styled("button")`
 `;
 
 const Title = styled("span")`
-  border-bottom: solid 1px transparent;
+  text-decoration: ${props => (props.isUnderline
+     ? "underline" : "none")};
   margin-left: ${props => (props.iconType ? "10px" : "0")};
 
   &:hover {
-    border-bottom: solid 1px ${COLORS.BLACK};
+    text-decoration: underline;
   }
 `;
 
 class ActionLink extends Component {
   render() {
-    const { title, iconType } = this.props;
+    const { title, iconType, isUnderline } = this.props;
 
     return (
       <Wrapper>
         {iconType && <AwesomeIcon type={iconType}></AwesomeIcon>}
-        <Title iconType={iconType}>{title}</Title>
+        <Title iconType={iconType} isUnderline={isUnderline}>
+          {title}
+        </Title>
       </Wrapper>
     );
   }
@@ -41,6 +44,7 @@ class ActionLink extends Component {
 
 ActionLink.propsTypes = {
   title: PropTypes.string.isRequired,
+  isUnderline: PropTypes.bool,
   iconType: PropTypes.string
 };
 

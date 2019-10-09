@@ -87,55 +87,10 @@ p {
   margin: 1rem 0;
 }
 
-img {
-  max-width: 100%;
-  display: inline-block;
-}
-
 ul {
   list-style: none;
   margin: 0;
   padding: 0;
-}
-
-button {
-  outline: none;
-  @include border(transparent);
-  cursor: pointer;
-  padding: 0;
-  margin: 0;
-  background: none;
-}
-
-.btn {
-  @extend button;
-  padding: 0 2rem;
-  line-height: 50px;
-  margin: 1rem 0;
-  display: inline-block;
-  letter-spacing: 2px;
-  font-size: 0.8rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  transition: all 0.2s ease-out;
-
-  @media (max-width: $md) {
-    font-size: 0.7rem;
-    padding: 0 1.8rem;
-    line-height: 40px;
-  }
-}
-
-.primary-btn {
-  @extend .btn;
-  background: $white;
-  color: $black;
-  @include border(black);
-
-  &:hover {
-    background: $black;
-    color: $white;
-  }
 }
 
 .banner-btn {
