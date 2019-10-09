@@ -11,10 +11,16 @@ const Wrapper = styled("div")`
 `;
 
 const Header = styled("div")`
+  align-items: center;
+  border: ${props => (props.hasBorder ? `solid 1px ${COLORS.GRAY}` : "none")};
   cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  padding: ${props => (props.hasBorder ? "10px" : "0")};
+  width: ${props => (props.hasBorder ? "100%" : "auto")};
 `;
 
-const Title = styled("span")`  
+const Title = styled("span")`
   margin-right: 10px;
 `;
 
@@ -74,13 +80,13 @@ class DropDown extends Component {
   };
 
   render() {
-    const { optionList, callback } = this.props;
-    const { isOpen, title } = this.state;
+    const { optionList, callback, hasBorder } = this.props;
+    const { isOpen, title, selectedOption } = this.state;
 
     return (
       <Wrapper>
-        <Header onClick={this.toggleOptionList}>
-          <Title>{title}</Title>
+        <Header onClick={this.toggleOptionList} hasBorder={hasBorder}>
+          <Title>{selectedOption? selectedOption.name : title}</Title>
           {isOpen ? (
             <AwesomeIcon type="fas fa-chevron-up"></AwesomeIcon>
           ) : (
@@ -108,7 +114,8 @@ class DropDown extends Component {
 DropDown.propTypes = {
   title: PropTypes.string.isRequired,
   optionList: PropTypes.arrayOf(PropTypes.object).isRequired,
-  callback: PropTypes.func
+  callback: PropTypes.func,
+  hasBorder: PropTypes.bool
 };
 
 export default listensToClickOutside(DropDown);
