@@ -19,7 +19,7 @@ const Wrapper = styled("button")`
 
 const Title = styled("span")`
   text-decoration: ${props => (props.isUnderline
-     ? "underline" : "none")};
+    ? "underline" : "none")};
   margin-left: ${props => (props.iconType ? "10px" : "0")};
 
   &:hover {
@@ -28,11 +28,15 @@ const Title = styled("span")`
 `;
 
 class ActionLink extends Component {
+  getItem = (group, filterItem, callback) => {
+    callback(group, filterItem);
+  }
+
   render() {
-    const { title, iconType, isUnderline } = this.props;
+    const { group, filterItem, title, iconType, isUnderline, callback } = this.props;
 
     return (
-      <Wrapper>
+      <Wrapper onClick={() => this.getItem(group, filterItem, callback)}>
         {iconType && <AwesomeIcon type={iconType}></AwesomeIcon>}
         <Title iconType={iconType} isUnderline={isUnderline}>
           {title}
@@ -43,9 +47,12 @@ class ActionLink extends Component {
 }
 
 ActionLink.propsTypes = {
+  group: PropTypes.string,
+  filterItem: PropTypes.object,
   title: PropTypes.string.isRequired,
+  iconType: PropTypes.string,
+  callback: PropTypes.func,
   isUnderline: PropTypes.bool,
-  iconType: PropTypes.string
 };
 
 export default ActionLink;

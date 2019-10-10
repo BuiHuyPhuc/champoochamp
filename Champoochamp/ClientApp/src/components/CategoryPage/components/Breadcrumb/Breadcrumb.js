@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import axios from "axios";
 import { NavLink } from "react-router-dom";
 import { Spin } from "antd";
-import { API_PORT } from "../../../../shared/constants";
+
+import CallAPI from "../../../../shared/utils/CallAPI";
 
 class Breadcrumb extends Component {
   constructor(props) {
@@ -39,39 +39,50 @@ class Breadcrumb extends Component {
   }
 
   getCategoryById = categoryId => {
-    axios.get(`${API_PORT}/api/Category/GetCategoryById-${categoryId}`)
-      .then(response => response.data)
-      .then(data => this.setState({
-        isCategoryChanged: false,
-        isLoading: false,
-        currentCategory: data
-      }))
-      .catch(error => console.log(`ERROR_Breadcrumb_GetCategoryById: ` + error));
+    const url = `Category/GetCategoryById-${categoryId}`;
+
+    CallAPI(url).then(res => this.setState({
+      isCategoryChanged: false,
+      isLoading: false,
+      currentCategory: res.data
+    }));
   }
 
   getAllCategory = (category, objTemp) => {
+    if (!category) {
+      return false;
+    }
+
     if (category.parent) {
       this.getAllCategory(category.parent, objTemp);
     }
-
-    if (category.id !== this.state.currentCategory.id) {
-      objTemp.arrCategories.push(category);
-    }
+    objTemp.arrCategories.push(category);
 
     return true;
   }
 
-  getBreadcrumb = objTemp => objTemp.arrCategories.map(category => {
+  renderBreadcrumb = objTemp => objTemp.arrCategories.map(category => {
     objTemp.url += `/${category.metaTitle}`;
 
-    return (
-      <li key={category.id} className="breadcrumb-item">
-        <NavLink className="breadcrumb-link" to={`${objTemp.url}-${category.id}`}>
-          {category.name}
-        </NavLink>
-        <span className="breadcrumb-separator">/</span>
-      </li>
-    );
+    if (category.id === this.state.currentCategory.id) {
+      return (
+        <li key={category.id} className="breadcrumb-item">
+          <NavLink className="breadcrumb-link" to={`${objTemp.url}-${category.id}`}>
+            {category.name}
+          </NavLink>
+        </li>
+      )
+    }
+    else {
+      return (
+        <li key={category.id} className="breadcrumb-item">
+          <NavLink className="breadcrumb-link" to={`${objTemp.url}-${category.id}`}>
+            {category.name}
+          </NavLink>
+          <span className="breadcrumb-separator">/</span>
+        </li>
+      );
+    }
   })
 
   render() {
@@ -92,9 +103,8 @@ class Breadcrumb extends Component {
             <NavLink className="breadcrumb-link" to="/">Trang chủ</NavLink>
             <span className="breadcrumb-separator">/</span>
           </li>
-          {this.getBreadcrumb(objTemp)}
+          {this.renderBreadcrumb(objTemp)}
         </ul>
-        <h3 className="current-page">{currentCategory.name}</h3>
       </div>
     );
   }

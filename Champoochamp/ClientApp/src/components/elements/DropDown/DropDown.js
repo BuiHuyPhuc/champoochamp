@@ -74,9 +74,7 @@ class DropDown extends Component {
     this.setState({
       selectedOption: optionList[id],
       isOpen: false
-    });
-
-    callback(this.state.selectedOption);
+    }, () => callback(this.state.selectedOption));
   };
 
   render() {
@@ -98,7 +96,7 @@ class DropDown extends Component {
           <OptionList>
             {optionList.map(item => (
               <Option
-                key={item.name}
+                key={item.id}
                 onClick={() => this.toggleOption(item.id, callback)}
               >
                 {item.name}

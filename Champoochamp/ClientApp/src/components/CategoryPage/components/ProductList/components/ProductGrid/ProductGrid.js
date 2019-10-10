@@ -1,12 +1,14 @@
 ﻿import React, { Component } from "react";
-import axios from "axios";
 import { Row, Col, Spin } from "antd";
 import styled from "@emotion/styled";
-
-import { API_PORT, IMAGE_GROUP } from "../../../../../../shared/constants";
+import { IMAGE_GROUP, SORT_GROUP } from "../../../../../../shared/constants";
 import COLORS from "../../../../../../shared/color";
+
+import CallAPI from "../../../../../../shared/utils/CallAPI";
+import GetTotalFilter from "../../../../../../shared/utils/GetTotalFilter";
+import GetQueryFilter from "../../../../../../shared/utils/GetQueryFilter";
 import ProductCard from "../../../../../elements/ProductCard";
-import DropDown from "../../../../../elements/DropDown";
+import DropDown from '../../../../../elements/DropDown';
 
 const Wrapper = styled("div")`
   padding-left: 20px;
@@ -30,39 +32,38 @@ class ProductGrid extends Component {
     super(props);
     this.state = {
       categoryId: this.props.categoryId,
+      currentFilterList: this.props.currentFilterList,
+      currentFilterNumber: 0,
+      currentMoneyFilter: this.props.currentMoneyFilter,
       isCategoryChanged: false,
+      isFilterChanged: false,
       isLoading: true,
       isLoadMore: true,
       pageSize: 6,
       page: 1,
       totalProducts: 0,
       productList: [],
-      sortItems: [
-        {
-          id: 0,
-          name: "Nổi bật nhất"
-        },
-        {
-          id: 1,
-          name: "Mới nhất"
-        },
-        {
-          id: 2,
-          name: "Giá tăng dần"
-        },
-        {
-          id: 3,
-          name: "Giá giảm dần"
-        }
-      ]
-    };
+      showingProductList: [],
+      sortItems: SORT_GROUP,
+    }
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.categoryId !== prevState.categoryId) {
       return {
         categoryId: nextProps.categoryId,
-        isCategoryChanged: true
+        isCategoryChanged: true,
+        isLoading: true
+      };
+    }
+    else if ((GetTotalFilter(nextProps.currentFilterList) !== prevState.currentFilterNumber)
+      || (nextProps.currentMoneyFilter.id !== prevState.currentMoneyFilter.id)) {
+      return {
+        currentFilterList: nextProps.currentFilterList,
+        currentFilterNumber: GetTotalFilter(nextProps.currentFilterList),
+        currentMoneyFilter: nextProps.currentMoneyFilter,
+        isFilterChanged: true,
+        isLoading: true
       };
     }
 
@@ -70,84 +71,50 @@ class ProductGrid extends Component {
   }
 
   componentDidUpdate() {
-    const { isCategoryChanged, categoryId } = this.state;
+    const { isCategoryChanged, isFilterChanged, categoryId, currentFilterList, currentMoneyFilter } = this.state;
 
     if (isCategoryChanged) {
-      this.getTotalProducts(categoryId);
       this.initProductList(categoryId);
+    }
+    else if (isFilterChanged) {
+      this.filterProductList(categoryId, currentFilterList, currentMoneyFilter);
     }
   }
 
   componentDidMount() {
-    const { categoryId } = this.state;
+    this.initProductList(this.state.categoryId);
 
-    this.getTotalProducts(categoryId);
-    this.initProductList(categoryId);
     this.scrollListener = window.addEventListener("scroll", e => {
       this.handleScroll(e);
     });
   }
 
-  getTotalProducts = categoryId => {
-    axios
-      .get(`${API_PORT}/api/Product/GetProductsByCategoryId-${categoryId}`)
-      .then(response => response.data)
-      .then(data =>
-        this.setState({
-          totalProducts: data.length
-        })
-      )
-      .catch(error =>
-        console.log(`ERROR_ProductGrid_GetProductsByCategoryId: ` + error)
-      );
-  };
-
   initProductList = categoryId => {
-    const { pageSize } = this.state;
+    const url = `Product/GetProductsByCategoryId-${categoryId}`;
 
-    axios
-      .get(`${API_PORT}/api/Product/GetProductsByCategoryId-${categoryId}`, {
-        params: {
-          $top: `${pageSize}`
-        }
-      })
-      .then(response => response.data)
-      .then(data => {
-        this.setState({
-          isCategoryChanged: false,
-          isLoading: false,
-          isLoadMore: true,
-          page: 1,
-          productList: data
-        });
-      })
-      .catch(error =>
-        console.log(`ERROR_ProductGrid_GetProductsByCategoryId: ` + error)
-      );
-  };
+    CallAPI(url).then(res => this.setState({
+      isCategoryChanged: false,
+      isLoading: false,
+      isLoadMore: true,
+      page: 1,
+      totalProducts: res.data.length,
+      productList: res.data,
+    }, () => this.getProducts([])));
+  }
 
-  getMoreProducts = categoryId => {
-    const { page, pageSize, productList } = this.state;
+  filterProductList = (categoryId, currentFilterList, currentMoneyFilter) => {
+    const url = `Product/GetProductsByCategoryId-${categoryId}`;
+    const query = GetQueryFilter(currentFilterList, currentMoneyFilter);
 
-    axios
-      .get(`${API_PORT}/api/Product/GetProductsByCategoryId-${categoryId}`, {
-        params: {
-          $skip: `${(page - 1) * pageSize}`,
-          $top: `${pageSize}`
-        }
-      })
-      .then(response => response.data)
-      .then(data =>
-        this.setState({
-          isLoading: false,
-          isLoadMore: true,
-          productList: [...productList, ...data]
-        })
-      )
-      .catch(error =>
-        console.log(`ERROR_ProductGrid_GetProductsByCategoryId: ` + error)
-      );
-  };
+    CallAPI(url, query).then(res => this.setState({
+      isFilterChanged: false,
+      isLoading: false,
+      isLoadMore: true,
+      page: 1,
+      totalProducts: res.data.length,
+      productList: res.data,
+    }, () => this.getProducts([])));
+  }
 
   handleScroll = e => {
     const { isLoadMore, totalProducts, page, pageSize } = this.state;
@@ -164,57 +131,70 @@ class ProductGrid extends Component {
         this.loadMore();
       }
     }
-  };
+  }
+
+  getProducts = showingProductList => {
+    const { productList, totalProducts, page, pageSize } = this.state;
+    let index = (page - 1) * pageSize;
+
+    if (totalProducts < index + pageSize) {
+      this.setState({
+        showingProductList: [...showingProductList, ...productList.slice(index)]
+      });
+    }
+    else if (totalProducts >= index + pageSize) {
+      this.setState({
+        isLoadMore: true,
+        showingProductList: [...showingProductList, ...productList.slice(index, index + pageSize)]
+      });
+    }
+
+    return true;
+  }
 
   loadMore = () => {
-    const { page, categoryId } = this.state;
+    const { showingProductList, page } = this.state;
 
-    this.setState(
-      {
-        isLoadMore: false,
-        page: page + 1
-      },
-      () => this.getMoreProducts(categoryId)
+    this.setState({
+      isLoadMore: false,
+      page: page + 1
+    }, () => this.getProducts(showingProductList))
+  }
+
+  renderProductCard = showingProductList => showingProductList.map(product => {
+    return (
+      <Col xs={12} lg={8} key={product.id}>
+        <ProductCard
+          imageGroup={IMAGE_GROUP.PRODUCTS}
+          imageName={product.productVariant[0].thumbnail}
+          productName={product.name}
+          productPrice={product.promotionPrice}>
+        </ProductCard>
+      </Col>
     );
-  };
+  })
 
-  callback = selectedOption => {
-    // do something.
-  };
+  callback = (selectedOption) => {
+    console.log(selectedOption);
+  }
 
   render() {
-    const { isLoading, totalProducts, productList, sortItems } = this.state;
+    const { isLoading, totalProducts, showingProductList, sortItems } = this.state
 
     if (isLoading) {
-      return <Spin />;
+      return (
+        <div className="product-grid"><Spin /></div>
+      );
     }
 
     return (
-      <Wrapper>
-        <Header>
-          <TotalProducts>{totalProducts} sản phẩm</TotalProducts>
-          <DropDown
-            title="Sắp xếp"
-            optionList={sortItems}
-            callback={this.callback}
-          ></DropDown>
-        </Header>
+      <div className="product-grid">
+        <p>Tổng sản phẩm: {totalProducts}</p>
+        <DropDown title="Sắp xếp" optionList={sortItems} callback={this.callback}></DropDown>
         <Row>
-          {productList.map(product => {
-            return (
-              <Col xs={12} md={8} key={product.id}>
-                <ProductCard
-                  key={product.id}
-                  imageGroup={IMAGE_GROUP.PRODUCTS}
-                  imageName={product.productVariant[0].thumbnail}
-                  productName={product.name}
-                  productPrice={product.promotionPrice}
-                ></ProductCard>
-              </Col>
-            );
-          })}
+          {this.renderProductCard(showingProductList)}
         </Row>
-      </Wrapper>
+      </div>
     );
   }
 }
