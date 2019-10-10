@@ -12,12 +12,12 @@ const Wrapper = styled("div")`
 
 const Header = styled("div")`
   align-items: center;
-  border: solid 1px ${COLORS.BLACK};
+  border: ${props => (props.hasBorder ? `solid 1px ${COLORS.GRAY}` : "none")};
   cursor: pointer;
   display: flex;
   justify-content: space-between;
-  padding: 10px;
-  position: relative;
+  padding: ${props => (props.hasBorder ? "10px" : "0")};
+  width: ${props => (props.hasBorder ? "100%" : "auto")};
 `;
 
 const Title = styled("span")`
@@ -26,9 +26,11 @@ const Title = styled("span")`
 
 const OptionList = styled("ul")`
   background: ${COLORS.WHITE};
-  border: solid 1px ${COLORS.BLACK};
-  left: 0;
+  border: solid 1px ${COLORS.GRAY};
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.05);
+  min-width: 200px;
   position: absolute;
+  right: 0;
   top: 100%;
   width: 100%;
   z-index: 100;
@@ -36,7 +38,7 @@ const OptionList = styled("ul")`
 
 const Option = styled("li")`
   cursor: pointer;
-  padding: 10px;
+  padding: 10px 15px;
 
   &:hover {
     background: ${COLORS.LIGHT_GRAY};
@@ -76,18 +78,13 @@ class DropDown extends Component {
   };
 
   render() {
-    const { optionList, callback } = this.props;
+    const { optionList, callback, hasBorder } = this.props;
     const { isOpen, title, selectedOption } = this.state;
 
     return (
       <Wrapper>
-        <Header onClick={this.toggleOptionList}>
-          {selectedOption ? (
-            <Title>{`${title}: ${selectedOption.name}`}</Title>
-          ) : (
-            <Title>{title}</Title>
-          )}
-
+        <Header onClick={this.toggleOptionList} hasBorder={hasBorder}>
+          <Title>{selectedOption? selectedOption.name : title}</Title>
           {isOpen ? (
             <AwesomeIcon type="fas fa-chevron-up"></AwesomeIcon>
           ) : (
@@ -115,7 +112,8 @@ class DropDown extends Component {
 DropDown.propTypes = {
   title: PropTypes.string.isRequired,
   optionList: PropTypes.arrayOf(PropTypes.object).isRequired,
-  callback: PropTypes.func.isRequired
+  callback: PropTypes.func,
+  hasBorder: PropTypes.bool
 };
 
 export default listensToClickOutside(DropDown);

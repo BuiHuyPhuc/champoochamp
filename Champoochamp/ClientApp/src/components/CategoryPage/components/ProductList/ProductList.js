@@ -16,13 +16,13 @@ class ProductList extends Component {
         { name: FILTER_GROUP.BRAND, data: [] }
       ],
       currentMoneyFilter: { id: 0 }
-    }
+    };
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.categoryId !== prevState.categoryId) {
       return {
-        categoryId: nextProps.categoryId,
+        categoryId: nextProps.categoryId
       };
     }
 

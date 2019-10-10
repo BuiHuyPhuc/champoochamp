@@ -13,7 +13,7 @@ class TopProducts extends Component {
     this.state = {
       isLoading: true,
       productList: []
-    }
+    };
   }
 
   componentDidMount() {
@@ -43,8 +43,8 @@ class TopProducts extends Component {
         key={product.id}
         imageGroup={IMAGE_GROUP.PRODUCTS}
         imageName={product.productVariant[0].thumbnail}
-        name={product.name}
-        price={product.promotionPrice}>
+        productName={product.name}
+        productPrice={product.promotionPrice}>
       </ProductCard>
     );
   })

@@ -1,16 +1,18 @@
-import React, { Component } from "react";
-import { css } from "@emotion/core";
+/** @jsx jsx */
+import React from "react";
+import { jsx, css } from "@emotion/core";
 import PropTypes from "prop-types";
 
 const imageStyle = css`
+  margin: auto;
   max-width: 100%;
 `;
 
-class Image extends Component {
+class Image extends React.Component {
   render() {
     const { imageUrl, alt } = this.props;
 
-    return <img src={imageUrl} alt={alt} className={imageStyle}></img>;
+    return <img src={imageUrl} alt={alt} css={imageStyle}></img>;
   }
 }
 

@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import COLORS from "../../../shared/color";
 import AwesomeIcon from "../AwesomeIcon";
 
-const StyledActionLink = styled("button")`
+const Wrapper = styled("button")`
   align-items: center;
   background: none;
   color: ${COLORS.BLACK};
@@ -18,11 +18,12 @@ const StyledActionLink = styled("button")`
 `;
 
 const Title = styled("span")`
-  border-bottom: solid 1px transparent;
+  text-decoration: ${props => (props.isUnderline
+    ? "underline" : "none")};
   margin-left: ${props => (props.iconType ? "10px" : "0")};
 
   &:hover {
-    border-bottom: solid 1px ${COLORS.BLACK};
+    text-decoration: underline;
   }
 `;
 
@@ -32,13 +33,15 @@ class ActionLink extends Component {
   }
 
   render() {
-    const { group, filterItem, title, iconType, callback  } = this.props;
+    const { group, filterItem, title, iconType, isUnderline, callback } = this.props;
 
     return (
-      <StyledActionLink onClick={() => this.getItem(group, filterItem, callback)}>
+      <Wrapper onClick={() => this.getItem(group, filterItem, callback)}>
         {iconType && <AwesomeIcon type={iconType}></AwesomeIcon>}
-        <Title iconType={iconType}>{title}</Title>
-      </StyledActionLink>
+        <Title iconType={iconType} isUnderline={isUnderline}>
+          {title}
+        </Title>
+      </Wrapper>
     );
   }
 }
@@ -48,7 +51,8 @@ ActionLink.propsTypes = {
   filterItem: PropTypes.object,
   title: PropTypes.string.isRequired,
   iconType: PropTypes.string,
-  callback: PropTypes.func
+  callback: PropTypes.func,
+  isUnderline: PropTypes.bool,
 };
 
 export default ActionLink;

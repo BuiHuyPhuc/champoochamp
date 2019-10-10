@@ -1,12 +1,31 @@
 ﻿import React, { Component } from "react";
 import { Row, Col, Spin } from "antd";
+import styled from "@emotion/styled";
 import { IMAGE_GROUP, SORT_GROUP } from "../../../../../../shared/constants";
+import COLORS from "../../../../../../shared/color";
 
 import CallAPI from "../../../../../../shared/utils/CallAPI";
 import GetTotalFilter from "../../../../../../shared/utils/GetTotalFilter";
 import GetQueryFilter from "../../../../../../shared/utils/GetQueryFilter";
 import ProductCard from "../../../../../elements/ProductCard";
 import DropDown from '../../../../../elements/DropDown';
+
+const Wrapper = styled("div")`
+  padding-left: 20px;
+`;
+
+const Header = styled("div")`
+  align-items: center;
+  border-bottom: solid 1px ${COLORS.GRAY};
+  display: flex;
+  justify-content: space-between;
+  margin: 10px;
+  padding-bottom: 5px;
+`;
+
+const TotalProducts = styled("span")`
+  font-weight: 700;
+`;
 
 class ProductGrid extends Component {
   constructor(props) {
@@ -64,6 +83,7 @@ class ProductGrid extends Component {
 
   componentDidMount() {
     this.initProductList(this.state.categoryId);
+
     this.scrollListener = window.addEventListener("scroll", e => {
       this.handleScroll(e);
     });
@@ -100,9 +120,9 @@ class ProductGrid extends Component {
     const { isLoadMore, totalProducts, page, pageSize } = this.state;
 
     if (!isLoadMore) return;
-    if (totalProducts <= (page * pageSize)) return;
+    if (totalProducts <= page * pageSize) return;
 
-    const lastCol = document.querySelector("div.product-grid .ant-col:last-child");
+    const lastCol = document.querySelector(".ant-col:last-child");
     if (lastCol) {
       const lastColOffset = lastCol.offsetTop + lastCol.clientHeight;
       const pageOffset = window.pageYOffset + window.innerHeight;
@@ -147,8 +167,8 @@ class ProductGrid extends Component {
         <ProductCard
           imageGroup={IMAGE_GROUP.PRODUCTS}
           imageName={product.productVariant[0].thumbnail}
-          name={product.name}
-          price={product.promotionPrice}>
+          productName={product.name}
+          productPrice={product.promotionPrice}>
         </ProductCard>
       </Col>
     );

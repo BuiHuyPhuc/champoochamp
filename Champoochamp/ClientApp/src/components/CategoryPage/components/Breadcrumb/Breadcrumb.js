@@ -82,7 +82,7 @@ class Breadcrumb extends Component {
           <span className="breadcrumb-separator">/</span>
         </li>
       );
-    } 
+    }
   })
 
   render() {
