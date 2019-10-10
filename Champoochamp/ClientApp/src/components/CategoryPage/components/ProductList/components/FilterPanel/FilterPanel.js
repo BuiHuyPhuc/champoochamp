@@ -12,7 +12,7 @@ class FilterPanel extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      categoryId: this.props.categoryId,
+      categoryId: props.categoryId,
       isCategoryChanged: false,
       isLoading: true,
       filterGroupList: [],
@@ -23,7 +23,7 @@ class FilterPanel extends Component {
         { name: FILTER_GROUP.BRAND, data: [] }
       ],
       currentMoneyFilter: { id: 0 }
-    }
+    };
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {

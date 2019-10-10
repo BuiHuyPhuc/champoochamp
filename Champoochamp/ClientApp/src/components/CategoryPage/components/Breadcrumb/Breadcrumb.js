@@ -8,7 +8,7 @@ class Breadcrumb extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      categoryId: this.props.categoryId,
+      categoryId: props.categoryId,
       isCategoryChanged: false,
       isLoading: true,
       currentCategory: null

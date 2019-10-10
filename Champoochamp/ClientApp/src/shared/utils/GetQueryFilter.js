@@ -60,7 +60,30 @@ const getQueryByMoneyFilter = currentMoneyFilter => {
   return query;
 }
 
-const GetQueryFilter = (currentFilterList, currentMoneyFilter) => {
+const getQueryBySortOption = currentSortOption => {
+  let query = ``;
+
+  switch (currentSortOption.id) {
+    case 0:
+      query += `discountAmount desc`
+      break;
+    case 1:
+      query += `createdDate desc`
+      break;
+    case 2:
+      query += `promotionPrice`
+      break;
+    case 3:
+      query += `promotionPrice desc`
+      break;
+    default:
+      break;
+  }
+
+  return query;
+}
+
+const GetQueryFilter = (currentFilterList, currentMoneyFilter, currentSortOption) => {
   let query = `?$filter=`;
   let sizeFilter = [];
   let colorFilter = [];
@@ -84,7 +107,7 @@ const GetQueryFilter = (currentFilterList, currentMoneyFilter) => {
 
   // not filter
   if (sizeFilter.data.length === 0 && colorFilter.data.length === 0 && brandFilter.data.length === 0 && currentMoneyFilter.id === 0) {
-    return ``;
+    return `?$orderby=${getQueryBySortOption(currentSortOption)}`;
   }
 
   // query filter size and color
@@ -117,6 +140,9 @@ const GetQueryFilter = (currentFilterList, currentMoneyFilter) => {
       query += ` and ${getQueryByMoneyFilter(currentMoneyFilter)}`;
     }
   }
+
+  // query sort
+  query += ` & $orderby=${getQueryBySortOption(currentSortOption)}`;
 
   return query;
 }
