@@ -52,7 +52,7 @@ class DropDown extends Component {
     this.state = {
       isOpen: false,
       title: props.title,
-      selectedOption: null
+      selectedOption: props.prevSelectedOption
     };
   }
 
@@ -113,7 +113,8 @@ DropDown.propTypes = {
   title: PropTypes.string.isRequired,
   optionList: PropTypes.arrayOf(PropTypes.object).isRequired,
   callback: PropTypes.func,
-  hasBorder: PropTypes.bool
+  hasBorder: PropTypes.bool,
+  prevSelectedOption: PropTypes.object
 };
 
 export default listensToClickOutside(DropDown);

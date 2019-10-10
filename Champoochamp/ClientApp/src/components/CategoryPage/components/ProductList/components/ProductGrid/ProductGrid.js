@@ -31,10 +31,11 @@ class ProductGrid extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      categoryId: this.props.categoryId,
-      currentFilterList: this.props.currentFilterList,
+      categoryId: props.categoryId,
+      currentFilterList: props.currentFilterList,
       currentFilterNumber: 0,
-      currentMoneyFilter: this.props.currentMoneyFilter,
+      currentMoneyFilter: props.currentMoneyFilter,
+      currentSortOption: SORT_GROUP[0],
       isCategoryChanged: false,
       isFilterChanged: false,
       isLoading: true,
@@ -45,7 +46,7 @@ class ProductGrid extends Component {
       productList: [],
       showingProductList: [],
       sortItems: SORT_GROUP,
-    }
+    };
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -71,42 +72,28 @@ class ProductGrid extends Component {
   }
 
   componentDidUpdate() {
-    const { isCategoryChanged, isFilterChanged, categoryId, currentFilterList, currentMoneyFilter } = this.state;
+    const { isCategoryChanged, isFilterChanged, categoryId, currentFilterList, currentMoneyFilter, currentSortOption } = this.state;
 
-    if (isCategoryChanged) {
-      this.initProductList(categoryId);
-    }
-    else if (isFilterChanged) {
-      this.filterProductList(categoryId, currentFilterList, currentMoneyFilter);
+    if (isCategoryChanged || isFilterChanged) {
+      this.getProductList(categoryId, currentFilterList, currentMoneyFilter, currentSortOption);
     }
   }
 
   componentDidMount() {
-    this.initProductList(this.state.categoryId);
+    const { categoryId, currentFilterList, currentMoneyFilter, currentSortOption } = this.state;
+    this.getProductList(categoryId, currentFilterList, currentMoneyFilter, currentSortOption);
 
     this.scrollListener = window.addEventListener("scroll", e => {
       this.handleScroll(e);
     });
   }
 
-  initProductList = categoryId => {
+  getProductList = (categoryId, currentFilterList, currentMoneyFilter, currentSortOption) => {
     const url = `Product/GetProductsByCategoryId-${categoryId}`;
-
-    CallAPI(url).then(res => this.setState({
-      isCategoryChanged: false,
-      isLoading: false,
-      isLoadMore: true,
-      page: 1,
-      totalProducts: res.data.length,
-      productList: res.data,
-    }, () => this.getProducts([])));
-  }
-
-  filterProductList = (categoryId, currentFilterList, currentMoneyFilter) => {
-    const url = `Product/GetProductsByCategoryId-${categoryId}`;
-    const query = GetQueryFilter(currentFilterList, currentMoneyFilter);
+    const query = GetQueryFilter(currentFilterList, currentMoneyFilter, currentSortOption);
 
     CallAPI(url, query).then(res => this.setState({
+      isCategoryChanged: false,
       isFilterChanged: false,
       isLoading: false,
       isLoadMore: true,
@@ -168,18 +155,21 @@ class ProductGrid extends Component {
           imageGroup={IMAGE_GROUP.PRODUCTS}
           imageName={product.productVariant[0].thumbnail}
           productName={product.name}
-          productPrice={product.promotionPrice}>
-        </ProductCard>
+          productPrice={product.promotionPrice}
+        />
       </Col>
     );
   })
 
   callback = (selectedOption) => {
-    console.log(selectedOption);
+    this.setState({ currentSortOption: selectedOption }, () => {
+      const { categoryId, currentFilterList, currentMoneyFilter, currentSortOption } = this.state;
+      this.getProductList(categoryId, currentFilterList, currentMoneyFilter, currentSortOption);
+    })
   }
 
   render() {
-    const { isLoading, totalProducts, showingProductList, sortItems } = this.state
+    const { isLoading, totalProducts, showingProductList, sortItems, currentSortOption } = this.state
 
     if (isLoading) {
       return (
@@ -188,13 +178,20 @@ class ProductGrid extends Component {
     }
 
     return (
-      <div className="product-grid">
-        <p>Tổng sản phẩm: {totalProducts}</p>
-        <DropDown title="Sắp xếp" optionList={sortItems} callback={this.callback}></DropDown>
+      <Wrapper>
+        <Header>
+          <TotalProducts>{totalProducts} sản phẩm</TotalProducts>
+          <DropDown
+            title="Sắp xếp"
+            optionList={sortItems}
+            callback={this.callback}
+            prevSelectedOption={currentSortOption}
+          ></DropDown>
+        </Header>
         <Row>
           {this.renderProductCard(showingProductList)}
         </Row>
-      </div>
+      </Wrapper>
     );
   }
 }
