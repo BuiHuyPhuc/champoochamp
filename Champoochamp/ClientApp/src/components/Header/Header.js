@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, withRouter } from "react-router-dom";
 import { Menu, Icon, Drawer, Spin } from "antd";
 
 import CallAPI from "../../shared/utils/CallAPI";
+import AutoSearch from "../Header/components/AutoSearch";
 import logo from "../../assets/logo.png";
 
 class Header extends Component {
@@ -11,18 +12,19 @@ class Header extends Component {
     this.state = {
       isDrawerVisible: false,
       isLoading: true,
-      categoryMenu: []
+      categoryMenu: [],
+      searchData: []
     };
   }
 
   componentDidMount() {
-    const url = `Category/GetAllCategories`;
-    const query = `?$filter=parent eq null`;
+    CallAPI(`Category/GetAllCategories`, `?$filter=parent eq null`)
+      .then(res => this.setState({
+        isLoading: false,
+        categoryMenu: res.data
+      }));
 
-    CallAPI(url, query).then(res => this.setState({
-      isLoading: false,
-      categoryMenu: res.data
-    }));
+    CallAPI(`Search/GetSearchData`).then(res => this.setState({ searchData: res.data }));
   }
 
   onShowDrawer = () => {
@@ -64,7 +66,7 @@ class Header extends Component {
   })
 
   render() {
-    const { isDrawerVisible, isLoading, categoryMenu } = this.state;
+    const { isDrawerVisible, isLoading, categoryMenu, searchData } = this.state;
 
     if (isLoading) {
       return (
@@ -73,7 +75,7 @@ class Header extends Component {
         </header>
       );
     }
-    
+
     return (
       <header className="header-wrapper">
         <div className="container navbar">
@@ -90,6 +92,7 @@ class Header extends Component {
           </div>
 
           <div className="navbar-right">
+            <AutoSearch suggestions={searchData} history={this.props.history} />
             <Menu className="navbar-nav" mode="horizontal">
               <Menu.Item className="navbar-item">
                 <Icon type="search"></Icon>
@@ -120,4 +123,4 @@ class Header extends Component {
   }
 }
 
-export default Header;
+export default withRouter(Header);

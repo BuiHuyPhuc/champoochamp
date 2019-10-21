@@ -27,6 +27,11 @@ const FILTER_GROUP = {
   MONEY: "Giá"
 }
 
+const SEARCH_GROUP = {
+  CATEGORY: "Loại sản phẩm",
+  PRODUCT: "Sản phẩm"
+}
+
 const SORT_GROUP = [
   {
     id: 0,
@@ -46,5 +51,5 @@ const SORT_GROUP = [
   },
 ]
 
-export { BREAKPOINTS, API_PORT, TOP_PRODUCTS, IMAGE_GROUP, FILTER_GROUP, SORT_GROUP };
+export { BREAKPOINTS, API_PORT, TOP_PRODUCTS, IMAGE_GROUP, FILTER_GROUP, SEARCH_GROUP, SORT_GROUP };
 

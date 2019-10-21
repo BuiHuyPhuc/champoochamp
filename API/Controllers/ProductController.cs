@@ -43,20 +43,30 @@ namespace API.Controllers
       {
         try
         {
+          List<Product> productList = new List<Product>();
           Category category = db.Category.Where(p => p.Id == id)
                             .Include(p => p.InverseParent)
-                                .ThenInclude(p => p.InverseParent)
-                                    .ThenInclude(p => p.Product)
-                                        .ThenInclude(p => p.ProductVariant)
-                            .Include(p => p.InverseParent)
+                              .ThenInclude(p => p.InverseParent)
                                 .ThenInclude(p => p.Product)
-                                    .ThenInclude(p => p.ProductVariant)
-                            .Include(p => p.Product)
+                                  .ThenInclude(p => p.ProductVariant)
+                                    .ThenInclude(p => p.Color)
+                                  .ThenInclude(p => p.ProductVariant)
+                                    .ThenInclude(p => p.ProductImages)
+                            .Include(p => p.InverseParent)
+                              .ThenInclude(p => p.Product)
                                 .ThenInclude(p => p.ProductVariant)
+                                  .ThenInclude(p => p.Color)
+                                .ThenInclude(p => p.ProductVariant)
+                                  .ThenInclude(p => p.ProductImages)
+                            .Include(p => p.Product)
+                              .ThenInclude(p => p.ProductVariant)
+                                .ThenInclude(p => p.Color)
+                              .ThenInclude(p => p.ProductVariant)
+                                .ThenInclude(p => p.ProductImages)
                             .SingleOrDefault();
-          List<Product> result = new List<Product>();
-          productBusiness.GetProductsByCategory(category, ref result);
-          return result;
+          productBusiness.GetProductsByCategory(category, ref productList);        
+
+          return productList;
         }
         catch (Exception e)
         {
