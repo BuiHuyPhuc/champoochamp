@@ -4,12 +4,12 @@ using System.Text;
 
 namespace Data.Model
 {
-  public class FilterGroup
+  public class FilterGroupModel
   {
     public string Name { get; set; }
     public IEnumerable<Object> Data { get; set; }
 
-    public FilterGroup()
+    public FilterGroupModel()
     {
       Data = new List<Object>();
     }
