@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import styled from "@emotion/styled";
 
+import ModalSizeSupport from "./ModalSizeSupport";
+
 import COLORS from "../../../../shared/color";
 import Divider from "../../../elements/Divider";
 import DropDown from "../../../elements/DropDown";
@@ -62,28 +64,7 @@ class ProductSummary extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      sizes: [
-        {
-          id: 0,
-          name: "S"
-        },
-        {
-          id: 1,
-          name: "M"
-        },
-        {
-          id: 2,
-          name: "L"
-        },
-        {
-          id: 3,
-          name: "XL"
-        },
-        {
-          id: 4,
-          name: "XXL"
-        }
-      ]
+      isNew: Math.abs(Date.parse(props.product.createdDate) - Date.parse(new Date())) <= 24 * 60 * 60 * 1000
     };
   }
 
@@ -91,24 +72,28 @@ class ProductSummary extends Component {
     // do something.
   };
 
+  renderColor = colors => colors.map((item, index) => {
+    return (
+      <SingleColor key={item.color.id} color={item.color.code} isSelected={index === 0} />
+    );
+  })
+
   render() {
-    const { sizes } = this.state;
+    const { isNew } = this.state;
+    const { product, sizes, colors } = this.props; 
+
     return (
       <Wrapper>
-        <ProductName>Navigation Jacket</ProductName>
-        <NewTag>New</NewTag>
-        <Price>450.000 VND</Price>
-        <ShortDescription>
-          Bundle up in this wool-blend layer. With warm pockets, a high neck,
-          and a long length for warmth, you'll be feeling total coziness.
-        </ShortDescription>
+        <ProductName>{product.name}</ProductName>
+        {isNew ? <NewTag>New</NewTag> : null}        
+        <Price>{product.promotionPrice.toLocaleString()} VND</Price>
+        <Price>{product.price.toLocaleString()} VND</Price>
+        <ShortDescription>{product.description}</ShortDescription>
         <Divider />
         <ChoiceBox>
           <SmallTitle>Màu sắc</SmallTitle>
           <ColorContainer>
-            <SingleColor isSelected color="#B0D5C1" />
-            <SingleColor color="#989CA0" />
-            <SingleColor color="#E6BDA7" />
+            {this.renderColor(colors)}
           </ColorContainer>
         </ChoiceBox>
         <ChoiceBox>
@@ -119,7 +104,7 @@ class ProductSummary extends Component {
             hasBorder
             callback={this.callback}
           />
-          <ActionLink title="Hướng dẫn chọn size" isUnderline/>
+          <ModalSizeSupport />
         </ChoiceBox>
         <Button title="Thêm vào giỏ" isBlockButton/>
       </Wrapper>

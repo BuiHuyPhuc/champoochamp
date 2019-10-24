@@ -113,9 +113,7 @@ class SearchPage extends Component {
       <Col xs={12} lg={6} key={product.id}>
         <ProductCard
           imageGroup={IMAGE_GROUP.PRODUCTS}
-          imageName={product.productVariant[0].thumbnail}
-          productName={product.name}
-          productPrice={product.promotionPrice}
+          product={product}
         />
       </Col>
     );

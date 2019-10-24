@@ -75,5 +75,33 @@ namespace API.Controllers
         }
       }
     }
+
+    [EnableQuery]
+    [Route("GetProductById-{id}")]
+    public Product GetProductById(int id)
+    {
+      using (champoochampContext db = new champoochampContext())
+      {
+        try
+        {
+          Product product = db.Product.Where(p => p.Id == id)
+            .Include(p => p.Brand).Include(p => p.Material).Include(p => p.Suplier)
+            .Include(p => p.ProductVariant)
+              .ThenInclude(p => p.Color)
+            .Include(p => p.ProductVariant)
+              .ThenInclude(p => p.Size)
+            .Include(p => p.ProductVariant)
+              .ThenInclude(p => p.ProductImages)
+            .SingleOrDefault();
+
+          return productBusiness.ShortProduct(product);
+        }
+        catch (Exception e)
+        {
+          Console.WriteLine(e.Message);
+          return null;
+        }
+      }
+    }
   }
 }
