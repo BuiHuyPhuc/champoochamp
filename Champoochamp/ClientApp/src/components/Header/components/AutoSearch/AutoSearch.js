@@ -75,7 +75,9 @@ class AutoSearch extends Component {
                       </NavLink>
                     </li>
                   );
-                }
+              }
+
+              return true;
             })}
 
             <li>
@@ -91,6 +93,8 @@ class AutoSearch extends Component {
                   </li>
                 );
               }
+
+              return true;
             })}
           </ul>
         );

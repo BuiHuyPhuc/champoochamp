@@ -3,6 +3,8 @@ import styled from "@emotion/styled";
 import listensToClickOutside from "react-onclickoutside";
 import PropTypes from "prop-types";
 
+import getObjectById from "./getObjectById";
+
 import COLORS from "../../../shared/color";
 import AwesomeIcon from "../AwesomeIcon";
 
@@ -72,7 +74,7 @@ class DropDown extends Component {
     const optionList = this.props.optionList;
 
     this.setState({
-      selectedOption: optionList[id],
+      selectedOption: getObjectById(optionList, id),
       isOpen: false
     }, () => callback(this.state.selectedOption));
   };

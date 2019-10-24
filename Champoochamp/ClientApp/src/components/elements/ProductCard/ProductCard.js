@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import styled from "@emotion/styled";
 import PropTypes from "prop-types";
+import { NavLink } from "react-router-dom";
 
 import COLORS from "../../../shared/color";
 import Image from "../Image";
@@ -57,13 +58,13 @@ class ProductCard extends Component {
     require(`../../../assets/images/${imageGroup}/${imageName}`);
 
   render() {
-    const { imageGroup, imageName, productName, productPrice } = this.props;
+    const { imageGroup, product } = this.props;
 
     return (
-      <a href="/">
+      <NavLink to={`/chi-tiet/${product.metaTitle}-${product.id}`}>
         <Wrapper>
           <Image
-            imageUrl={this.getImageUrl(imageName, imageGroup)}
+            imageUrl={this.getImageUrl(product.productVariant[0].thumbnail, imageGroup)}
             alt=""
           ></Image>
           <ColorsWrapper>
@@ -77,10 +78,10 @@ class ProductCard extends Component {
               <ColorInner color="#D0665A"></ColorInner>
             </SingleColor>
           </ColorsWrapper>
-          <Name>{productName}</Name>
-          <Price>{productPrice.toLocaleString()} VND</Price>
+          <Name>{product.name}</Name>
+          <Price>{product.promotionPrice.toLocaleString()} VND</Price>
         </Wrapper>
-      </a>
+      </NavLink>
     );
   }
 }

@@ -12,7 +12,7 @@ class RouterConfig extends Component {
         <Route exact path="/" component={Homepage} />
         <Route path="/san-pham/:lv1?/:lv2?/:lv3?" component={CategoryPage} />
         <Route path="/tim-kiem/:key?" component={SearchPage} />
-        <Route path="/chi-tiet" component={ProductDetail} />
+        <Route path="/chi-tiet/:product" component={ProductDetail} />
         <Route component={Homepage} />
       </Switch>
     );

@@ -42,10 +42,8 @@ class TopProducts extends Component {
       <ProductCard
         key={product.id}
         imageGroup={IMAGE_GROUP.PRODUCTS}
-        imageName={product.productVariant[0].thumbnail}
-        productName={product.name}
-        productPrice={product.promotionPrice}>
-      </ProductCard>
+        product={product}
+      />
     );
   })
 

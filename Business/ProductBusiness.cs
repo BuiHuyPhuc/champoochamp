@@ -31,12 +31,12 @@ namespace Business
         }
         else
         {
-          CombineProducts((List<Product>)category.Product, ref productList);
+          CombineProducts(category.Product, ref productList);
         }
       }
     }
 
-    public void CombineProducts(List<Product> productList, ref List<Product> result)
+    public void CombineProducts(ICollection<Product> productList, ref List<Product> result)
     {
       if (productList.Count > 0)
       {
@@ -54,6 +54,18 @@ namespace Business
           result.Add(p);
         }
       }
+    }
+
+    public Product ShortProduct(Product product)
+    {
+      foreach (ProductVariant pv in product.ProductVariant)
+      {
+        pv.Color.ProductVariant = null;
+        pv.Size.ProductVariant = null;
+        pv.ProductImages.ProductVariant = null;
+      }
+
+      return product;
     }
   }
 }

@@ -48,8 +48,7 @@ namespace Data.Entity
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder
-                .UseMySql("server=localhost;database=champoochamp;user=root");
+                optionsBuilder.UseMySql("server=localhost;database=champoochamp;user=root");
             }
         }
 
@@ -176,6 +175,8 @@ namespace Data.Entity
                 entity.ToTable("color");
 
                 entity.Property(e => e.Id).HasColumnType("smallint(6)");
+
+                entity.Property(e => e.Code).HasColumnType("varchar(25)");
 
                 entity.Property(e => e.CreatedBy).HasColumnType("smallint(6)");
 
