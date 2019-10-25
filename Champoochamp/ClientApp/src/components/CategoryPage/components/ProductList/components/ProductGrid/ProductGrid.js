@@ -1,29 +1,40 @@
-﻿import React, { Component } from "react";
-import { Row, Col, Spin } from "antd";
-import styled from "@emotion/styled";
-import { IMAGE_GROUP, SORT_GROUP } from "../../../../../../shared/constants";
-import COLORS from "../../../../../../shared/color";
+﻿import React, { Component } from 'react';
+import { Row, Col, Spin } from 'antd';
+import styled from '@emotion/styled';
 
-import CallAPI from "../../../../../../shared/utils/CallAPI";
-import GetTotalFilter from "../../../../../../shared/utils/GetTotalFilter";
-import GetQueryFilter from "../../../../../../shared/utils/GetQueryFilter";
-import ProductCard from "../../../../../elements/ProductCard";
+import { breakpoint, colors } from '../../../../../../shared/principles';
+import { sortsGroup, imagesGroup } from '../../../../../../shared/constants';
+import {
+  callAPI,
+  getQueryFilter,
+  getTotalFilter
+} from '../../../../../../shared/utils';
+
+import ProductCard from '../../../../../elements/ProductCard';
 import DropDown from '../../../../../elements/DropDown';
 
-const Wrapper = styled("div")`
+const Wrapper = styled('div')`
   padding-left: 20px;
+
+  ${breakpoint.lg`
+    padding-left: 0;
+  `};
 `;
 
-const Header = styled("div")`
+const Header = styled('div')`
   align-items: center;
-  border-bottom: solid 1px ${COLORS.GRAY};
+  border-bottom: solid 1px ${colors.gray};
   display: flex;
   justify-content: space-between;
-  margin: 10px;
+  margin: 0 10px 10px 10px;
   padding-bottom: 5px;
+
+  ${breakpoint.sm`
+  margin: 0 5px 10px 5px;
+  `};
 `;
 
-const TotalProducts = styled("span")`
+const TotalProducts = styled('span')`
   font-weight: 700;
 `;
 
@@ -35,7 +46,7 @@ class ProductGrid extends Component {
       currentFilterList: props.currentFilterList,
       currentFilterNumber: 0,
       currentMoneyFilter: props.currentMoneyFilter,
-      currentSortOption: SORT_GROUP[0],
+      currentSortOption: sortsGroup[0],
       isCategoryChanged: false,
       isFilterChanged: false,
       isLoading: true,
@@ -45,7 +56,7 @@ class ProductGrid extends Component {
       totalProducts: 0,
       productList: [],
       showingProductList: [],
-      sortItems: SORT_GROUP,
+      sortItems: sortsGroup,
     };
   }
 
@@ -57,11 +68,11 @@ class ProductGrid extends Component {
         isLoading: true
       };
     }
-    else if ((GetTotalFilter(nextProps.currentFilterList) !== prevState.currentFilterNumber)
+    else if ((getTotalFilter(nextProps.currentFilterList) !== prevState.currentFilterNumber)
       || (nextProps.currentMoneyFilter.id !== prevState.currentMoneyFilter.id)) {
       return {
         currentFilterList: nextProps.currentFilterList,
-        currentFilterNumber: GetTotalFilter(nextProps.currentFilterList),
+        currentFilterNumber: getTotalFilter(nextProps.currentFilterList),
         currentMoneyFilter: nextProps.currentMoneyFilter,
         isFilterChanged: true,
         isLoading: true
@@ -81,6 +92,7 @@ class ProductGrid extends Component {
 
   componentDidMount() {
     const { categoryId, currentFilterList, currentMoneyFilter, currentSortOption } = this.state;
+    
     this.getProductList(categoryId, currentFilterList, currentMoneyFilter, currentSortOption);
 
     this.scrollListener = window.addEventListener("scroll", e => {
@@ -90,9 +102,9 @@ class ProductGrid extends Component {
 
   getProductList = (categoryId, currentFilterList, currentMoneyFilter, currentSortOption) => {
     const url = `Product/GetProductsByCategoryId-${categoryId}`;
-    const query = GetQueryFilter(currentFilterList, currentMoneyFilter, currentSortOption);
+    const query = getQueryFilter(currentFilterList, currentMoneyFilter, currentSortOption);
 
-    CallAPI(url, query).then(res => this.setState({
+    callAPI(url, query).then(res => this.setState({
       isCategoryChanged: false,
       isFilterChanged: false,
       isLoading: false,
@@ -150,9 +162,9 @@ class ProductGrid extends Component {
 
   renderProductCard = showingProductList => showingProductList.map(product => {
     return (
-      <Col xs={12} lg={8} key={product.id}>
+      <Col xs={12} md={8} key={product.id}>
         <ProductCard
-          imageGroup={IMAGE_GROUP.PRODUCTS}
+          imageGroup={imagesGroup.products}
           product={product}
         />
       </Col>
@@ -169,28 +181,22 @@ class ProductGrid extends Component {
   render() {
     const { isLoading, totalProducts, showingProductList, sortItems, currentSortOption } = this.state
 
-    if (isLoading) {
-      return (
-        <div className="product-grid"><Spin /></div>
+    return isLoading ? (
+      <Spin />
+    ) : (
+      < Wrapper >
+      <Header>
+        <TotalProducts>{totalProducts} sản phẩm</TotalProducts>
+        <DropDown
+          title="Sắp xếp"
+          optionList={sortItems}
+          callback={this.callback}
+          prevSelectedOption={currentSortOption}
+        ></DropDown>
+      </Header>
+      <Row>{this.renderProductCard(showingProductList)}</Row>
+        </Wrapper >
       );
-    }
-
-    return (
-      <Wrapper>
-        <Header>
-          <TotalProducts>{totalProducts} sản phẩm</TotalProducts>
-          <DropDown
-            title="Sắp xếp"
-            optionList={sortItems}
-            callback={this.callback}
-            prevSelectedOption={currentSortOption}
-          ></DropDown>
-        </Header>
-        <Row>
-          {this.renderProductCard(showingProductList)}
-        </Row>
-      </Wrapper>
-    );
   }
 }
 

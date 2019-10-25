@@ -1,55 +1,46 @@
-﻿// Responsive breakpoints
+﻿const apiPort = 'http://localhost:4000';
 
-const BREAKPOINTS = {
-  SM: 576,
-  MD: 768,
-  LG: 992,
-  XL: 1200
+const topProducts = {
+  discountProducts: 'Giảm giá',
+  newProducts: 'Sản phẩm mới'
 };
 
-const API_PORT = "http://localhost:4000";
-
-const TOP_PRODUCTS = {
-  DISCOUNT_PRODUCTS: "Giảm giá",
-  NEW_PRODUCTS: "Sản phẩm mới"
+const imagesGroup = {
+  products: 'products',
+  users: 'users',
+  collections: 'collections'
 };
 
-const IMAGE_GROUP = {
-  PRODUCTS: "products",
-  USERS: "users",
-  COLLECTIONS: "collections"
+const filtersGroup = {
+  brand: 'Thương hiệu',
+  size: 'Kích cỡ',
+  color: 'Màu sắc',
+  money: 'Giá'
 };
 
-const FILTER_GROUP = {
-  BRAND: "Thương hiệu",
-  SIZE: "Kích cỡ",
-  COLOR: "Màu sắc",
-  MONEY: "Giá"
+const searchGroup = {
+  category: "Loại sản phẩm",
+  product: "Sản phẩm"
 }
 
-const SEARCH_GROUP = {
-  CATEGORY: "Loại sản phẩm",
-  PRODUCT: "Sản phẩm"
-}
-
-const SORT_GROUP = [
+const sortsGroup = [
   {
     id: 0,
-    name: "Nổi bật nhất"
+    name: 'Nổi bật nhất'
   },
   {
     id: 1,
-    name: "Mới nhất"
+    name: 'Mới nhất'
   },
   {
     id: 2,
-    name: "Giá tăng dần"
+    name: 'Giá tăng dần'
   },
   {
     id: 3,
-    name: "Giá giảm dần"
-  },
-]
+    name: 'Giá giảm dần'
+  }
+];
 
-export { BREAKPOINTS, API_PORT, TOP_PRODUCTS, IMAGE_GROUP, FILTER_GROUP, SEARCH_GROUP, SORT_GROUP };
+export { apiPort, topProducts, imagesGroup, filtersGroup, searchGroup, sortsGroup };
 

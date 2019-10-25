@@ -2,13 +2,14 @@ import React, { Component } from "react";
 import styled from "@emotion/styled";
 import PropTypes from "prop-types";
 
-import COLORS from "../../../shared/color";
+import { colors } from "../../../shared/principles";
 import AwesomeIcon from "../AwesomeIcon";
 
 const Wrapper = styled("button")`
   align-items: center;
   background: none;
-  color: ${COLORS.BLACK};
+  border: none;
+  color: ${colors.black};
   cursor: pointer;
   display: flex;
   letter-spacing: 0.5px;

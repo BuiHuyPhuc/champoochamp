@@ -1,4 +1,4 @@
-﻿const GetTotalFilter = filterList => {
+﻿const getTotalFilter = filterList => {
   let total = 0;
 
   filterList.forEach(group => {
@@ -8,4 +8,4 @@
   return total;
 }
 
-export default GetTotalFilter;
+export default getTotalFilter;

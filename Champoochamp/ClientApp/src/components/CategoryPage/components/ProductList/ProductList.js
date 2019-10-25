@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Row, Col } from "antd";
 
-import { FILTER_GROUP } from "../../../../shared/constants";
+import { filtersGroup } from "../../../../shared/constants";
 import FilterPanel from './components/FilterPanel';
 import ProductGrid from './components/ProductGrid';
 
@@ -11,9 +11,9 @@ class ProductList extends Component {
     this.state = {
       categoryId: this.props.categoryId,
       currentFilterList: [
-        { name: FILTER_GROUP.SIZE, data: [] },
-        { name: FILTER_GROUP.COLOR, data: [] },
-        { name: FILTER_GROUP.BRAND, data: [] }
+        { name: filtersGroup.size, data: [] },
+        { name: filtersGroup.color, data: [] },
+        { name: filtersGroup.brand, data: [] }
       ],
       currentMoneyFilter: { id: 0 }
     };

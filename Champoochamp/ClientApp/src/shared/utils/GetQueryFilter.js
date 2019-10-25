@@ -1,10 +1,10 @@
-﻿import { FILTER_GROUP } from "../constants";
+﻿import { filtersGroup } from "../constants";
 
 const getQueryByFilterGroup = filterGroup => {
   let query = `(`;
 
   switch (filterGroup.name) {
-    case FILTER_GROUP.SIZE:
+    case filtersGroup.size:
       filterGroup.data.forEach((item, index) => {
         if (index === 0) {
           query += `p/sizeId eq ${item.id}`;
@@ -14,7 +14,7 @@ const getQueryByFilterGroup = filterGroup => {
         }
       });
       break;
-    case FILTER_GROUP.COLOR:
+    case filtersGroup.color:
       filterGroup.data.forEach((item, index) => {
         if (index === 0) {
           query += `p/colorId eq ${item.id}`;
@@ -24,7 +24,7 @@ const getQueryByFilterGroup = filterGroup => {
         }
       });
       break;
-    case FILTER_GROUP.BRAND:
+    case filtersGroup.brand:
       filterGroup.data.forEach((item, index) => {
         if (index === 0) {
           query += `brandId eq ${item.id}`;
@@ -83,7 +83,7 @@ const getQueryBySortOption = currentSortOption => {
   return query;
 }
 
-const GetQueryFilter = (currentFilterList, currentMoneyFilter, currentSortOption) => {
+const getQueryFilter = (currentFilterList, currentMoneyFilter, currentSortOption) => {
   let query = `?$filter=`;
   let sizeFilter = [];
   let colorFilter = [];
@@ -91,20 +91,20 @@ const GetQueryFilter = (currentFilterList, currentMoneyFilter, currentSortOption
 
   currentFilterList.forEach(group => {
     switch (group.name) {
-      case FILTER_GROUP.SIZE:
+      case filtersGroup.size:
         sizeFilter = group;
         break;
-      case FILTER_GROUP.COLOR:
+      case filtersGroup.color:
         colorFilter = group;
         break;
-      case FILTER_GROUP.BRAND:
+      case filtersGroup.brand:
         brandFilter = group;
         break;
       default:
         break;
     }
   })
-
+  
   // not filter
   if (sizeFilter.data.length === 0 && colorFilter.data.length === 0 && brandFilter.data.length === 0 && currentMoneyFilter.id === 0) {
     return `?$orderby=${getQueryBySortOption(currentSortOption)}`;
@@ -147,4 +147,4 @@ const GetQueryFilter = (currentFilterList, currentMoneyFilter, currentSortOption
   return query;
 }
 
-export default GetQueryFilter;
+export default getQueryFilter;
