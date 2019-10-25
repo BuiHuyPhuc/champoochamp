@@ -1,26 +1,25 @@
-import React, { Component } from "react";
-import styled from "@emotion/styled";
+import React, { Component } from 'react';
+import styled from '@emotion/styled';
 
-import Image from "../../../elements/Image";
-import exampleImg1 from "../../../../assets/images/products/000105_1.jpg";
-import exampleImg2 from "../../../../assets/images/products/000207_1.jpg";
+import { Image } from '../../../elements';
+import exampleImg1 from '../../../../assets/images/products/000105_1.jpg';
+import exampleImg2 from '../../../../assets/images/products/000207_1.jpg';
 
-const Wrapper = styled("div")`
-  background: whitesmoke;
+const Wrapper = styled('div')`
   max-width: 100vh;
 `;
 
-const BigThumbnailWrapper = styled("div")`
+const BigThumbnailWrapper = styled('div')`
   text-align: center;
 `;
 
-const SmallThumbnailsWrapper = styled("ul")`
+const SmallThumbnailsWrapper = styled('ul')`
   display: flex;
   justify-content: center;
   padding: 10px 0;
 `;
 
-const SmallThumbnail = styled("li")`
+const SmallThumbnail = styled('li')`
   cursor: pointer;
   margin: 0 5px;
   width: 80px;
@@ -48,11 +47,11 @@ class ImageThumbnails extends Component {
         <BigThumbnailWrapper>
           <Image imageUrl={currentImageUrl} alt="" />
         </BigThumbnailWrapper>
-        
+
         <SmallThumbnailsWrapper>
           <SmallThumbnail onClick={() => this.onClickThumbnail(exampleImg1)}>
             <Image imageUrl={exampleImg1} alt="" />
-          </SmallThumbnail>          
+          </SmallThumbnail>
           <SmallThumbnail onClick={() => this.onClickThumbnail(exampleImg2)}>
             <Image imageUrl={exampleImg2} alt="" />
           </SmallThumbnail>

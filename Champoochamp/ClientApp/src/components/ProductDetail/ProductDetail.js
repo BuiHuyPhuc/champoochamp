@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { Row, Col, Spin } from "antd";
 
-import CallAPI from "../../shared/utils/CallAPI";
+import { callAPI } from "../../shared/utils";
 import getIdInMetaTitle from "../../shared/utils/getIdInMetaTitle";
-import groupBy from "../ProductDetail/groupBy"; 
+import groupBy from "./groupBy"; 
 
 import Container from "../elements/Container";
 import Section from "../elements/Section";
@@ -27,7 +27,7 @@ class ProductDetail extends Component {
   }
 
   getProductById = productId => {
-    CallAPI(`Product/GetProductById-${productId}`).then(res => this.setState({
+    callAPI(`Product/GetProductById-${productId}`).then(res => this.setState({
       isLoading: false,
       product: res.data,
       sizes: groupBy(res.data.productVariant, p => p.sizeId).map(item => item.size),

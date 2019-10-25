@@ -3,10 +3,9 @@ import styled from "@emotion/styled";
 import listensToClickOutside from "react-onclickoutside";
 import PropTypes from "prop-types";
 
-import getObjectById from "./getObjectById";
-
-import COLORS from "../../../shared/color";
+import { colors } from "../../../shared/principles";
 import AwesomeIcon from "../AwesomeIcon";
+import getObjectById from "./getObjectById";
 
 const Wrapper = styled("div")`
   position: relative;
@@ -14,7 +13,7 @@ const Wrapper = styled("div")`
 
 const Header = styled("div")`
   align-items: center;
-  border: ${props => (props.hasBorder ? `solid 1px ${COLORS.GRAY}` : "none")};
+  border: ${props => (props.hasBorder ? `solid 1px ${colors.gray}` : "none")};
   cursor: pointer;
   display: flex;
   justify-content: space-between;
@@ -27,8 +26,8 @@ const Title = styled("span")`
 `;
 
 const OptionList = styled("ul")`
-  background: ${COLORS.WHITE};
-  border: solid 1px ${COLORS.GRAY};
+  background: ${colors.white};
+  border: solid 1px ${colors.gray};
   box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.05);
   min-width: 200px;
   position: absolute;
@@ -43,7 +42,7 @@ const Option = styled("li")`
   padding: 10px 15px;
 
   &:hover {
-    background: ${COLORS.LIGHT_GRAY};
+    background: ${colors.lightGray};
   }
 `;
 

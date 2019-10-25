@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import "../../../../css/main.css";
-import { SEARCH_GROUP } from "../../../../shared/constants";
+import { searchGroup } from "../../../../shared/constants";
 
 class AutoSearch extends Component {
   constructor(props) {
@@ -64,10 +64,10 @@ class AutoSearch extends Component {
         suggestionsListComponent = (
           <ul className="suggestions">
             <li>
-              {SEARCH_GROUP.CATEGORY}
+              {searchGroup.category}
             </li>
             {filteredSuggestions.map(suggestion => {
-                if (suggestion.group === SEARCH_GROUP.CATEGORY) {
+                if (suggestion.group === searchGroup.category) {
                   return (
                     <li key={suggestion.data.id} >
                       <NavLink to={`/san-pham/${suggestion.data.metaTitle}-${suggestion.data.id}`} onClick={onHideSuggestions}>
@@ -81,10 +81,10 @@ class AutoSearch extends Component {
             })}
 
             <li>
-              {SEARCH_GROUP.PRODUCT}
+              {searchGroup.product}
             </li>
             {filteredSuggestions.map(suggestion => {
-              if (suggestion.group === SEARCH_GROUP.PRODUCT) {
+              if (suggestion.group === searchGroup.product) {
                 return (
                   <li key={suggestion.data.id} >
                     <NavLink to={`/chi-tiet/${suggestion.data.metaTitle}-${suggestion.data.id}`} onClick={onHideSuggestions}>

@@ -1,8 +1,8 @@
 ﻿import React, { Component } from "react";
 import { Row, Col, Spin } from "antd";
 
-import CallAPI from "../../shared/utils/CallAPI";
-import { IMAGE_GROUP } from "../../shared/constants";
+import { callAPI } from "../../shared/utils";
+import { imagesGroup } from "../../shared/constants";
 import ProductCard from "../elements/ProductCard";
 import Container from "../elements/Container";
 import Section from "../elements/Section";
@@ -52,7 +52,7 @@ class SearchPage extends Component {
   }
 
   getProductList = searchKey => {
-    CallAPI(`Search/GetProductsBySearchKey-${searchKey}`)
+    callAPI(`Search/GetProductsBySearchKey-${searchKey}`)
       .then(res => this.setState({
         isSearchKeyChanged: false,
         isLoading: false,
@@ -112,7 +112,7 @@ class SearchPage extends Component {
     return (
       <Col xs={12} lg={6} key={product.id}>
         <ProductCard
-          imageGroup={IMAGE_GROUP.PRODUCTS}
+          imageGroup={imagesGroup.products}
           product={product}
         />
       </Col>

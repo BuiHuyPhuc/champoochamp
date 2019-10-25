@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 import { Spin } from "antd";
 
-import CallAPI from "../../../../shared/utils/CallAPI";
+import { callAPI } from "../../../../shared/utils";
 
 class Breadcrumb extends Component {
   constructor(props) {
@@ -41,7 +41,7 @@ class Breadcrumb extends Component {
   getCategoryById = categoryId => {
     const url = `Category/GetCategoryById-${categoryId}`;
 
-    CallAPI(url).then(res => this.setState({
+    callAPI(url).then(res => this.setState({
       isCategoryChanged: false,
       isLoading: false,
       currentCategory: res.data

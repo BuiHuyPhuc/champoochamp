@@ -3,18 +3,23 @@ import styled from "@emotion/styled";
 import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
 
-import COLORS from "../../../shared/color";
+import { breakpoint } from '../../../shared/principles';
+import { colors } from "../../../shared/principles";
 import Image from "../Image";
 
 const Wrapper = styled("div")`
-  background: ${COLORS.WHITE};
+  background: ${colors.white};
   margin-bottom: 10px;
   padding: 10px;
   border: solid 1px transparent;
 
   &:hover {
-    border: solid 1px ${COLORS.GRAY};
+    border: solid 1px ${colors.gray};
   }
+
+  ${breakpoint.sm`
+    padding: 5px;
+  `};
 `;
 
 const ColorsWrapper = styled("div")`
@@ -29,7 +34,7 @@ const SingleColor = styled("button")`
   padding: 1px;
 
   &:hover {
-    border: solid 1px ${COLORS.BLACK};
+    border: solid 1px ${colors.black};
   }
 `;
 
@@ -49,7 +54,7 @@ const Name = styled("div")`
 `;
 
 const Price = styled("span")`
-  color: ${COLORS.DARK_GRAY};
+  color: ${colors.darkGray};
   display: block;
 `;
 

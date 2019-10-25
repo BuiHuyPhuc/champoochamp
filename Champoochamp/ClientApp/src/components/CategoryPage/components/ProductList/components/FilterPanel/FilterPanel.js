@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import { Row, Col, Collapse, Spin } from "antd";
+import React, { Component } from 'react';
+import { Row, Col, Collapse, Spin } from 'antd';
 
-import { FILTER_GROUP } from "../../../../../../shared/constants";
-import CallAPI from "../../../../../../shared/utils/CallAPI";
-import GetMoneyFilterGroup from "../../../../../../shared/utils/GetMoneyFilterGroup";
-import ActionLink from "../../../../../elements/ActionLink";
+import { filtersGroup } from '../../../../../../shared/constants';
+import { callAPI, getMoneyFilterGroup } from '../../../../../../shared/utils';
+
+import ActionLink from '../../../../../elements/ActionLink';
 
 const { Panel } = Collapse;
 
@@ -12,15 +12,15 @@ class FilterPanel extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      categoryId: props.categoryId,
+      categoryId: this.props.categoryId,
       isCategoryChanged: false,
       isLoading: true,
       filterGroupList: [],
-      moneyFilterGroup: GetMoneyFilterGroup(),
+      moneyFilterGroup: getMoneyFilterGroup(),
       currentFilterList: [
-        { name: FILTER_GROUP.SIZE, data: [] },
-        { name: FILTER_GROUP.COLOR, data: [] },
-        { name: FILTER_GROUP.BRAND, data: [] }
+        { name: filtersGroup.size, data: [] },
+        { name: filtersGroup.color, data: [] },
+        { name: filtersGroup.brand, data: [] }
       ],
       currentMoneyFilter: { id: 0 }
     };
@@ -52,14 +52,14 @@ class FilterPanel extends Component {
   getFilterGroupList = categoryId => {
     const url = `Filter/GetFilterGroupListByCategoryId-${categoryId}`;
 
-    CallAPI(url).then(res => this.setState({
+    callAPI(url).then(res => this.setState({
       isLoading: false,
       isCategoryChanged: false,
       filterGroupList: res.data,
       currentFilterList: [
-        { name: FILTER_GROUP.SIZE, data: [] },
-        { name: FILTER_GROUP.COLOR, data: [] },
-        { name: FILTER_GROUP.BRAND, data: [] }
+        { name: filtersGroup.size, data: [] },
+        { name: filtersGroup.color, data: [] },
+        { name: filtersGroup.brand, data: [] }
       ],
       currentMoneyFilter: { id: 0 }
     }))
@@ -74,7 +74,7 @@ class FilterPanel extends Component {
       >
         <Row gutter={8}>
           {
-            filterGroup.name === FILTER_GROUP.MONEY ?
+            filterGroup.name === filtersGroup.money ?
               this.renderMoneyFilterGroup(this.state.moneyFilterGroup) :
               this.renderFilterGroup(filterGroup)
           }
@@ -210,7 +210,7 @@ class FilterPanel extends Component {
   ParentOnclick = (group, filterItem) => {
     const { currentFilterList, currentMoneyFilter } = this.state;
 
-    if (group === FILTER_GROUP.MONEY) {
+    if (group === filtersGroup.money) {
       if (currentMoneyFilter.id === filterItem.id) {
         this.setState({ currentMoneyFilter: { id: 0 } },
           () => this.props.getCurrentFilterList(this.state.currentFilterList, this.state.currentMoneyFilter));
@@ -271,7 +271,7 @@ class FilterPanel extends Component {
                 </button>
                 <div className="selected-items-wrapper">
                   {this.renderCurrentFilterList(currentFilterList)}
-                  {this.renderCurrentMoneyFilter(FILTER_GROUP.MONEY, currentMoneyFilter)}
+                  {this.renderCurrentMoneyFilter(filtersGroup.money, currentMoneyFilter)}
                 </div>
               </div>
 
@@ -296,7 +296,7 @@ class FilterPanel extends Component {
               </button>
               <div className="selected-items-wrapper">
                 {this.renderCurrentFilterList(currentFilterList)}
-                {this.renderCurrentMoneyFilter(FILTER_GROUP.MONEY, currentMoneyFilter)}
+                {this.renderCurrentMoneyFilter(filtersGroup.money, currentMoneyFilter)}
               </div>
             </div>
 

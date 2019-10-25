@@ -1,11 +1,11 @@
 ﻿import axios from "axios";
-import { API_PORT } from "../constants";
+import { apiPort } from "../constants";
 
-const CallAPI = (url, query = '', method = 'GET', data = null, headers = null) => axios({
-  url: `${API_PORT}/api/${url}${query}`,
+const callAPI = (url, query = '', method = 'GET', data = null, headers = null) => axios({
+  url: `${apiPort}/api/${url}${query}`,
   method,
   data,
   headers
 }).catch(error => console.log(`ERROR_CALL_API from ${url}: ${error.message}`));
 
-export default CallAPI;
+export default callAPI;

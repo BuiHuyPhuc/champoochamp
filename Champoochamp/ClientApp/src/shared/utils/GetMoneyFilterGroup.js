@@ -1,8 +1,8 @@
-﻿import { FILTER_GROUP } from "../constants";
+﻿import { filtersGroup } from "../constants";
 
-const GetMoneyFilterGroup = () => {
+const getMoneyFilterGroup = () => {
   let moneyFilterGroup = {
-    name: FILTER_GROUP.MONEY,
+    name: filtersGroup.money,
     data: [
       { id: 1, fromMoney: null, toMoney: 100000 },
       { id: 2, fromMoney: 100000, toMoney: 200000 },
@@ -14,4 +14,4 @@ const GetMoneyFilterGroup = () => {
   return moneyFilterGroup;
 }
 
-export default GetMoneyFilterGroup;
+export default getMoneyFilterGroup;

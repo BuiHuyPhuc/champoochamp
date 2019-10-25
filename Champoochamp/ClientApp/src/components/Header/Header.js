@@ -2,9 +2,10 @@ import React, { Component } from "react";
 import { NavLink, withRouter } from "react-router-dom";
 import { Menu, Icon, Drawer, Spin } from "antd";
 
-import CallAPI from "../../shared/utils/CallAPI";
-import AutoSearch from "../Header/components/AutoSearch";
+import { callAPI } from "../../shared/utils";
 import logo from "../../assets/logo.png";
+import AutoSearch from "../Header/components/AutoSearch";
+
 
 class Header extends Component {
   constructor(props) {
@@ -18,13 +19,13 @@ class Header extends Component {
   }
 
   componentDidMount() {
-    CallAPI(`Category/GetAllCategories`, `?$filter=parent eq null`)
+    callAPI(`Category/GetAllCategories`, `?$filter=parent eq null`)
       .then(res => this.setState({
         isLoading: false,
         categoryMenu: res.data
       }));
 
-    CallAPI(`Search/GetSearchData`).then(res => this.setState({ searchData: res.data }));
+    callAPI(`Search/GetSearchData`).then(res => this.setState({ searchData: res.data }));
   }
 
   onShowDrawer = () => {

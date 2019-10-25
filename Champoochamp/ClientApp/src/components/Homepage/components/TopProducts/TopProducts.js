@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import Slider from "react-slick";
 import { Spin } from "antd";
-import { BREAKPOINTS, TOP_PRODUCTS, IMAGE_GROUP } from "../../../../shared/constants";
 
-import CallAPI from "../../../../shared/utils/CallAPI";
+import { topProducts, imagesGroup } from "../../../../shared/constants";
+import { callAPI } from "../../../../shared/utils";
+
 import ProductCard from "../../../elements/ProductCard";
 import SectionTitle from "../SectionTitle";
 
@@ -17,20 +18,20 @@ class TopProducts extends Component {
   }
 
   componentDidMount() {
-    if (this.props.sectionTitle === TOP_PRODUCTS.DISCOUNT_PRODUCTS) {
+    if (this.props.sectionTitle === topProducts.discountProducts) {
       const url = `Product/GetAllProducts`;
       const query = `?$filter=isDiscount eq true&$orderby=discountAmount desc&$top=10`;
 
-      CallAPI(url, query).then(res => this.setState({
+      callAPI(url, query).then(res => this.setState({
         isLoading: false,
         productList: res.data
       }));
     }
-    else if (this.props.sectionTitle === TOP_PRODUCTS.NEW_PRODUCTS) {
+    else if (this.props.sectionTitle === topProducts.newProducts) {
       const url = `Product/GetAllProducts`;
       const query = `?$orderby=createdDate desc&$top=10`;
 
-      CallAPI(url, query).then(res => this.setState({
+      callAPI(url, query).then(res => this.setState({
         isLoading: false,
         productList: res.data
       }));
@@ -41,7 +42,7 @@ class TopProducts extends Component {
     return (
       <ProductCard
         key={product.id}
-        imageGroup={IMAGE_GROUP.PRODUCTS}
+        imageGroup={imagesGroup.products}
         product={product}
       />
     );
@@ -59,21 +60,21 @@ class TopProducts extends Component {
       speed: 500,
       responsive: [
         {
-          breakpoint: BREAKPOINTS.LG,
+          breakpoint: 992,
           settings: {
             slidesToShow: 3,
             slidesToScroll: 3
           }
         },
         {
-          breakpoint: BREAKPOINTS.MD,
+          breakpoint: 768,
           settings: {
             slidesToShow: 2,
             slidesToScroll: 2
           }
         },
         {
-          breakpoint: BREAKPOINTS.SM,
+          breakpoint: 576,
           settings: {
             slidesToShow: 1,
             slidesToScroll: 1

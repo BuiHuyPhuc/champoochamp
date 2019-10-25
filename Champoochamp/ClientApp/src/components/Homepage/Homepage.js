@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { TOP_PRODUCTS } from "../../shared/constants";
+import { topProducts } from "../../shared/constants";
 
 import Banner from "./components/Banner";
 import TopProducts from "./components/TopProducts";
@@ -10,9 +10,9 @@ class Homepage extends Component {
       <div>
         <Banner></Banner>
         <TopProducts
-          sectionTitle={TOP_PRODUCTS.DISCOUNT_PRODUCTS}
+          sectionTitle={topProducts.discountProducts}
         ></TopProducts>
-        <TopProducts sectionTitle={TOP_PRODUCTS.NEW_PRODUCTS}></TopProducts>
+        <TopProducts sectionTitle={topProducts.newProducts}></TopProducts>
       </div>
     );
   }

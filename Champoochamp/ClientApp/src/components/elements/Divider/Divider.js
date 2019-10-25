@@ -2,11 +2,11 @@ import React, { Component } from "react";
 import styled from "@emotion/styled";
 import PropTypes from "prop-types";
 
-import COLORS from "../../../shared/color";
+import { colors } from "../../../shared/principles";
 
 const Line = styled("hr")`
   border: none;
-  background: ${COLORS.GRAY};
+  background: ${colors.gray};
   height: 1px;
 `;
 

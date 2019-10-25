@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import styled from "@emotion/styled";
 import PropTypes from "prop-types";
 
-import COLORS from "../../../shared/color";
+import { colors } from "../../../shared/principles";
 
 const Wrapper = styled("button")`
-  background: ${props => (props.isSecondary ? COLORS.WHITE : COLORS.BLACK)};
-  border: solid 1px ${COLORS.BLACK};
-  color: ${props => (props.isSecondary ? COLORS.BLACK : COLORS.WHITE)};
+  background: ${props => (props.isSecondary ? colors.white : colors.black)};
+  border: solid 1px ${colors.black};
+  color: ${props => (props.isSecondary ? colors.black : colors.white)};
   cursor: pointer;
   font-weight: 600;
   letter-spacing: 0.8px;
@@ -18,9 +18,9 @@ const Wrapper = styled("button")`
   width: ${props => (props.isBlockButton ? "100%" : "auto")};
 
   &:hover {
-    background: ${COLORS.LIGHT_GRAY};
-    border: solid 1px ${COLORS.LIGHT_GRAY};
-    color: ${COLORS.BLACK};
+    background: ${colors.lightGray};
+    border: solid 1px ${colors.lightGray};
+    color: ${colors.black};
   }
 `;
 
