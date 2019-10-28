@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import styled from '@emotion/styled';
 
 import { typography } from '../../../../../../shared/principles';
+import { groupBy } from "../../../../../../shared/utils";
+
 import { DropDown, ColorRow } from '../../../../../elements';
 
 const Wrapper = styled('div')`
@@ -21,57 +23,20 @@ class VariantChoice extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      sizes: [
-        {
-          id: 0,
-          name: 'S'
-        },
-        {
-          id: 1,
-          name: 'M'
-        },
-        {
-          id: 2,
-          name: 'L'
-        },
-        {
-          id: 3,
-          name: 'XL'
-        },
-        {
-          id: 4,
-          name: 'XXL'
-        }
-      ],
-      colors: [
-        {
-          id: 0,
-          name: '#E6BDA7'
-        },
-        {
-          id: 1,
-          name: '#989CA0'
-        },
-        {
-          id: 2,
-          name: '#B0D5C1'
-        }
-      ]
+      sizes: groupBy(props.product.productVariant, p => p.sizeId).map(item => item.size),
+      colors: groupBy(props.product.productVariant, p => p.colorId)
     };
   }
 
-  callback = () => {
-    //do something here
-  };
-
   render() {
     const { colors, sizes } = this.state;
+    const { getImageUrls, getColorId, getSize } = this.props;
 
     return (
       <Wrapper>
         <ChoiceBox>
           <BoxTitle>Màu sắc</BoxTitle>
-          <ColorRow colors={colors} size={30} />
+          <ColorRow colors={colors} size={30} getImageUrls={getImageUrls} getColorId={getColorId} />
         </ChoiceBox>
         <ChoiceBox>
           <BoxTitle>Size</BoxTitle>
@@ -79,7 +44,7 @@ class VariantChoice extends Component {
             title="Chọn size"
             optionList={sizes}
             hasBorder
-            callback={this.callback}
+            callback={getSize}
           />
         </ChoiceBox>
       </Wrapper>

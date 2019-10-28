@@ -18,34 +18,26 @@ const SingleColor = styled('div')`
 `;
 
 class ColorChoice extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isSelected: false
-    };
-  }
-
-  onClick = () => {
-    this.setState({
-      isSelected: !this.state.isSelected
-    });
+  onClick = (color, callback) => {
+    callback(color);
   };
 
   render() {
-    const { color, size } = this.props;
-    const { isSelected } = this.state;
+    const { color, size, isSelected, callback } = this.props;
 
     return (
-      <Wrapper isSelected={isSelected} onClick={this.onClick} size={size}>
-        <SingleColor color={color} size={size} />
+      <Wrapper isSelected={isSelected} onClick={() => this.onClick(color, callback)} size={size}>
+        <SingleColor color={color.color.code} size={size} />
       </Wrapper>
     );
   }
 }
 
 ColorChoice.propsTypes = {
-  color: PropTypes.string,
-  size: PropTypes.number
+  color: PropTypes.object,
+  size: PropTypes.number,
+  isSelected: PropTypes.bool,
+  callback: PropTypes.func
 };
 
 export default ColorChoice;

@@ -1,12 +1,8 @@
 import React, { Component } from "react";
 import { Row, Col, Spin } from "antd";
 
-import { callAPI } from "../../shared/utils";
-import getIdInMetaTitle from "../../shared/utils/getIdInMetaTitle";
-import groupBy from "./groupBy"; 
-
-import Container from "../elements/Container";
-import Section from "../elements/Section";
+import { callAPI, getIdInMetaTitle } from "../../shared/utils";
+import { Container, Section } from "../elements";
 import ImageThumbnails from "./components/ImageThumbnails";
 import ProductSummary from "./components/ProductSummary";
 
@@ -17,9 +13,12 @@ class ProductDetail extends Component {
       productId: getIdInMetaTitle(props.match.params.product),
       isLoading: true,
       product: null,
-      sizes: [],
-      colors: [],
+      imageUrls: []
     };
+  }
+
+  getImageUrls = selectedColor => {
+    this.setState({ imageUrls: selectedColor.productImages.imageUrls.split(',') });
   }
 
   componentDidMount() {
@@ -29,14 +28,12 @@ class ProductDetail extends Component {
   getProductById = productId => {
     callAPI(`Product/GetProductById-${productId}`).then(res => this.setState({
       isLoading: false,
-      product: res.data,
-      sizes: groupBy(res.data.productVariant, p => p.sizeId).map(item => item.size),
-      colors: groupBy(res.data.productVariant, p => p.colorId)
+      product: res.data
     }));
   }
 
   render() {
-    const { isLoading, product, sizes, colors } = this.state;
+    const { isLoading, product, imageUrls } = this.state;
 
     return isLoading ? (
       <Spin />
@@ -45,10 +42,10 @@ class ProductDetail extends Component {
           <Section isFirstSection>
             <Row gutter={32}>
               <Col xs={24} md={14} lg={16}>
-                <ImageThumbnails colors={colors}></ImageThumbnails>
+                <ImageThumbnails imageUrls={imageUrls}></ImageThumbnails>
               </Col>
               <Col xs={24} md={10} lg={8}>
-                <ProductSummary product={product} sizes={sizes} colors={colors}></ProductSummary>
+                <ProductSummary product={product} getImageUrls={this.getImageUrls} />
               </Col>
             </Row>
           </Section>

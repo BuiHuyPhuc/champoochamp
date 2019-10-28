@@ -2,13 +2,13 @@
 import { Modal } from "antd";
 import styled from "@emotion/styled";
 
-import Button from "../../../elements/Button";
+import { Button } from "../../../../../elements";
 
 const Wrapper = styled("div")`
   max-width: 100vh;
 `;
 
-class ModalSizeSupport extends Component {
+class SizeReference extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -55,4 +55,4 @@ class ModalSizeSupport extends Component {
   }
 }
 
-export default ModalSizeSupport;
+export default SizeReference;

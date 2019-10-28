@@ -1,4 +1,5 @@
 ﻿const apiPort = 'http://localhost:4000';
+const newProductInDays = 30;
 
 const topProducts = {
   discountProducts: 'Giảm giá',
@@ -42,5 +43,5 @@ const sortsGroup = [
   }
 ];
 
-export { apiPort, topProducts, imagesGroup, filtersGroup, searchGroup, sortsGroup };
+export { apiPort, newProductInDays, topProducts, imagesGroup, filtersGroup, searchGroup, sortsGroup };
 

@@ -5,7 +5,6 @@ import PropTypes from "prop-types";
 
 import { colors } from "../../../shared/principles";
 import AwesomeIcon from "../AwesomeIcon";
-import getObjectById from "./getObjectById";
 
 const Wrapper = styled("div")`
   position: relative;
@@ -73,7 +72,7 @@ class DropDown extends Component {
     const optionList = this.props.optionList;
 
     this.setState({
-      selectedOption: getObjectById(optionList, id),
+      selectedOption: optionList.find(option => option.id === id),
       isOpen: false
     }, () => callback(this.state.selectedOption));
   };

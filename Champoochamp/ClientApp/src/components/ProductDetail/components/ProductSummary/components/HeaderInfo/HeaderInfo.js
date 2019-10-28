@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styled from '@emotion/styled';
 
 import { colors, typography } from '../../../../../../shared/principles';
+import { checkNewProduct } from '../../../../../../shared/utils';
 
 const Wrapper = styled('div')`
   border-bottom: solid 1px ${colors.lightGray};
@@ -47,19 +48,26 @@ const Description = styled('p')`
 `;
 
 class HeaderGroup extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isNew: checkNewProduct(props.product.createdDate)
+    };
+  }
+
   render() {
+    const { isNew } = this.state;
+    const { product } = this.props;
+
     return (
       <Wrapper>
-        <ProductName>Navigation 2019 Hunter Bet Jacket</ProductName>
-        <NewTag>New</NewTag>
+        <ProductName>{product.name}</ProductName>
+        {isNew ? <NewTag>New</NewTag> : null}
         <PriceWrapper>
-          <Price>399.000 VND</Price>
-          <OriginalPrice>450.000 VND</OriginalPrice>
+          <Price>{product.promotionPrice.toLocaleString()} VND</Price>
+          <OriginalPrice>{product.price.toLocaleString()} VND</OriginalPrice>
         </PriceWrapper>
-        <Description>
-          Bundle up in this wool-blend layer. With warm pockets, a high neck,
-          and a long length for warmth, you'll be feeling total coziness.
-        </Description>
+        <Description>{product.description}</Description>
       </Wrapper>
     );
   }
