@@ -1,11 +1,9 @@
-﻿import React, { Component } from "react";
-import { Row, Col, Spin } from "antd";
+﻿import React, { Component } from 'react';
+import { Row, Col, Spin } from 'antd';
 
-import { callAPI } from "../../shared/utils";
-import { imagesGroup } from "../../shared/constants";
-import ProductCard from "../elements/ProductCard";
-import Container from "../elements/Container";
-import Section from "../elements/Section";
+import { callAPI } from '../../shared/utils';
+import { imagesGroup } from '../../shared/constants';
+import { ProductCard, Container, Section } from '../elements';
 
 class SearchPage extends Component {
   constructor(props) {
@@ -19,7 +17,7 @@ class SearchPage extends Component {
       page: 1,
       totalProducts: 0,
       productList: [],
-      showingProductList: [],
+      showingProductList: []
     };
   }
 
@@ -46,22 +44,26 @@ class SearchPage extends Component {
   componentDidMount() {
     this.getProductList(this.state.searchKey);
 
-    this.scrollListener = window.addEventListener("scroll", e => {
+    this.scrollListener = window.addEventListener('scroll', e => {
       this.handleScroll(e);
     });
   }
 
   getProductList = searchKey => {
-    callAPI(`Search/GetProductsBySearchKey-${searchKey}`)
-      .then(res => this.setState({
-        isSearchKeyChanged: false,
-        isLoading: false,
-        isLoadMore: true,
-        page: 1,
-        totalProducts: res.data.length,
-        productList: res.data,
-      }, () => this.getProducts([])));
-  }
+    callAPI(`Search/GetProductsBySearchKey-${searchKey}`).then(res =>
+      this.setState(
+        {
+          isSearchKeyChanged: false,
+          isLoading: false,
+          isLoadMore: true,
+          page: 1,
+          totalProducts: res.data.length,
+          productList: res.data
+        },
+        () => this.getProducts([])
+      )
+    );
+  };
 
   handleScroll = e => {
     const { isLoadMore, totalProducts, page, pageSize } = this.state;
@@ -69,7 +71,7 @@ class SearchPage extends Component {
     if (!isLoadMore) return;
     if (totalProducts <= page * pageSize) return;
 
-    const lastCol = document.querySelector(".ant-col:last-child");
+    const lastCol = document.querySelector('.ant-col:last-child');
     if (lastCol) {
       const lastColOffset = lastCol.offsetTop + lastCol.clientHeight;
       const pageOffset = window.pageYOffset + window.innerHeight;
@@ -78,7 +80,7 @@ class SearchPage extends Component {
         this.loadMore();
       }
     }
-  }
+  };
 
   getProducts = showingProductList => {
     const { productList, totalProducts, page, pageSize } = this.state;
@@ -88,52 +90,52 @@ class SearchPage extends Component {
       this.setState({
         showingProductList: [...showingProductList, ...productList.slice(index)]
       });
-    }
-    else if (totalProducts >= index + pageSize) {
+    } else if (totalProducts >= index + pageSize) {
       this.setState({
         isLoadMore: true,
-        showingProductList: [...showingProductList, ...productList.slice(index, index + pageSize)]
+        showingProductList: [
+          ...showingProductList,
+          ...productList.slice(index, index + pageSize)
+        ]
       });
     }
 
     return true;
-  }
+  };
 
-  loadMore = () => {    
+  loadMore = () => {
     const { showingProductList, page } = this.state;
 
-    this.setState({
-      isLoadMore: false,
-      page: page + 1
-    }, () => this.getProducts(showingProductList))
-  }
-
-  renderProductCard = showingProductList => showingProductList.map(product => {
-    return (
-      <Col xs={12} lg={6} key={product.id}>
-        <ProductCard
-          imageGroup={imagesGroup.products}
-          product={product}
-        />
-      </Col>
+    this.setState(
+      {
+        isLoadMore: false,
+        page: page + 1
+      },
+      () => this.getProducts(showingProductList)
     );
-  })
+  };
+
+  renderProductCard = showingProductList =>
+    showingProductList.map(product => {
+      return (
+        <Col xs={12} lg={6} key={product.id}>
+          <ProductCard imageGroup={imagesGroup.products} product={product} />
+        </Col>
+      );
+    });
 
   render() {
     const { isLoading, totalProducts, showingProductList } = this.state;
-    
-    return (
-      isLoading ? <Spin /> : (
-        <Container>
-          <Section isFirstSection>
-            <h3>{totalProducts} sản phẩm</h3>
-            <Row>
-              {this.renderProductCard(showingProductList)}
-            </Row>
-          </Section>
-          
-        </Container>
-      )
+
+    return isLoading ? (
+      <Spin />
+    ) : (
+      <Container>
+        <Section>
+          <h3>{totalProducts} sản phẩm</h3>
+          <Row>{this.renderProductCard(showingProductList)}</Row>
+        </Section>
+      </Container>
     );
   }
 }

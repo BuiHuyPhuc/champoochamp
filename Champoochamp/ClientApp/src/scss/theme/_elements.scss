@@ -8,6 +8,10 @@
   }
 }
 
+img{
+  max-width: 100%;
+}
+
 .container {
   width: 90%;
   max-width: 1400px;
@@ -94,7 +98,6 @@ ul {
 }
 
 .banner-btn {
-  @extend .btn;
   background: transparent;
   color: $white;
   @include border(white);

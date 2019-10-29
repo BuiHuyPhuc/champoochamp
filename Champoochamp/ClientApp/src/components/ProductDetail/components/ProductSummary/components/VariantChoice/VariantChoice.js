@@ -3,9 +3,10 @@ import styled from '@emotion/styled';
 
 import { typography } from '../../../../../../shared/principles';
 import { DropDown, ColorRow } from '../../../../../elements';
+import SizeReference from './components/SizeReference';
 
 const Wrapper = styled('div')`
-  padding: 30px 0;
+  padding: 0;
 `;
 
 const ChoiceBox = styled('div')`
@@ -14,7 +15,6 @@ const ChoiceBox = styled('div')`
 
 const BoxTitle = styled('h4')`
   ${typography.xsTitle};
-  margin-bottom: 10px;
 `;
 
 class VariantChoice extends Component {
@@ -81,6 +81,7 @@ class VariantChoice extends Component {
             hasBorder
             callback={this.callback}
           />
+          <SizeReference />
         </ChoiceBox>
       </Wrapper>
     );

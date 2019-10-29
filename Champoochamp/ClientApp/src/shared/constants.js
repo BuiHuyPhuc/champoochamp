@@ -1,8 +1,16 @@
 ﻿const apiPort = 'http://localhost:4000';
 
-const topProducts = {
-  discountProducts: 'Giảm giá',
-  newProducts: 'Sản phẩm mới'
+const viewportWidth = {
+  sm: 575,
+  md: 767,
+  lg: 991,
+  xl: 1200
+};
+
+const topProductsName = {
+  discountProducts: 'Khuyến mãi hot',
+  newProducts: 'Sản phẩm mới',
+  relatedProducts: 'Sản phẩm liên quan'
 };
 
 const imagesGroup = {
@@ -19,9 +27,9 @@ const filtersGroup = {
 };
 
 const searchGroup = {
-  category: "Loại sản phẩm",
-  product: "Sản phẩm"
-}
+  category: 'Loại sản phẩm',
+  product: 'Sản phẩm'
+};
 
 const sortsGroup = [
   {
@@ -42,5 +50,12 @@ const sortsGroup = [
   }
 ];
 
-export { apiPort, topProducts, imagesGroup, filtersGroup, searchGroup, sortsGroup };
-
+export {
+  apiPort,
+  viewportWidth,
+  topProductsName,
+  imagesGroup,
+  filtersGroup,
+  searchGroup,
+  sortsGroup
+};

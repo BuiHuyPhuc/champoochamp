@@ -96,22 +96,7 @@
     .filter-header {
       @include border-bottom($light-gray);
       padding-bottom: 10px;
-      padding-top: 50px;
       position: relative;
-
-      @media (max-width: $lg) {
-        padding-top: 20px;
-      }
-
-      &:before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 30px;
-        height: 5px;
-        background: $main-color;
-      }
 
       .title-text {
         font-size: 20px;
@@ -187,14 +172,6 @@
           padding: 10px 0;
         }
       }
-    }
-  }
-
-  .product-grid {
-    padding-left: 20px;
-
-    @media (max-width: $lg) {
-      padding-left: 0;
     }
   }
 }

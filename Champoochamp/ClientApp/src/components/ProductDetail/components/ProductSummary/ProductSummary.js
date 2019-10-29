@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { Button } from '../../../elements';
 import HeaderInfo from './components/HeaderInfo';
 import VariantChoice from './components/VariantChoice';
+import ActionButtons from './components/ActionButtons';
 
 class ProductSummary extends Component {
   constructor(props) {
@@ -31,6 +32,7 @@ class ProductSummary extends Component {
         <HeaderInfo />
         <VariantChoice />
         <Button title="Thêm vào giỏ" isBlockButton />
+        <ActionButtons />
       </div>
 
       //<Wrapper>
