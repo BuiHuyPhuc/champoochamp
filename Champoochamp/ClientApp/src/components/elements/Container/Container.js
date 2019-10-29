@@ -1,8 +1,8 @@
-import React, { Component } from "react";
-import styled from "@emotion/styled";
-import PropTypes from "prop-types";
+import React, { Component } from 'react';
+import styled from '@emotion/styled';
+import PropTypes from 'prop-types';
 
-const Wrapper = styled("div")`
+const Wrapper = styled('div')`
   width: 90%;
   max-width: 1400px;
   margin: 0 auto;

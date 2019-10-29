@@ -7,7 +7,7 @@ import { colors } from '../../../../../shared/principles';
 const Wrapper = styled('div')`
   border: ${props => (props.isSelected ? `solid 1px ${colors.black}` : `solid 1px transparent`)};
   cursor: pointer;
-  margin-right: ${props => props.size / 4}px;
+  margin-right: ${props => props.size / 5}px;
   padding: 1px;
 `;
 
