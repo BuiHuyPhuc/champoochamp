@@ -1,17 +1,18 @@
-import React, { Component } from "react";
-import styled from "@emotion/styled";
-import PropTypes from "prop-types";
-import { NavLink } from "react-router-dom";
+import React, { Component } from 'react';
+import styled from '@emotion/styled';
+import PropTypes from 'prop-types';
+import { NavLink } from 'react-router-dom';
 
-import { breakpoint } from '../../../shared/principles';
-import { colors } from "../../../shared/principles";
-import Image from "../Image";
+import { breakpoint, colors } from '../../../shared/principles';
+import { getImageUrl, groupBy } from "../../../shared/utils";
 
-const Wrapper = styled("div")`
+import ColorRow from '../ColorRow';
+import Image from '../Image';
+
+const Wrapper = styled('div')`
   background: ${colors.white};
-  margin-bottom: 10px;
-  padding: 10px;
   border: solid 1px transparent;
+  padding: 10px;
 
   &:hover {
     border: solid 1px ${colors.gray};
@@ -22,80 +23,75 @@ const Wrapper = styled("div")`
   `};
 `;
 
-const ColorsWrapper = styled("div")`
-  display: flex;
-  margin: 10px 0;
+const ColorsWrapper = styled('div')`
+  margin: 10px -2px 5px -2px;
 `;
 
-const SingleColor = styled("button")`
-  border: solid 1px transparent;
-  margin-right: 3px;
-  outline: none;
-  padding: 1px;
-
-  &:hover {
-    border: solid 1px ${colors.black};
-  }
-`;
-
-const ColorInner = styled("div")`
-  background: ${props => (props.color ? props.color : "gray")};
-  height: 15px;
-  width: 15px;
-`;
-
-const Name = styled("div")`
-  font-weight: 600;
-  letter-spacing: 0.8px;
+const Name = styled('div')`
+  font-weight: 700;
+  margin-bottom: 5px;
   overflow: hidden;
   text-overflow: ellipsis;
-  text-transform: uppercase;
   white-space: nowrap;
 `;
 
-const Price = styled("span")`
+const Price = styled('span')`
+  color: ${colors.black};
+  display: inline-block;
+  margin-right: 10px;
+`;
+
+const OriginalPrice = styled('span')`
   color: ${colors.darkGray};
-  display: block;
+  display: inline-block;
+  text-decoration: line-through;
 `;
 
 class ProductCard extends Component {
-  getImageUrl = (imageName, imageGroup) =>
-    require(`../../../assets/images/${imageGroup}/${imageName}`);
+  constructor(props) {
+    super(props);
+    this.state = {
+      colors: groupBy(props.product.productVariant, p => p.colorId),
+      selectedColor: groupBy(props.product.productVariant, p => p.colorId)[0],
+      thumbnail: props.product.productVariant[0].thumbnail
+    };
+  }
+
+  getSelectedColor = selectedColor => {
+    this.setState({
+      selectedColor,
+      thumbnail: selectedColor.thumbnail
+    });
+  }
 
   render() {
     const { imageGroup, product } = this.props;
+    const { colors, selectedColor, thumbnail } = this.state;
 
     return (
-      <NavLink to={`/chi-tiet/${product.metaTitle}-${product.id}`}>
-        <Wrapper>
+      <Wrapper>
+        <NavLink to={`/chi-tiet/${product.metaTitle}-${product.id}`}>
           <Image
-            imageUrl={this.getImageUrl(product.productVariant[0].thumbnail, imageGroup)}
+            imageUrl={getImageUrl(thumbnail, imageGroup)}
             alt=""
           ></Image>
-          <ColorsWrapper>
-            <SingleColor>
-              <ColorInner color="#DFB3AE"></ColorInner>
-            </SingleColor>
-            <SingleColor>
-              <ColorInner color="#E5BD62"></ColorInner>
-            </SingleColor>
-            <SingleColor>
-              <ColorInner color="#D0665A"></ColorInner>
-            </SingleColor>
-          </ColorsWrapper>
-          <Name>{product.name}</Name>
-          <Price>{product.promotionPrice.toLocaleString()} VND</Price>
-        </Wrapper>
-      </NavLink>
+        </NavLink>
+        <ColorsWrapper>
+          <ColorRow colors={colors} size={20} selectedColor={selectedColor} getSelectedColor={this.getSelectedColor}></ColorRow>
+        </ColorsWrapper>
+        <Name>{product.name}</Name>
+        <Price>{product.promotionPrice.toLocaleString()}đ</Price>
+        {product.isDiscount && (
+          <OriginalPrice>{product.price.toLocaleString()}đ</OriginalPrice>
+        )}
+      </Wrapper>
     );
   }
 }
 
 ProductCard.propTypes = {
-  imageGroup: PropTypes.string,
-  imageName: PropTypes.string,
-  productName: PropTypes.string,
-  productPrice: PropTypes.number
+  imageGroup: PropTypes.string.isRequired,
+  product: PropTypes.object.isRequired
 };
 
 export default ProductCard;

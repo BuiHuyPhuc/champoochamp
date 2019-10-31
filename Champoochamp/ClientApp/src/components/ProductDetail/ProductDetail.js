@@ -1,10 +1,13 @@
-import React, { Component } from "react";
-import { Row, Col, Spin } from "antd";
+import React, { Component } from 'react';
+import { Row, Col, Spin } from 'antd';
 
-import { callAPI, getIdInMetaTitle } from "../../shared/utils";
-import { Container, Section } from "../elements";
-import ImageThumbnails from "./components/ImageThumbnails";
-import ProductSummary from "./components/ProductSummary";
+import { topProductsName } from '../../shared/constants';
+import { callAPI, getIdInMetaTitle } from '../../shared/utils';
+
+import { Container, Section, TopProducts } from '../elements';
+import ImageThumbnails from './components/ImageThumbnails';
+import ProductSummary from './components/ProductSummary';
+import ExtraInfo from './components/ExtraInfo';
 
 class ProductDetail extends Component {
   constructor(props) {
@@ -39,7 +42,7 @@ class ProductDetail extends Component {
       <Spin />
     ) : (
         <Container>
-          <Section isFirstSection>
+          <Section>
             <Row gutter={32}>
               <Col xs={24} md={14} lg={16}>
                 <ImageThumbnails imageUrls={imageUrls}></ImageThumbnails>
@@ -48,6 +51,12 @@ class ProductDetail extends Component {
                 <ProductSummary product={product} getImageUrls={this.getImageUrls} />
               </Col>
             </Row>
+          </Section>
+          <Section>
+            <ExtraInfo />
+          </Section>
+          <Section>
+            <TopProducts sectionTitle={topProductsName.discountProducts} />
           </Section>
         </Container>
       );

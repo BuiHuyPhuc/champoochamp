@@ -1,61 +1,70 @@
 import React, { Component } from 'react';
 import styled from '@emotion/styled';
+import Slider from 'react-slick';
+
+import { breakpoint } from '../../../../shared/principles';
+import { getImageUrl } from '../../../../shared/utils';
+import { imagesGroup } from '../../../../shared/constants';
 
 import { Image } from '../../../elements';
-import exampleImg1 from '../../../../assets/images/products/000105_1.jpg';
-import exampleImg2 from '../../../../assets/images/products/000207_1.jpg';
 
 const Wrapper = styled('div')`
-  max-width: 100vh;
-`;
+  .slick-dots {
+    bottom: 0;
+    margin-top: 20px;
+    position: relative;
 
-const BigThumbnailWrapper = styled('div')`
-  text-align: center;
-`;
+    li {
+      height: auto;
+      margin: 10px;
+      width: 70px;
+    }
+  }
 
-const SmallThumbnailsWrapper = styled('ul')`
-  display: flex;
-  justify-content: center;
-  padding: 10px 0;
-`;
+  ${breakpoint.md`
+    margin-bottom: 50px;
 
-const SmallThumbnail = styled('li')`
-  cursor: pointer;
-  margin: 0 5px;
-  width: 80px;
+    .slick-dots {
+      li{
+        width: 50px;
+      }
+    }
+  `}
 `;
 
 class ImageThumbnails extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      currentImageUrl: exampleImg1
-    };
-  }
-
-  onClickThumbnail = imageUrl => {
-    this.setState({
-      currentImageUrl: imageUrl
-    });
-  };
+  renderImage = imageUrls => imageUrls.map((url, index) => {    
+    return (
+      <div key={index}>
+        <Image imageUrl={getImageUrl(url, imagesGroup.products)} alt="" />
+      </div>
+    );
+  });
 
   render() {
-    const { currentImageUrl } = this.state;
-
+    const { imageUrls } = this.props;
+    const imgSources = imageUrls.map(url => getImageUrl(url, imagesGroup.products));
+    
+    const settings = {
+      customPaging: function (i) {
+        return (
+          <div>
+            <Image imageUrl={imgSources[i]} alt="" />
+          </div>
+        );
+      },
+      arrows: false,
+      dots: true,
+      dotsClass: 'slick-dots',
+      speed: 500,
+      slidesToShow: 1,
+      slidesToScroll: 1
+    };
     return (
       <Wrapper>
-        <BigThumbnailWrapper>
-          <Image imageUrl={currentImageUrl} alt="" />
-        </BigThumbnailWrapper>
-
-        <SmallThumbnailsWrapper>
-          <SmallThumbnail onClick={() => this.onClickThumbnail(exampleImg1)}>
-            <Image imageUrl={exampleImg1} alt="" />
-          </SmallThumbnail>
-          <SmallThumbnail onClick={() => this.onClickThumbnail(exampleImg2)}>
-            <Image imageUrl={exampleImg2} alt="" />
-          </SmallThumbnail>
-        </SmallThumbnailsWrapper>
+        <Slider {...settings}>
+          {this.renderImage(imageUrls)}
+        </Slider>
       </Wrapper>
     );
   }

@@ -7,7 +7,7 @@ import { colors } from '../../../../../shared/principles';
 const Wrapper = styled('div')`
   border: ${props => (props.isSelected ? `solid 1px ${colors.black}` : `solid 1px transparent`)};
   cursor: pointer;
-  margin-right: ${props => props.size / 4}px;
+  margin-right: ${props => props.size / 5}px;
   padding: 1px;
 `;
 
@@ -18,15 +18,15 @@ const SingleColor = styled('div')`
 `;
 
 class ColorChoice extends Component {
-  onClick = (color, callback) => {
-    callback(color);
+  onClick = (color, getSelectedColor) => {
+    getSelectedColor(color);
   };
 
   render() {
-    const { color, size, isSelected, callback } = this.props;
+    const { color, size, isSelected, getSelectedColor } = this.props;
 
     return (
-      <Wrapper isSelected={isSelected} onClick={() => this.onClick(color, callback)} size={size}>
+      <Wrapper isSelected={isSelected} onClick={() => this.onClick(color, getSelectedColor)} size={size}>
         <SingleColor color={color.color.code} size={size} />
       </Wrapper>
     );
@@ -37,7 +37,7 @@ ColorChoice.propsTypes = {
   color: PropTypes.object,
   size: PropTypes.number,
   isSelected: PropTypes.bool,
-  callback: PropTypes.func
+  getSelectedColor: PropTypes.func
 };
 
 export default ColorChoice;

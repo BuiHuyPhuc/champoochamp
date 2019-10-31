@@ -48,12 +48,25 @@ const Option = styled("li")`
 class DropDown extends Component {
   constructor(props) {
     super(props);
+    const { title, prevSelectedOption, selectedColor } = props;
 
     this.state = {
       isOpen: false,
-      title: props.title,
-      selectedOption: props.prevSelectedOption
+      title,
+      selectedOption: prevSelectedOption,
+      selectedColor
     };
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (prevState.selectedColor && nextProps.selectedColor.colorId !== prevState.selectedColor.colorId) {
+      return {
+        selectedColor: nextProps.selectedColor,
+        selectedOption: null
+      };
+    }
+
+    return null;
   }
 
   handleClickOutside = e => {
@@ -114,7 +127,8 @@ DropDown.propTypes = {
   optionList: PropTypes.arrayOf(PropTypes.object).isRequired,
   callback: PropTypes.func,
   hasBorder: PropTypes.bool,
-  prevSelectedOption: PropTypes.object
+  prevSelectedOption: PropTypes.object,
+  selectedColor: PropTypes.object
 };
 
 export default listensToClickOutside(DropDown);

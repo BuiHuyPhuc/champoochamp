@@ -4,14 +4,11 @@ import styled from '@emotion/styled';
 import { colors, typography } from '../../../../../../shared/principles';
 import { checkNewProduct } from '../../../../../../shared/utils';
 
+import { SectionTitle } from '../../../../../elements';
+
 const Wrapper = styled('div')`
   border-bottom: solid 1px ${colors.lightGray};
-  padding-bottom: 10px;
-`;
-
-const ProductName = styled('h3')`
-  ${typography.mdTitle};
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 `;
 
 const NewTag = styled('span')`
@@ -45,9 +42,10 @@ const OriginalPrice = styled('span')`
 
 const Description = styled('p')`
   ${typography.lightBody};
+  margin-bottom: 20px;
 `;
 
-class HeaderGroup extends Component {
+class HeaderInfo extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -61,11 +59,11 @@ class HeaderGroup extends Component {
 
     return (
       <Wrapper>
-        <ProductName>{product.name}</ProductName>
+        <SectionTitle content="Navigation 2019 Hunter Bet Jacket"></SectionTitle>
         {isNew ? <NewTag>New</NewTag> : null}
         <PriceWrapper>
-          <Price>{product.promotionPrice.toLocaleString()} VND</Price>
-          <OriginalPrice>{product.price.toLocaleString()} VND</OriginalPrice>
+          <Price>{product.promotionPrice.toLocaleString()}đ</Price>
+          <OriginalPrice>{product.price.toLocaleString()}đ</OriginalPrice>
         </PriceWrapper>
         <Description>{product.description}</Description>
       </Wrapper>
@@ -73,4 +71,4 @@ class HeaderGroup extends Component {
   }
 }
 
-export default HeaderGroup;
+export default HeaderInfo;

@@ -9,9 +9,7 @@ import {
   getQueryFilter,
   getTotalFilter
 } from '../../../../../../shared/utils';
-
-import ProductCard from '../../../../../elements/ProductCard';
-import DropDown from '../../../../../elements/DropDown';
+import { ProductCard, DropDown } from '../../../../../elements';
 
 const Wrapper = styled('div')`
   padding-left: 20px;
@@ -56,7 +54,7 @@ class ProductGrid extends Component {
       totalProducts: 0,
       productList: [],
       showingProductList: [],
-      sortItems: sortsGroup,
+      sortItems: sortsGroup
     };
   }
 
@@ -67,9 +65,11 @@ class ProductGrid extends Component {
         isCategoryChanged: true,
         isLoading: true
       };
-    }
-    else if ((getTotalFilter(nextProps.currentFilterList) !== prevState.currentFilterNumber)
-      || (nextProps.currentMoneyFilter.id !== prevState.currentMoneyFilter.id)) {
+    } else if (
+      getTotalFilter(nextProps.currentFilterList) !==
+        prevState.currentFilterNumber ||
+      nextProps.currentMoneyFilter.id !== prevState.currentMoneyFilter.id
+    ) {
       return {
         currentFilterList: nextProps.currentFilterList,
         currentFilterNumber: getTotalFilter(nextProps.currentFilterList),
@@ -83,37 +83,73 @@ class ProductGrid extends Component {
   }
 
   componentDidUpdate() {
-    const { isCategoryChanged, isFilterChanged, categoryId, currentFilterList, currentMoneyFilter, currentSortOption } = this.state;
+    const {
+      isCategoryChanged,
+      isFilterChanged,
+      categoryId,
+      currentFilterList,
+      currentMoneyFilter,
+      currentSortOption
+    } = this.state;
 
     if (isCategoryChanged || isFilterChanged) {
-      this.getProductList(categoryId, currentFilterList, currentMoneyFilter, currentSortOption);
+      this.getProductList(
+        categoryId,
+        currentFilterList,
+        currentMoneyFilter,
+        currentSortOption
+      );
     }
   }
 
   componentDidMount() {
-    const { categoryId, currentFilterList, currentMoneyFilter, currentSortOption } = this.state;
-    
-    this.getProductList(categoryId, currentFilterList, currentMoneyFilter, currentSortOption);
+    const {
+      categoryId,
+      currentFilterList,
+      currentMoneyFilter,
+      currentSortOption
+    } = this.state;
 
-    this.scrollListener = window.addEventListener("scroll", e => {
+    this.getProductList(
+      categoryId,
+      currentFilterList,
+      currentMoneyFilter,
+      currentSortOption
+    );
+
+    this.scrollListener = window.addEventListener('scroll', e => {
       this.handleScroll(e);
     });
   }
 
-  getProductList = (categoryId, currentFilterList, currentMoneyFilter, currentSortOption) => {
+  getProductList = (
+    categoryId,
+    currentFilterList,
+    currentMoneyFilter,
+    currentSortOption
+  ) => {
     const url = `Product/GetProductsByCategoryId-${categoryId}`;
-    const query = getQueryFilter(currentFilterList, currentMoneyFilter, currentSortOption);
+    const query = getQueryFilter(
+      currentFilterList,
+      currentMoneyFilter,
+      currentSortOption
+    );
 
-    callAPI(url, query).then(res => this.setState({
-      isCategoryChanged: false,
-      isFilterChanged: false,
-      isLoading: false,
-      isLoadMore: true,
-      page: 1,
-      totalProducts: res.data.length,
-      productList: res.data,
-    }, () => this.getProducts([])));
-  }
+    callAPI(url, query).then(res =>
+      this.setState(
+        {
+          isCategoryChanged: false,
+          isFilterChanged: false,
+          isLoading: false,
+          isLoadMore: true,
+          page: 1,
+          totalProducts: res.data.length,
+          productList: res.data
+        },
+        () => this.getProducts([])
+      )
+    );
+  };
 
   handleScroll = e => {
     const { isLoadMore, totalProducts, page, pageSize } = this.state;
@@ -121,7 +157,7 @@ class ProductGrid extends Component {
     if (!isLoadMore) return;
     if (totalProducts <= page * pageSize) return;
 
-    const lastCol = document.querySelector(".ant-col:last-child");
+    const lastCol = document.querySelector('.ant-col:last-child');
     if (lastCol) {
       const lastColOffset = lastCol.offsetTop + lastCol.clientHeight;
       const pageOffset = window.pageYOffset + window.innerHeight;
@@ -130,7 +166,7 @@ class ProductGrid extends Component {
         this.loadMore();
       }
     }
-  }
+  };
 
   getProducts = showingProductList => {
     const { productList, totalProducts, page, pageSize } = this.state;
@@ -140,63 +176,82 @@ class ProductGrid extends Component {
       this.setState({
         showingProductList: [...showingProductList, ...productList.slice(index)]
       });
-    }
-    else if (totalProducts >= index + pageSize) {
+    } else if (totalProducts >= index + pageSize) {
       this.setState({
         isLoadMore: true,
-        showingProductList: [...showingProductList, ...productList.slice(index, index + pageSize)]
+        showingProductList: [
+          ...showingProductList,
+          ...productList.slice(index, index + pageSize)
+        ]
       });
     }
 
     return true;
-  }
+  };
 
   loadMore = () => {
     const { showingProductList, page } = this.state;
 
-    this.setState({
-      isLoadMore: false,
-      page: page + 1
-    }, () => this.getProducts(showingProductList))
-  }
-
-  renderProductCard = showingProductList => showingProductList.map(product => {
-    return (
-      <Col xs={12} md={8} key={product.id}>
-        <ProductCard
-          imageGroup={imagesGroup.products}
-          product={product}
-        />
-      </Col>
+    this.setState(
+      {
+        isLoadMore: false,
+        page: page + 1
+      },
+      () => this.getProducts(showingProductList)
     );
-  })
+  };
 
-  callback = (selectedOption) => {
+  renderProductCard = showingProductList =>
+    showingProductList.map(product => {
+      return (
+        <Col xs={12} md={8} key={product.id}>
+          <ProductCard imageGroup={imagesGroup.products} product={product} />
+        </Col>
+      );
+    });
+
+  callback = selectedOption => {
     this.setState({ currentSortOption: selectedOption }, () => {
-      const { categoryId, currentFilterList, currentMoneyFilter, currentSortOption } = this.state;
-      this.getProductList(categoryId, currentFilterList, currentMoneyFilter, currentSortOption);
-    })
-  }
+      const {
+        categoryId,
+        currentFilterList,
+        currentMoneyFilter,
+        currentSortOption
+      } = this.state;
+      this.getProductList(
+        categoryId,
+        currentFilterList,
+        currentMoneyFilter,
+        currentSortOption
+      );
+    });
+  };
 
   render() {
-    const { isLoading, totalProducts, showingProductList, sortItems, currentSortOption } = this.state
+    const {
+      isLoading,
+      totalProducts,
+      showingProductList,
+      sortItems,
+      currentSortOption
+    } = this.state;
 
     return isLoading ? (
       <Spin />
     ) : (
-      < Wrapper >
-      <Header>
-        <TotalProducts>{totalProducts} sản phẩm</TotalProducts>
-        <DropDown
-          title="Sắp xếp"
-          optionList={sortItems}
-          callback={this.callback}
-          prevSelectedOption={currentSortOption}
-        ></DropDown>
-      </Header>
-      <Row>{this.renderProductCard(showingProductList)}</Row>
-        </Wrapper >
-      );
+      <Wrapper>
+        <Header>
+          <TotalProducts>{totalProducts} sản phẩm</TotalProducts>
+          <DropDown
+            title="Sắp xếp"
+            optionList={sortItems}
+            callback={this.callback}
+            prevSelectedOption={currentSortOption}
+          ></DropDown>
+        </Header>
+        <Row>{this.renderProductCard(showingProductList)}</Row>
+      </Wrapper>
+    );
   }
 }
 

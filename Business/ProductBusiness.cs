@@ -43,8 +43,6 @@ namespace Business
         foreach (Product p in productList)
         {
           p.Category = null;
-          List<ProductVariant> pvList = p.ProductVariant.GroupBy(x => x.ColorId).Select(x => x.First()).ToList();
-          p.ProductVariant = pvList;
           foreach (ProductVariant pv in p.ProductVariant)
           {
             pv.Color.ProductVariant = null;
@@ -54,6 +52,19 @@ namespace Business
           result.Add(p);
         }
       }
+    }
+
+    public List<Product> ShortProductList(List<Product> productList)
+    {
+      foreach (Product p in productList)
+      {
+        foreach (ProductVariant pv in p.ProductVariant)
+        {
+          pv.Color.ProductVariant = null;
+        }
+      }
+
+      return productList;
     }
 
     public Product ShortProduct(Product product)

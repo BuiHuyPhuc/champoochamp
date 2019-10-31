@@ -1,22 +1,27 @@
-import React, { Component } from "react";
-import styled from "@emotion/styled";
-import PropTypes from "prop-types";
+import React, { Component } from 'react';
+import styled from '@emotion/styled';
+import PropTypes from 'prop-types';
 
-const Wrapper = styled("div")`
-  padding-top: ${props => (props.isFirstSection ? "80px" : "40px")};
-  padding-bottom: 40px;
+import { breakpoint } from '../../../shared/principles';
+
+const Wrapper = styled('div')`
+  padding: 30px 0;
+
+  ${breakpoint.md`
+    padding: 20px 0;
+  `}
 `;
 
 class Section extends Component {
   render() {
-    const { isFirstSection, children } = this.props;
+    const { children } = this.props;
 
-    return <Wrapper isFirstSection={isFirstSection}>{children}</Wrapper>;
+    return <Wrapper >{children}</Wrapper>;
   }
 }
 
 Section.propsTypes = {
-  children: PropTypes.element.isRequired
+  children: PropTypes.element.isRequired,
 };
 
 export default Section;

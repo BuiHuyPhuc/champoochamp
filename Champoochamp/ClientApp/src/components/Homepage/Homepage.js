@@ -1,19 +1,23 @@
-import React, { Component } from "react";
-import { topProducts } from "../../shared/constants";
+import React, { Component } from 'react';
 
-import Banner from "./components/Banner";
-import TopProducts from "./components/TopProducts";
+import { topProductsName } from '../../shared/constants';
+import { TopProducts, Section, Container } from '../elements';
+import Banner from './components/Banner';
 
 class Homepage extends Component {
   render() {
     return (
-      <div>
-        <Banner></Banner>
-        <TopProducts
-          sectionTitle={topProducts.discountProducts}
-        ></TopProducts>
-        <TopProducts sectionTitle={topProducts.newProducts}></TopProducts>
-      </div>
+      <Container>
+        <Section>
+          <Banner></Banner>
+        </Section>
+        <Section>
+          <TopProducts sectionTitle={topProductsName.discountProducts} />
+        </Section>
+        <Section>
+          <TopProducts sectionTitle={topProductsName.newProducts}></TopProducts>
+        </Section>
+      </Container>
     );
   }
 }

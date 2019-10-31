@@ -1,11 +1,14 @@
-﻿import React, { Component } from "react";
-import { Modal } from "antd";
-import styled from "@emotion/styled";
+﻿import React, { Component } from 'react';
+import { Modal } from 'antd';
+import styled from '@emotion/styled';
 
-import { Button } from "../../../../../elements";
+import { Link } from '../../../../../../../elements';
 
-const Wrapper = styled("div")`
-  max-width: 100vh;
+const Wrapper = styled('div')`
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+  max-width: 80vw;
 `;
 
 class SizeReference extends Component {
@@ -39,7 +42,7 @@ class SizeReference extends Component {
 
     return (
       <Wrapper>
-        <Button title="Hướng dẫn chọn size" onClick={this.showModal} isUnderline />
+        <Link content="Hướng dẫn chọn size" onClick={this.showModal} />
         <Modal
           title="Basic Modal"
           visible={visible}

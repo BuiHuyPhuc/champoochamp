@@ -25,7 +25,10 @@ namespace API.Controllers
       {
         try
         {
-          return db.Product.Include(p => p.ProductVariant).ToList();
+          List<Product> productList = db.Product.Include(p => p.ProductVariant)
+                                                  .ThenInclude(p => p.Color)
+                                                .ToList();
+          return productBusiness.ShortProductList(productList);
         }
         catch (Exception e)
         {

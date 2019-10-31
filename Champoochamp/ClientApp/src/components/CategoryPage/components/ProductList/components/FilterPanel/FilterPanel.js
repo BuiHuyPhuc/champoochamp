@@ -4,7 +4,7 @@ import { Row, Col, Collapse, Spin } from 'antd';
 import { filtersGroup } from '../../../../../../shared/constants';
 import { callAPI, getMoneyFilterGroup } from '../../../../../../shared/utils';
 
-import ActionLink from '../../../../../elements/ActionLink';
+import SingleFilter from './conponents/SingleFilter';
 
 const { Panel } = Collapse;
 
@@ -86,7 +86,7 @@ class FilterPanel extends Component {
   renderFilterGroup = filterGroup => filterGroup.data.map(item => {
     return (
       <Col span={12} key={item.id}>
-        <ActionLink
+        <SingleFilter
           group={filterGroup.name}
           filterItem={item}
           title={item.name}
@@ -100,7 +100,7 @@ class FilterPanel extends Component {
     if (!item.fromMoney) {
       return (
         <Col span={12} key={item.id}>
-          <ActionLink
+          <SingleFilter
             group={moneyFilterGroup.name}
             filterItem={item}
             title={`Dưới ${item.toMoney}`}
@@ -112,7 +112,7 @@ class FilterPanel extends Component {
     else if (!item.toMoney) {
       return (
         <Col span={12} key={item.id}>
-          <ActionLink
+          <SingleFilter
             group={moneyFilterGroup.name}
             filterItem={item}
             title={`Trên ${item.fromMoney}`}
@@ -124,7 +124,7 @@ class FilterPanel extends Component {
     else {
       return (
         <Col span={12} key={item.id}>
-          <ActionLink
+          <SingleFilter
             group={moneyFilterGroup.name}
             filterItem={item}
             title={`${item.fromMoney} - ${item.toMoney}`}
@@ -139,7 +139,7 @@ class FilterPanel extends Component {
     return (
       currentFilter.data.map(item => {
         return (
-          <ActionLink
+          <SingleFilter
             key={item.id}
             group={currentFilter.name}
             filterItem={item}
@@ -158,7 +158,7 @@ class FilterPanel extends Component {
     }
     else if (!currentMoneyFilter.fromMoney) {
       return (
-        <ActionLink
+        <SingleFilter
           key={currentMoneyFilter.id}
           group={group}
           filterItem={currentMoneyFilter}
@@ -170,7 +170,7 @@ class FilterPanel extends Component {
     }
     else if (!currentMoneyFilter.toMoney) {
       return (
-        <ActionLink
+        <SingleFilter
           key={currentMoneyFilter.id}
           group={group}
           filterItem={currentMoneyFilter}
@@ -182,7 +182,7 @@ class FilterPanel extends Component {
     }
     else {
       return (
-        <ActionLink
+        <SingleFilter
           key={currentMoneyFilter.id}
           group={group}
           filterItem={currentMoneyFilter}
