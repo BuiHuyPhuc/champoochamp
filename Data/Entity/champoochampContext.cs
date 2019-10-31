@@ -1181,6 +1181,8 @@ namespace Data.Entity
                     .IsRequired()
                     .HasColumnType("varchar(255)");
 
+                entity.Property(e => e.Favorites).HasColumnType("varchar(2555)");
+
                 entity.Property(e => e.FirstName).HasColumnType("varchar(255)");
 
                 entity.Property(e => e.LastName).HasColumnType("varchar(255)");
@@ -1194,6 +1196,8 @@ namespace Data.Entity
                     .HasColumnType("varchar(2555)");
 
                 entity.Property(e => e.Province).HasColumnType("varchar(255)");
+
+                entity.Property(e => e.ShoppingCarts).HasColumnType("varchar(2555)");
 
                 entity.Property(e => e.Status)
                     .IsRequired()

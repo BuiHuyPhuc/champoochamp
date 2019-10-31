@@ -10,13 +10,18 @@ const Wrapper = styled('div')`
 
 class ColorRow extends Component {
   render() {
-    const { colors, size } = this.props;
+    const { colors, size, selectedColor, getSelectedColor } = this.props;
 
     return (
       <Wrapper>
-        {colors.map(item => (
-          <ColorChoice color={item.name} size={size} />
-        ))}
+        {colors.map(item => {
+          if (item.color.id === selectedColor.color.id) {
+            return (<ColorChoice key={item.color.id} color={item} size={size} isSelected getSelectedColor={getSelectedColor} />);
+          }
+          else {
+            return (<ColorChoice key={item.color.id} color={item} size={size} getSelectedColor={getSelectedColor} />);
+          }
+        })}
       </Wrapper>
     );
   }
@@ -24,7 +29,9 @@ class ColorRow extends Component {
 
 ColorRow.propsTypes = {
   colors: PropTypes.arrayOf(PropTypes.object),
-  size: PropTypes.number
+  size: PropTypes.number,
+  selectedColor: PropTypes.object,
+  getSelectedColor: PropTypes.func
 };
 
 export default ColorRow;

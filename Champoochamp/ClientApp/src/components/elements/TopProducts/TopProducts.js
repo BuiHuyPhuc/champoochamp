@@ -54,11 +54,13 @@ const prevArrow = css`
 `;
 
 const NextArrow = props => {
-  return <i {...props} className="fas fa-chevron-right" css={nextArrow} />;
+  const { currentSlide, slideCount, ...arrowProps } = props;
+  return <i {...arrowProps} className="fas fa-chevron-right" css={nextArrow} />;
 };
 
 const PrevArrow = props => {
-  return <i {...props} className="fas fa-chevron-left" css={prevArrow} />;
+  const { currentSlide, slideCount, ...arrowProps } = props;
+  return <i {...arrowProps} className="fas fa-chevron-left" css={prevArrow} />;
 };
 
 class TopProducts extends React.Component {

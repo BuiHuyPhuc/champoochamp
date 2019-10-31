@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import styled from '@emotion/styled';
 
 import { colors, typography } from '../../../../../../shared/principles';
+import { checkNewProduct } from '../../../../../../shared/utils';
+
 import { SectionTitle } from '../../../../../elements';
 
 const Wrapper = styled('div')`
@@ -43,23 +45,30 @@ const Description = styled('p')`
   margin-bottom: 20px;
 `;
 
-class HeaderGroup extends Component {
+class HeaderInfo extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isNew: checkNewProduct(props.product.createdDate)
+    };
+  }
+
   render() {
+    const { isNew } = this.state;
+    const { product } = this.props;
+
     return (
       <Wrapper>
         <SectionTitle content="Navigation 2019 Hunter Bet Jacket"></SectionTitle>
-        <NewTag>New</NewTag>
+        {isNew ? <NewTag>New</NewTag> : null}
         <PriceWrapper>
-          <Price>399.000đ</Price>
-          <OriginalPrice>450.000đ</OriginalPrice>
+          <Price>{product.promotionPrice.toLocaleString()}đ</Price>
+          <OriginalPrice>{product.price.toLocaleString()}đ</OriginalPrice>
         </PriceWrapper>
-        <Description>
-          Bundle up in this wool-blend layer. With warm pockets, a high neck,
-          and a long length for warmth, you'll be feeling total coziness.
-        </Description>
+        <Description>{product.description}</Description>
       </Wrapper>
     );
   }
 }
 
-export default HeaderGroup;
+export default HeaderInfo;

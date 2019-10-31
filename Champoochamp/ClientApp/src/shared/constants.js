@@ -1,4 +1,5 @@
 ﻿const apiPort = 'http://localhost:4000';
+const newProductInDays = 30;
 
 const viewportWidth = {
   sm: 575,
@@ -52,6 +53,7 @@ const sortsGroup = [
 
 export {
   apiPort,
+  newProductInDays,
   viewportWidth,
   topProductsName,
   imagesGroup,

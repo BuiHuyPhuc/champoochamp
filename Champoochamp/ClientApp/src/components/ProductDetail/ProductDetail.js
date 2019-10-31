@@ -3,7 +3,6 @@ import { Row, Col, Spin } from 'antd';
 
 import { topProductsName } from '../../shared/constants';
 import { callAPI, getIdInMetaTitle } from '../../shared/utils';
-import groupBy from './groupBy';
 
 import { Container, Section, TopProducts } from '../elements';
 import ImageThumbnails from './components/ImageThumbnails';
@@ -17,9 +16,12 @@ class ProductDetail extends Component {
       productId: getIdInMetaTitle(props.match.params.product),
       isLoading: true,
       product: null,
-      sizes: [],
-      colors: []
+      imageUrls: []
     };
+  }
+
+  getImageUrls = selectedColor => {
+    this.setState({ imageUrls: selectedColor.productImages.imageUrls.split(',') });
   }
 
   componentDidMount() {
@@ -27,47 +29,37 @@ class ProductDetail extends Component {
   }
 
   getProductById = productId => {
-    callAPI(`Product/GetProductById-${productId}`).then(res =>
-      this.setState({
-        isLoading: false,
-        product: res.data,
-        sizes: groupBy(res.data.productVariant, p => p.sizeId).map(
-          item => item.size
-        ),
-        colors: groupBy(res.data.productVariant, p => p.colorId)
-      })
-    );
-  };
+    callAPI(`Product/GetProductById-${productId}`).then(res => this.setState({
+      isLoading: false,
+      product: res.data
+    }));
+  }
 
   render() {
-    const { isLoading, product, sizes, colors } = this.state;
+    const { isLoading, product, imageUrls } = this.state;
 
     return isLoading ? (
       <Spin />
     ) : (
-      <Container>
-        <Section>
-          <Row gutter={32}>
-            <Col xs={24} md={14} lg={16}>
-              <ImageThumbnails colors={colors}></ImageThumbnails>
-            </Col>
-            <Col xs={24} md={10} lg={8}>
-              <ProductSummary
-                product={product}
-                sizes={sizes}
-                colors={colors}
-              ></ProductSummary>
-            </Col>
-          </Row>
-        </Section>
-        <Section>
-          <ExtraInfo />
-        </Section>
-        <Section>
-          <TopProducts sectionTitle={topProductsName.discountProducts} />
-        </Section>
-      </Container>
-    );
+        <Container>
+          <Section>
+            <Row gutter={32}>
+              <Col xs={24} md={14} lg={16}>
+                <ImageThumbnails imageUrls={imageUrls}></ImageThumbnails>
+              </Col>
+              <Col xs={24} md={10} lg={8}>
+                <ProductSummary product={product} getImageUrls={this.getImageUrls} />
+              </Col>
+            </Row>
+          </Section>
+          <Section>
+            <ExtraInfo />
+          </Section>
+          <Section>
+            <TopProducts sectionTitle={topProductsName.discountProducts} />
+          </Section>
+        </Container>
+      );
   }
 }
 
