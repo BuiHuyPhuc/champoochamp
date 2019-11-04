@@ -78,5 +78,13 @@ namespace Business
 
       return product;
     }
+
+    public ProductVariant ShortProductVariant(ProductVariant productVariant)
+    {
+      productVariant.Product.ProductVariant = null;
+      productVariant.Color.ProductVariant = null;
+
+      return productVariant;
+    }
   }
 }

@@ -8,11 +8,22 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      cartAllItem: 0
+    };
+  }
+
+  getCartAllItem = (cartAllItem) => {
+    console.log("App.js: " + cartAllItem)
+  }
+
   render() {
     return (
       <Router history={history}>
-        <Header />
-        <RouterConfig></RouterConfig>
+        <Header cartAllItem={this.state.cartAllItem} />
+        <RouterConfig getCartAllItem={this.getCartAllItem}></RouterConfig>
       </Router>
     );
   }

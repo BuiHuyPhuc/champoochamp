@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import { callAPI, groupBy } from '../../../../shared/utils';
+import { callAPI, groupBy, getShoppingCartList } from '../../../../shared/utils';
 
 import { Button } from '../../../elements';
 import HeaderInfo from './components/HeaderInfo';
@@ -14,46 +14,58 @@ class ProductSummary extends Component {
       colors: groupBy(props.product.productVariant, p => p.colorId),
       colorId: 0,
       sizeId: 0,
-      productVariant: null
+      shoppingCartList: []
     };
   }
 
   getColorId = colorId => {
-    this.setState({ colorId })
+    this.setState({ colorId });
   };
 
   getSize = size => {
-    this.setState({ sizeId: size.id })
+    this.setState({ sizeId: size.id });    
   };
 
-  onClick = () => {
+  addCartItem = () => {
     const {
       colorId,
       sizeId
     } = this.state;
-    const { product } = this.props;
+    const { product, getCartAllItem } = this.props;
+    const userEmail = 'buihuyphuc97@gmail.com';
+    const quantity = 1;
 
     if (colorId > 0 && sizeId > 0 && product) {
-      const url = `ProductVariant/GetProductVariantByIdPCS-${product.id}-${colorId}-${sizeId}`
+      const url = `Cart/AddCartItem-${product.id}-${colorId}-${sizeId}-${quantity}-${userEmail}`
       callAPI(url).then(res =>
         this.setState({
-          productVariant: res.data
-        }, () => {
-          console.log(this.state.productVariant)
-        })
+          shoppingCartList: getShoppingCartList(res.data)
+        }, () => getCartAllItem(this.state.shoppingCartList.size))
       );
     }
+    else {
+      alert('Vui lòng chọn size')
+    }
+  }
+
+  getShoppingCart = (userEmail) => {
+    const url = `Cart/GetShoppingCart-${userEmail}`
+    callAPI(url).then(res =>
+      this.setState({
+        shoppingCartList: res.data
+      })
+    );
   }
 
   render() {
     const { colors } = this.state;
-    const { product, getImageUrls } = this.props; 
-    
-    return (      
+    const { product, getImageUrls } = this.props;
+    console.log(this.state.shoppingCartList);
+    return (
       <div>
         <HeaderInfo product={product} />
         <VariantChoice product={product} colors={colors} getImageUrls={getImageUrls} getColorId={this.getColorId} getSize={this.getSize} />
-        <Button title="Thêm vào giỏ" isBlockButton onClick={this.onClick} />
+        <Button title="Thêm vào giỏ" isBlockButton onClick={() => this.getShoppingCart(`buihuyphuc97@gmail.com`)} />
         <ActionButtons />
       </div>
     );
