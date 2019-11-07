@@ -24,6 +24,12 @@ namespace API.Controllers
       return cartBusiness.AddCartItem(productId, colorId, sizeId, quantity, userEmail);
     }
 
+    [Route("UpdateShoppingCart-{strShoppingCart}-{userEmail}")]
+    public string UpdateShoppingCart(string strShoppingCart, string userEmail)
+    {
+      return cartBusiness.UpdateShoppingCart(strShoppingCart, userEmail);
+    }
+
     [Route("GetShoppingCart-{userEmail}")]
     public List<CartItemModel> GetShoppingCart(string userEmail)
     {
@@ -41,6 +47,7 @@ namespace API.Controllers
               ProductVariant pv = db.ProductVariant.Where(p => p.Id == item.Key)
                                   .Include(p => p.Product)
                                   .Include(p => p.Color)
+                                  .Include(p => p.Size)
                                   .SingleOrDefault();
               shoppingCart.Add(new CartItemModel(productBusiness.ShortProductVariant(pv), item.Value));
             }

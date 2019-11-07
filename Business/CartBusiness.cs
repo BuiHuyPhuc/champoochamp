@@ -21,7 +21,34 @@ namespace Business
           ).SingleOrDefault();
           User user = db.User.Where(p => p.Email == userEmail).SingleOrDefault();
 
-          user.ShoppingCarts += productVariant.Id + "-" + quantity + ",";
+          if (String.IsNullOrEmpty(user.ShoppingCarts))
+          {
+            user.ShoppingCarts = productVariant.Id + "-" + quantity;
+          }
+          else
+          {
+            user.ShoppingCarts += "," + productVariant.Id + "-" + quantity;
+          }
+          db.SaveChanges();
+
+          return user.ShoppingCarts;
+        }
+        catch (Exception e)
+        {
+          return e.Message;
+        }
+      }
+    }
+
+    public string UpdateShoppingCart(string strShoppingCart, string userEmail)
+    {
+      using (champoochampContext db = new champoochampContext())
+      {
+        try
+        {
+          User user = db.User.Where(p => p.Email == userEmail).SingleOrDefault();
+
+          user.ShoppingCarts = strShoppingCart;
           db.SaveChanges();
 
           return user.ShoppingCarts;
@@ -38,7 +65,7 @@ namespace Business
       Dictionary<string, int> dictShoppingCarts = new Dictionary<string, int>();
       
       string[] arrShoppingCarts = strShoppingCarts.Split(",");
-      for (int i = 0; i < arrShoppingCarts.Length - 1; i++)
+      for (int i = 0; i < arrShoppingCarts.Length; i++)
       {
         string[] item = arrShoppingCarts[i].Split("-");
         if (dictShoppingCarts.ContainsKey(item[0]))

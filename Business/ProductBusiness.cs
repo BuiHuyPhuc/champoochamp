@@ -71,9 +71,18 @@ namespace Business
     {
       foreach (ProductVariant pv in product.ProductVariant)
       {
-        pv.Color.ProductVariant = null;
-        pv.Size.ProductVariant = null;
-        pv.ProductImages.ProductVariant = null;
+        if(pv.Color != null)
+        {
+          pv.Color.ProductVariant = null;
+        }
+        if (pv.Size != null)
+        {
+          pv.Size.ProductVariant = null;
+        }
+        if (pv.ProductImages != null)
+        {
+          pv.ProductImages.ProductVariant = null;
+        }
       }
 
       return product;
@@ -81,8 +90,18 @@ namespace Business
 
     public ProductVariant ShortProductVariant(ProductVariant productVariant)
     {
-      productVariant.Product.ProductVariant = null;
-      productVariant.Color.ProductVariant = null;
+      if (productVariant.Product != null)
+      {
+        productVariant.Product.ProductVariant = null;
+      }
+      if (productVariant.Color != null)
+      {
+        productVariant.Color.ProductVariant = null;
+      }
+      if (productVariant.Size != null)
+      {
+        productVariant.Size.ProductVariant = null;
+      }
 
       return productVariant;
     }

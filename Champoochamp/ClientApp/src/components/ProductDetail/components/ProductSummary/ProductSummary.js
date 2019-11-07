@@ -26,46 +26,37 @@ class ProductSummary extends Component {
     this.setState({ sizeId: size.id });    
   };
 
-  addCartItem = () => {
-    const {
-      colorId,
-      sizeId
-    } = this.state;
-    const { product, getCartAllItem } = this.props;
-    const userEmail = 'buihuyphuc97@gmail.com';
+  addCartItem = userEmail => {
+    const { colorId, sizeId } = this.state;
+    const { product, getShoppingCartCount } = this.props;
     const quantity = 1;
 
     if (colorId > 0 && sizeId > 0 && product) {
-      const url = `Cart/AddCartItem-${product.id}-${colorId}-${sizeId}-${quantity}-${userEmail}`
-      callAPI(url).then(res =>
-        this.setState({
-          shoppingCartList: getShoppingCartList(res.data)
-        }, () => getCartAllItem(this.state.shoppingCartList.size))
-      );
+      if (userEmail) {
+        const url = `Cart/AddCartItem-${product.id}-${colorId}-${sizeId}-${quantity}-${userEmail}`
+        callAPI(url).then(res =>
+          this.setState({
+            shoppingCartList: getShoppingCartList(res.data)
+          }, () => getShoppingCartCount(this.state.shoppingCartList.length))
+        );
+        alert('Thêm thành công')
+      }      
     }
     else {
       alert('Vui lòng chọn size')
     }
-  }
-
-  getShoppingCart = (userEmail) => {
-    const url = `Cart/GetShoppingCart-${userEmail}`
-    callAPI(url).then(res =>
-      this.setState({
-        shoppingCartList: res.data
-      })
-    );
+       
   }
 
   render() {
     const { colors } = this.state;
-    const { product, getImageUrls } = this.props;
-    console.log(this.state.shoppingCartList);
+    const { product, getImageUrls, userEmail } = this.props;
+    
     return (
       <div>
         <HeaderInfo product={product} />
         <VariantChoice product={product} colors={colors} getImageUrls={getImageUrls} getColorId={this.getColorId} getSize={this.getSize} />
-        <Button title="Thêm vào giỏ" isBlockButton onClick={() => this.getShoppingCart(`buihuyphuc97@gmail.com`)} />
+        <Button title="Thêm vào giỏ" isBlockButton onClick={() => this.addCartItem(userEmail)} />
         <ActionButtons />
       </div>
     );

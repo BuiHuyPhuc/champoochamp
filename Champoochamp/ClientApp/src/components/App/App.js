@@ -11,19 +11,20 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      cartAllItem: 0
+      shoppingCartCount: 0
     };
   }
 
-  getCartAllItem = (cartAllItem) => {
-    console.log("App.js: " + cartAllItem)
+  getShoppingCartCount = shoppingCartCount => {
+    this.setState({ shoppingCartCount });
+    console.log("App.js: " + shoppingCartCount)
   }
 
   render() {
     return (
       <Router history={history}>
-        <Header cartAllItem={this.state.cartAllItem} />
-        <RouterConfig getCartAllItem={this.getCartAllItem}></RouterConfig>
+        <Header shoppingCartCount={this.state.shoppingCartCount} />
+        <RouterConfig getShoppingCartCount={this.getShoppingCartCount}></RouterConfig>
       </Router>
     );
   }

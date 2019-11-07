@@ -59,7 +59,7 @@ class ProductDetail extends Component {
 
   render() {
     const { isLoading, product, imageUrls } = this.state;
-    const { getCartAllItem } = this.props;
+    const { userEmail, getShoppingCartCount } = this.props;
 
     return isLoading ? (
       <Spin />
@@ -71,7 +71,12 @@ class ProductDetail extends Component {
                 <ImageThumbnails imageUrls={imageUrls}></ImageThumbnails>
               </Col>
               <Col xs={24} md={10} lg={8}>
-                <ProductSummary product={product} getImageUrls={this.getImageUrls} getCartAllItem={getCartAllItem} />
+                <ProductSummary
+                  product={product}
+                  getImageUrls={this.getImageUrls}
+                  userEmail={userEmail}
+                  getShoppingCartCount={getShoppingCartCount}
+                />
               </Col>
             </Row>
           </Section>

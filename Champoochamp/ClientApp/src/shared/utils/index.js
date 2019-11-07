@@ -8,6 +8,7 @@ import groupBy from './groupBy';
 import checkNewProduct from './checkNewProduct';
 import getShoppingCartList from './getShoppingCartList';
 import checkCurrentFilter from './checkCurrentFilter';
+import getStrShoppingCart from './getStrShoppingCart';
 
 export {
   callAPI,
@@ -19,5 +20,6 @@ export {
   groupBy,
   checkNewProduct,
   getShoppingCartList,
-  checkCurrentFilter
+  checkCurrentFilter,
+  getStrShoppingCart
 };
