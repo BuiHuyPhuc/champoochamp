@@ -1,7 +1,8 @@
 ﻿import React, { Component } from "react";
 import { Spin } from 'antd';
 
-import { callAPI, getStrShoppingCart, getShoppingCartCount } from '../../shared/utils';
+import { callAPI, updateShoppingCart, getStrShoppingCart } from '../../shared/utils';
+import { storageShoppingCartKey } from '../../shared/constants';
 
 class Cart extends Component {
   constructor(props) {
@@ -19,29 +20,13 @@ class Cart extends Component {
   }
 
   getShoppingCart = (userEmail) => {
-    if (userEmail) {
-      const url = `Cart/GetShoppingCart-${userEmail}`
-      callAPI(url).then(res =>
-        this.setState({
-          isLoading: false,
-          shoppingCartList: res.data
-        })
-      );
-    }
-    else {
-
-    }
-    
-  }
-
-  updateShoppingCart = userEmail => {    
-    const { strShoppingCart, shoppingCartList } = this.state;
-    const { getShoppingCartCount } = this.props;
-    
-    if (userEmail) {
-      const url = `Cart/UpdateShoppingCart-${strShoppingCart}-${userEmail}`
-      callAPI(url).then(res => getShoppingCartCount(shoppingCartList.length));
-    }    
+    const url = `Cart/GetShoppingCart-${userEmail}||${localStorage.getItem(storageShoppingCartKey)}`
+    callAPI(url).then(res =>
+      this.setState({
+        isLoading: false,
+        shoppingCartList: res.data
+      })
+    );    
   }
 
   handleChange = e => {
@@ -55,7 +40,7 @@ class Cart extends Component {
     shoppingCartList.find(p => p.productVariant.id === productVariantId).quantity = parseInt(quantity, 10);
     this.setState({
       strShoppingCart: getStrShoppingCart(shoppingCartList)
-    }, () => this.updateShoppingCart(userEmail));
+    }, () => updateShoppingCart(this.state.strShoppingCart, userEmail, this.props.getShoppingCartCount));
   }
 
   onDeleteProduct = productVariantId => {
@@ -66,7 +51,7 @@ class Cart extends Component {
     this.setState({
       strShoppingCart: getStrShoppingCart(shoppingCartListNew),
       shoppingCartList: shoppingCartListNew
-    }, () => this.updateShoppingCart(userEmail))
+    }, () => updateShoppingCart(this.state.strShoppingCart, userEmail, this.props.getShoppingCartCount))
   }
 
   renderCartItem = shoppingCartList =>

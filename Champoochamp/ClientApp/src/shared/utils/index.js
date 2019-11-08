@@ -9,6 +9,8 @@ import checkNewProduct from './checkNewProduct';
 import getShoppingCartList from './getShoppingCartList';
 import checkCurrentFilter from './checkCurrentFilter';
 import getStrShoppingCart from './getStrShoppingCart';
+import addCartItem from './addCartItem';
+import updateShoppingCart from './updateShoppingCart';
 
 export {
   callAPI,
@@ -21,5 +23,7 @@ export {
   checkNewProduct,
   getShoppingCartList,
   checkCurrentFilter,
-  getStrShoppingCart
+  getStrShoppingCart,
+  addCartItem,
+  updateShoppingCart
 };

@@ -9,7 +9,7 @@ import Cart from "../components/CartPage";
 class RouterConfig extends Component {
   render() {
     const { getShoppingCartCount } = this.props;
-    const userEmail = 'buihuyphuc97@gmail.com';
+    const userEmail = null;
 
     return (
       <Switch>

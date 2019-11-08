@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import { callAPI, groupBy, getShoppingCartList } from '../../../../shared/utils';
+import { groupBy, addCartItem } from '../../../../shared/utils';
 
 import { Button } from '../../../elements';
 import HeaderInfo from './components/HeaderInfo';
@@ -13,8 +13,7 @@ class ProductSummary extends Component {
     this.state = {
       colors: groupBy(props.product.productVariant, p => p.colorId),
       colorId: 0,
-      sizeId: 0,
-      shoppingCartList: []
+      sizeId: 0
     };
   }
 
@@ -26,21 +25,19 @@ class ProductSummary extends Component {
     this.setState({ sizeId: size.id });    
   };
 
-  addCartItem = userEmail => {
+  onAddCartItem = userEmail => {
     const { colorId, sizeId } = this.state;
     const { product, getShoppingCartCount } = this.props;
     const quantity = 1;
 
     if (colorId > 0 && sizeId > 0 && product) {
-      if (userEmail) {
-        const url = `Cart/AddCartItem-${product.id}-${colorId}-${sizeId}-${quantity}-${userEmail}`
-        callAPI(url).then(res =>
-          this.setState({
-            shoppingCartList: getShoppingCartList(res.data)
-          }, () => getShoppingCartCount(this.state.shoppingCartList.length))
-        );
-        alert('Thêm thành công')
-      }      
+      if (!userEmail && !typeof (Storage)) {
+        alert('Trình duyệt của bạn không hỗ trợ');
+        return;
+      }
+
+      addCartItem(product.id, colorId, sizeId, quantity, userEmail, getShoppingCartCount);
+      alert('Thêm thành công');
     }
     else {
       alert('Vui lòng chọn size')
@@ -56,7 +53,7 @@ class ProductSummary extends Component {
       <div>
         <HeaderInfo product={product} />
         <VariantChoice product={product} colors={colors} getImageUrls={getImageUrls} getColorId={this.getColorId} getSize={this.getSize} />
-        <Button title="Thêm vào giỏ" isBlockButton onClick={() => this.addCartItem(userEmail)} />
+        <Button title="Thêm vào giỏ" isBlockButton onClick={() => this.onAddCartItem(userEmail)} />
         <ActionButtons />
       </div>
     );

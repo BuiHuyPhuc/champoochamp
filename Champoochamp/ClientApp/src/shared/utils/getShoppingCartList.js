@@ -2,9 +2,8 @@
   if (!strShoppingCart) {
     return [];
   }
-
+  
   const arr1 = strShoppingCart.split(',');
-  arr1.pop();
   let map = new Map();
 
   arr1.forEach(item => {
@@ -17,7 +16,7 @@
       map.set(arr2[0], parseInt(arr2[1], 10));
     }
   })
-
+  
   return map;
 }
 

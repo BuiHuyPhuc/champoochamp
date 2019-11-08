@@ -40,7 +40,7 @@ namespace Business
       }
     }
 
-    public string UpdateShoppingCart(string strShoppingCart, string userEmail)
+    public bool UpdateShoppingCart(string strShoppingCart, string userEmail)
     {
       using (champoochampContext db = new champoochampContext())
       {
@@ -51,11 +51,11 @@ namespace Business
           user.ShoppingCarts = strShoppingCart;
           db.SaveChanges();
 
-          return user.ShoppingCarts;
+          return true;
         }
         catch (Exception e)
         {
-          return e.Message;
+          return false;
         }
       }
     }

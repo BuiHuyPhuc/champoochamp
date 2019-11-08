@@ -25,13 +25,36 @@ namespace API.Controllers
     }
 
     [Route("UpdateShoppingCart-{strShoppingCart}-{userEmail}")]
-    public string UpdateShoppingCart(string strShoppingCart, string userEmail)
+    public bool UpdateShoppingCart(string strShoppingCart, string userEmail)
     {
       return cartBusiness.UpdateShoppingCart(strShoppingCart, userEmail);
     }
 
-    [Route("GetShoppingCart-{userEmail}")]
-    public List<CartItemModel> GetShoppingCart(string userEmail)
+    [Route("GetCartItem-{productId}-{colorId}-{sizeId}-{quantity}")]
+    public CartItemModel GetCartItem(int productId, int colorId, int sizeId, int quantity)
+    {
+      using (champoochampContext db = new champoochampContext())
+      {
+        try
+        {
+          ProductVariant productVariant = db.ProductVariant.Where(p => p.ProductId == productId
+            && p.ColorId == colorId
+            && p.SizeId == sizeId
+          ).SingleOrDefault();
+          CartItemModel cartItemModel = new CartItemModel(productVariant, quantity);
+
+          return cartItemModel;
+        }
+        catch (Exception e)
+        {
+          Console.WriteLine(e.Message);
+          return null;
+        }
+      }
+    }
+
+    [Route("GetShoppingCart-{userEmail}||{strShoppingCart}")]
+    public List<CartItemModel> GetShoppingCart(string userEmail, string strShoppingCart)
     {
       using (champoochampContext db = new champoochampContext())
       {
@@ -39,7 +62,16 @@ namespace API.Controllers
         {
           List<CartItemModel> shoppingCart = new List<CartItemModel>();
 
-          string strShoppingCarts = db.User.Where(p => p.Email == userEmail).Select(p => p.ShoppingCarts).SingleOrDefault();
+          string strShoppingCarts = String.Empty;
+          if (userEmail != "null")
+          {
+            strShoppingCarts = db.User.Where(p => p.Email == userEmail).Select(p => p.ShoppingCarts).SingleOrDefault();
+          }
+          else if (strShoppingCart != "null")
+          {
+            strShoppingCarts = strShoppingCart;
+          }
+
           if (!String.IsNullOrEmpty(strShoppingCarts))
           {
             foreach (KeyValuePair<string, int> item in cartBusiness.getDictShoppingCarts(strShoppingCarts))
@@ -51,7 +83,7 @@ namespace API.Controllers
                                   .SingleOrDefault();
               shoppingCart.Add(new CartItemModel(productBusiness.ShortProductVariant(pv), item.Value));
             }
-          }          
+          }
 
           return shoppingCart;
         }
