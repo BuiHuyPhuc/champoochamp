@@ -43,7 +43,7 @@ const Description = styled('p')`
   margin-bottom: 20px;
 `;
 
-class HeaderGroup extends Component {
+class HeaderInfo extends Component {
   render() {
     return (
       <Wrapper>
@@ -62,4 +62,4 @@ class HeaderGroup extends Component {
   }
 }
 
-export default HeaderGroup;
+export default HeaderInfo;

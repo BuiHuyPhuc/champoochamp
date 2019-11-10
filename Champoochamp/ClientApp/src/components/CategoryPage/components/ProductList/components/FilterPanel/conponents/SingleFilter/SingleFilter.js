@@ -3,11 +3,13 @@ import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 
 const Wrapper = styled('button')`
+  background: none;
   border: none;
   cursor: pointer;
   outline: none;
   padding: 0;
-  margin: 0;
+  margin: 5px 0;
+  text-align: left;
 `;
 
 const Content = styled('span')`
@@ -38,7 +40,7 @@ SingleFilter.propsTypes = {
   group: PropTypes.string,
   filterItem: PropTypes.object,
   title: PropTypes.string.isRequired,
-  callback: PropTypes.func,
+  callback: PropTypes.func
 };
 
 export default SingleFilter;

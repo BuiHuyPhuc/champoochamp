@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import React from 'react';
+import { Component, Fragment } from 'react';
 import Slider from 'react-slick';
 import styled from '@emotion/styled';
 import { jsx, css } from '@emotion/core';
@@ -11,37 +11,35 @@ import {
   viewportWidth
 } from '../../../shared/constants';
 import { callAPI } from '../../../shared/utils';
-import { breakpoint, colors } from '../../../shared/principles';
+import { colors } from '../../../shared/principles';
 
 import { ProductCard, SectionTitle } from '../index';
 
 const TitleWrapper = styled('div')`
-  margin: 0 10px 20px 10px;
-
-  ${breakpoint.sm`
-  margin: 0 5px 20px 5px;
-  `}
+  margin-bottom: 20px;
 `;
 
 const nextArrow = css`
-  color: ${colors.gray};
+  color: ${colors.darkGray};
   cursor: pointer;
   font-size: 20px;
   left: 100%;
+  opacity: 0.2;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   transition: all 0.2s;
 
   &:hover {
-    color: ${colors.black};
+    opacity: 0.8;
   }
 `;
 
 const prevArrow = css`
-  color: ${colors.gray};
+  color: ${colors.darkGray};
   cursor: pointer;
   font-size: 20px;
+  opacity: 0.2;
   position: absolute;
   right: 100%;
   top: 50%;
@@ -49,19 +47,21 @@ const prevArrow = css`
   transition: all 0.2s;
 
   &:hover {
-    color: ${colors.black};
+    opacity: 0.8;
   }
 `;
 
 const NextArrow = props => {
-  return <i {...props} className="fas fa-chevron-right" css={nextArrow} />;
+  const { currentSlide, slideCount, ...arrowProps } = props;
+  return <i {...arrowProps} className="fas fa-chevron-right" css={nextArrow} />;
 };
 
 const PrevArrow = props => {
-  return <i {...props} className="fas fa-chevron-left" css={prevArrow} />;
+  const { currentSlide, slideCount, ...arrowProps } = props;
+  return <i {...arrowProps} className="fas fa-chevron-left" css={prevArrow} />;
 };
 
-class TopProducts extends React.Component {
+class TopProducts extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -145,12 +145,12 @@ class TopProducts extends React.Component {
     return isLoading ? (
       <Spin />
     ) : (
-      <div>
+      <Fragment>
         <TitleWrapper>
           <SectionTitle content={sectionTitle}></SectionTitle>
         </TitleWrapper>
         <Slider {...settings}>{this.renderTopProducts(productList)}</Slider>
-      </div>
+      </Fragment>
     );
   }
 }

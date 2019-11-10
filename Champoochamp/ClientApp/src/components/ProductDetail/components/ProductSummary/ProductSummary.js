@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from 'react';
 
 import { Button } from '../../../elements';
 import HeaderInfo from './components/HeaderInfo';
@@ -9,7 +9,11 @@ class ProductSummary extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isNew: Math.abs(Date.parse(props.product.createdDate) - Date.parse(new Date())) <= 24 * 60 * 60 * 1000
+      isNew:
+        Math.abs(
+          Date.parse(props.product.createdDate) - Date.parse(new Date())
+        ) <=
+        24 * 60 * 60 * 1000
     };
   }
 
@@ -25,19 +29,19 @@ class ProductSummary extends Component {
 
   render() {
     //const { isNew } = this.state;
-    //const { product, sizes, colors } = this.props; 
+    //const { product, sizes, colors } = this.props;
 
-    return (      
-      <div>
+    return (
+      <Fragment>
         <HeaderInfo />
         <VariantChoice />
         <Button title="Thêm vào giỏ" isBlockButton />
-        <ActionButtons />
-      </div>
+        {/* <ActionButtons /> */}
+      </Fragment>
 
       //<Wrapper>
       //  <ProductName>{product.name}</ProductName>
-      //  {isNew ? <NewTag>New</NewTag> : null}        
+      //  {isNew ? <NewTag>New</NewTag> : null}
       //  <Price>{product.promotionPrice.toLocaleString()} VND</Price>
       //  <Price>{product.price.toLocaleString()} VND</Price>
       //  <ShortDescription>{product.description}</ShortDescription>

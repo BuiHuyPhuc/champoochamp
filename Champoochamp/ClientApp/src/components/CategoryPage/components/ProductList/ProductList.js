@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import { Row, Col } from "antd";
+import React, { Component } from 'react';
+import { Row, Col } from 'antd';
 
-import { filtersGroup } from "../../../../shared/constants";
+import { filtersGroup } from '../../../../shared/constants';
 import FilterPanel from './components/FilterPanel';
 import ProductGrid from './components/ProductGrid';
 
@@ -34,29 +34,27 @@ class ProductList extends Component {
       currentFilterList,
       currentMoneyFilter
     });
-  }
+  };
 
   render() {
     const { categoryId, currentFilterList, currentMoneyFilter } = this.state;
 
     return (
-      <div className="container">
-        <Row className="product-list-wrapper">
-          <Col xs={24} lg={6}>
-            <FilterPanel
-              categoryId={categoryId}
-              getCurrentFilterList={this.getCurrentFilterList}
-            />
-          </Col>
-          <Col xs={24} lg={18}>
-            <ProductGrid
-              categoryId={categoryId}
-              currentFilterList={currentFilterList}
-              currentMoneyFilter={currentMoneyFilter}
-            />
-          </Col>
-        </Row>
-      </div>
+      <Row className="product-list-wrapper">
+        <Col xs={24} lg={6}>
+          <FilterPanel
+            categoryId={categoryId}
+            getCurrentFilterList={this.getCurrentFilterList}
+          />
+        </Col>
+        <Col xs={24} lg={18}>
+          <ProductGrid
+            categoryId={categoryId}
+            currentFilterList={currentFilterList}
+            currentMoneyFilter={currentMoneyFilter}
+          />
+        </Col>
+      </Row>
     );
   }
 }

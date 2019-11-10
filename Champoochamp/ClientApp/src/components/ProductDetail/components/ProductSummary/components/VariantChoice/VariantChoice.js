@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import styled from '@emotion/styled';
 
 import { typography } from '../../../../../../shared/principles';
-import { DropDown, ColorRow } from '../../../../../elements';
+import { DropDown, ColorRow, QuantityInput } from '../../../../../elements';
 import SizeReference from './components/SizeReference';
 
 const Wrapper = styled('div')`
@@ -74,14 +74,21 @@ class VariantChoice extends Component {
           <ColorRow colors={colors} size={30} />
         </ChoiceBox>
         <ChoiceBox>
-          <BoxTitle>Size</BoxTitle>
+          <BoxTitle>Kích thước</BoxTitle>
           <DropDown
-            title="Chọn size"
+            title="Chọn kích thước"
             optionList={sizes}
             hasBorder
             callback={this.callback}
           />
           <SizeReference />
+        </ChoiceBox>
+        <ChoiceBox>
+          <BoxTitle>Số lượng</BoxTitle>
+          <QuantityInput
+            callback={this.callback}
+            width="120px"
+          />
         </ChoiceBox>
       </Wrapper>
     );

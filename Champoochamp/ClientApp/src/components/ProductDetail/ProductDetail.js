@@ -5,7 +5,7 @@ import { topProductsName } from '../../shared/constants';
 import { callAPI, getIdInMetaTitle } from '../../shared/utils';
 import groupBy from './groupBy';
 
-import { Container, Section, TopProducts } from '../elements';
+import { PageContainer, Section, TopProducts } from '../elements';
 import ImageThumbnails from './components/ImageThumbnails';
 import ProductSummary from './components/ProductSummary';
 import ExtraInfo from './components/ExtraInfo';
@@ -45,13 +45,13 @@ class ProductDetail extends Component {
     return isLoading ? (
       <Spin />
     ) : (
-      <Container>
+      <PageContainer>
         <Section>
           <Row gutter={32}>
-            <Col xs={24} md={14} lg={16}>
+            <Col xs={24} md={12} lg={14} xl={16}>
               <ImageThumbnails colors={colors}></ImageThumbnails>
             </Col>
-            <Col xs={24} md={10} lg={8}>
+            <Col xs={24} md={12} lg={10} xl={8}>
               <ProductSummary
                 product={product}
                 sizes={sizes}
@@ -66,7 +66,7 @@ class ProductDetail extends Component {
         <Section>
           <TopProducts sectionTitle={topProductsName.discountProducts} />
         </Section>
-      </Container>
+      </PageContainer>
     );
   }
 }

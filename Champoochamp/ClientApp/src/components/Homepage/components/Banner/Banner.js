@@ -1,11 +1,31 @@
-import React, { Component } from "react";
-import Slider from "react-slick";
+import React, { Component } from 'react';
+import Slider from 'react-slick';
+import styled from '@emotion/styled';
+
+import { breakpoint } from '../../../../shared/principles';
+
+import img1 from '../../../../assets/banners/banner1.jpg';
+import img2 from '../../../../assets/banners/banner2.jpg';
+import img3 from '../../../../assets/banners/banner3.jpg';
+import img4 from '../../../../assets/banners/banner4.jpg';
+
+const SingleSlide = styled('div')`
+  background: url(${props => props.imageUrl});
+  background-size: cover;
+  background-position: center center;
+  height: 80vh;
+  margin-top: 80px;
+
+  ${breakpoint.sm`
+   margin-top: 60px;
+  `}
+`;
 
 class Banner extends Component {
   render() {
     return (
       <Slider
-        className="container"
+        dots={true}
         infinite
         autoplay
         autoplaySpeed={10000}
@@ -13,34 +33,10 @@ class Banner extends Component {
         slidesToShow={1}
         slidesToScroll={1}
       >
-        <div className="home-banner-wrapper first-section-gap">
-          <div className="single-slide">
-            <div className="content-wrapper">
-              <h2 className="banner-title">
-                <span className="inner">Tràn hứng khởi,</span>
-                <br />
-                <span className="inner">thoả đam mê.</span>
-              </h2>
-              <a href="/" className="banner-btn">
-                Khám phá
-              </a>
-            </div>
-          </div>
-        </div>
-        <div className="home-banner-wrapper first-section-gap">
-          <div className="single-slide">
-            <div className="content-wrapper">
-              <h2 className="banner-title">
-                <span className="inner">Tràn hứng khởi,</span>
-                <br />
-                <span className="inner">thoả đam mê.</span>
-              </h2>
-              <a href="/" className="banner-btn">
-                Khám phá
-              </a>
-            </div>
-          </div>
-        </div>
+        <SingleSlide imageUrl={img3} />
+        <SingleSlide imageUrl={img4} />
+        <SingleSlide imageUrl={img1} />
+        <SingleSlide imageUrl={img2} />
       </Slider>
     );
   }

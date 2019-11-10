@@ -7,16 +7,19 @@ import AwesomeIcon from '../AwesomeIcon';
 
 const Wrapper = styled('button')`
   align-items: center;
+  background: transparent;
+  border: none;
   cursor: pointer;
   display: flex;
   outline: none;
   margin: 0;
-  padding: 0;  
+  padding: 0;
 `;
 
 const Content = styled('span')`
   border-bottom: ${props =>
     props.iconType ? 'none' : `1px solid ${colors.black}`};
+  font-size: inherit;
   margin-left: ${props => (props.iconType ? '10px' : '0')};
 `;
 

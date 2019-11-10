@@ -1,35 +1,37 @@
-import React, { Component } from "react";
-import styled from "@emotion/styled";
-import listensToClickOutside from "react-onclickoutside";
-import PropTypes from "prop-types";
+import React, { Component } from 'react';
+import styled from '@emotion/styled';
+import listensToClickOutside from 'react-onclickoutside';
+import PropTypes from 'prop-types';
 
-import { colors } from "../../../shared/principles";
-import AwesomeIcon from "../AwesomeIcon";
-import getObjectById from "./getObjectById";
+import { colors } from '../../../shared/principles';
+import AwesomeIcon from '../AwesomeIcon';
+import getObjectById from './getObjectById';
 
-const Wrapper = styled("div")`
+const Wrapper = styled('div')`
   position: relative;
 `;
 
-const Header = styled("div")`
+const Header = styled('div')`
   align-items: center;
-  border: ${props => (props.hasBorder ? `solid 1px ${colors.gray}` : "none")};
+  border: ${props => (props.hasBorder ? `solid 1px ${colors.gray}` : 'none')};
   cursor: pointer;
   display: flex;
   justify-content: space-between;
-  padding: ${props => (props.hasBorder ? "10px" : "0")};
-  width: ${props => (props.hasBorder ? "100%" : "auto")};
+  padding: ${props => (props.hasBorder ? '10px' : '0')};
+  width: ${props => (props.hasBorder ? '100%' : 'auto')};
 `;
 
-const Title = styled("span")`
+const Title = styled('span')`
   margin-right: 10px;
 `;
 
-const OptionList = styled("ul")`
+const OptionList = styled('ul')`
   background: ${colors.white};
   border: solid 1px ${colors.gray};
   box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.05);
+  list-style: none;
   min-width: 200px;
+  padding: 0;
   position: absolute;
   right: 0;
   top: 100%;
@@ -37,7 +39,7 @@ const OptionList = styled("ul")`
   z-index: 100;
 `;
 
-const Option = styled("li")`
+const Option = styled('li')`
   cursor: pointer;
   padding: 10px 15px;
 
@@ -72,10 +74,13 @@ class DropDown extends Component {
   toggleOption = (id, callback) => {
     const optionList = this.props.optionList;
 
-    this.setState({
-      selectedOption: getObjectById(optionList, id),
-      isOpen: false
-    }, () => callback(this.state.selectedOption));
+    this.setState(
+      {
+        selectedOption: getObjectById(optionList, id),
+        isOpen: false
+      },
+      () => callback(this.state.selectedOption)
+    );
   };
 
   render() {
@@ -85,7 +90,7 @@ class DropDown extends Component {
     return (
       <Wrapper>
         <Header onClick={this.toggleOptionList} hasBorder={hasBorder}>
-          <Title>{selectedOption? selectedOption.name : title}</Title>
+          <Title>{selectedOption ? selectedOption.name : title}</Title>
           {isOpen ? (
             <AwesomeIcon type="fas fa-chevron-up"></AwesomeIcon>
           ) : (

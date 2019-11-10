@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 
-import { breakpoint, colors } from '../../../shared/principles';
+import { breakpoint, typography, colors } from '../../../shared/principles';
 
 import ColorRow from '../ColorRow';
 import Image from '../Image';
@@ -11,6 +11,7 @@ import Image from '../Image';
 const Wrapper = styled('div')`
   background: ${colors.white};
   border: solid 1px transparent;
+  margin-bottom: 20px;
   padding: 10px;
 
   &:hover {

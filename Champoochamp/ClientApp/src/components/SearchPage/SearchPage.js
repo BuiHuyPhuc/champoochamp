@@ -3,7 +3,7 @@ import { Row, Col, Spin } from 'antd';
 
 import { callAPI } from '../../shared/utils';
 import { imagesGroup } from '../../shared/constants';
-import { ProductCard, Container, Section } from '../elements';
+import { ProductCard, PageContainer, Section } from '../elements';
 
 class SearchPage extends Component {
   constructor(props) {
@@ -118,7 +118,7 @@ class SearchPage extends Component {
   renderProductCard = showingProductList =>
     showingProductList.map(product => {
       return (
-        <Col xs={12} lg={6} key={product.id}>
+        <Col xs={12} sm={8} md={6} xl={4} key={product.id}>
           <ProductCard imageGroup={imagesGroup.products} product={product} />
         </Col>
       );
@@ -130,12 +130,12 @@ class SearchPage extends Component {
     return isLoading ? (
       <Spin />
     ) : (
-      <Container>
+      <PageContainer>
         <Section>
           <h3>{totalProducts} sản phẩm</h3>
           <Row>{this.renderProductCard(showingProductList)}</Row>
         </Section>
-      </Container>
+      </PageContainer>
     );
   }
 }
