@@ -25,18 +25,18 @@ class ProductSummary extends Component {
     this.setState({ sizeId: size.id });    
   };
 
-  onAddCartItem = userEmail => {
+  onAddCartItem = user => {
     const { colorId, sizeId } = this.state;
     const { product, getShoppingCartCount } = this.props;
     const quantity = 1;
 
     if (colorId > 0 && sizeId > 0 && product) {
-      if (!userEmail && !typeof (Storage)) {
+      if (!user && !typeof (Storage)) {
         alert('Trình duyệt của bạn không hỗ trợ');
         return;
       }
 
-      addCartItem(product.id, colorId, sizeId, quantity, userEmail, getShoppingCartCount);
+      addCartItem(product.id, colorId, sizeId, quantity, user, getShoppingCartCount);
       alert('Thêm thành công');
     }
     else {
@@ -47,13 +47,13 @@ class ProductSummary extends Component {
 
   render() {
     const { colors } = this.state;
-    const { product, getImageUrls, userEmail } = this.props;
+    const { product, getImageUrls, user } = this.props;
     
     return (
       <div>
         <HeaderInfo product={product} />
         <VariantChoice product={product} colors={colors} getImageUrls={getImageUrls} getColorId={this.getColorId} getSize={this.getSize} />
-        <Button title="Thêm vào giỏ" isBlockButton onClick={() => this.onAddCartItem(userEmail)} />
+        <Button title="Thêm vào giỏ" isBlockButton onClick={() => this.onAddCartItem(user)} />
         <ActionButtons />
       </div>
     );

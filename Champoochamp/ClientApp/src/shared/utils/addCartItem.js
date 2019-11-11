@@ -2,9 +2,9 @@
 import callAPI from './callAPI';
 import getShoppingCartList from './getShoppingCartList';
 
-const addCartItem = (productId, colorId, sizeId, quantity, userEmail, getShoppingCartCount) => {
-  if (userEmail) {
-    const url = `Cart/AddCartItem-${productId}-${colorId}-${sizeId}-${quantity}-${userEmail}`;
+const addCartItem = (productId, colorId, sizeId, quantity, user, getShoppingCartCount) => {
+  if (user) {
+    const url = `Cart/AddCartItem-${productId}-${colorId}-${sizeId}-${quantity}-${user.Email}`;
 
     callAPI(url).then(res => getShoppingCartCount(getShoppingCartList(res.data).size));
   }

@@ -2,9 +2,9 @@
 import callAPI from './callAPI';
 import getShoppingCartList from './getShoppingCartList';
 
-const updateShoppingCart = (strShoppingCart, userEmail, getShoppingCartCount) => {
-  if (userEmail) {
-    const url = `Cart/UpdateShoppingCart-${strShoppingCart}-${userEmail}`
+const updateShoppingCart = (strShoppingCart, user, getShoppingCartCount) => {
+  if (user) {
+    const url = `Cart/UpdateShoppingCart-${strShoppingCart}-${user.Email}`
     callAPI(url).then(res => {
       if (res.data) {
         getShoppingCartCount(getShoppingCartList(strShoppingCart).size);

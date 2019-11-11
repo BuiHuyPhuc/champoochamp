@@ -1,5 +1,6 @@
 ﻿import React, { Component } from "react";
 import { Spin } from 'antd';
+import { NavLink } from 'react-router-dom';
 
 import { callAPI, updateShoppingCart, getStrShoppingCart } from '../../shared/utils';
 import { storageShoppingCartKey } from '../../shared/constants';
@@ -16,11 +17,11 @@ class Cart extends Component {
   }
 
   componentDidMount() {
-    this.getShoppingCart(this.props.userEmail);
+    this.getShoppingCart(this.props.user);
   }
 
-  getShoppingCart = (userEmail) => {
-    const url = `Cart/GetShoppingCart-${userEmail}||${localStorage.getItem(storageShoppingCartKey)}`
+  getShoppingCart = (user) => {
+    const url = `Cart/GetShoppingCart-${user ? user.Email : null}||${localStorage.getItem(storageShoppingCartKey)}`
     callAPI(url).then(res =>
       this.setState({
         isLoading: false,
@@ -34,24 +35,24 @@ class Cart extends Component {
   }
 
   onUpdateQuantity = productVariantId => {
-    const { shoppingCartList, quantity } = this.state;
-    const { userEmail } = this.props;
+    const { quantity, shoppingCartList } = this.state;
+    const { user } = this.props;
 
     shoppingCartList.find(p => p.productVariant.id === productVariantId).quantity = parseInt(quantity, 10);
     this.setState({
       strShoppingCart: getStrShoppingCart(shoppingCartList)
-    }, () => updateShoppingCart(this.state.strShoppingCart, userEmail, this.props.getShoppingCartCount));
+    }, () => updateShoppingCart(this.state.strShoppingCart, user, this.props.getShoppingCartCount));
   }
 
   onDeleteProduct = productVariantId => {
     const { shoppingCartList } = this.state;
-    const { userEmail } = this.props;    
+    const { user } = this.props;    
     const shoppingCartListNew = shoppingCartList.filter(p => p.productVariant.id !== productVariantId);
 
     this.setState({
       strShoppingCart: getStrShoppingCart(shoppingCartListNew),
       shoppingCartList: shoppingCartListNew
-    }, () => updateShoppingCart(this.state.strShoppingCart, userEmail, this.props.getShoppingCartCount))
+    }, () => updateShoppingCart(this.state.strShoppingCart, user, this.props.getShoppingCartCount))
   }
 
   renderCartItem = shoppingCartList =>
@@ -87,10 +88,12 @@ class Cart extends Component {
     return isLoading ? (
       <Spin />
     ) : (
-        <div>
-          {this.renderCartItem(shoppingCartList)}
-        </div>
-      );
+      <div>
+        {this.renderCartItem(shoppingCartList)}
+        <br />
+        <NavLink to={`/thanh-toan`}>Tới trang thanh toán</NavLink>
+      </div>        
+    );
   }
 }
 
