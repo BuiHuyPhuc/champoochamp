@@ -1,8 +1,43 @@
-import React, { Component } from "react";
-import { NavLink } from "react-router-dom";
-import { Spin } from "antd";
+import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom';
+import { Spin } from 'antd';
+import styled from '@emotion/styled';
 
-import { callAPI } from "../../../../shared/utils";
+import { callAPI } from '../../../../shared/utils';
+import { colors } from '../../../../shared/principles';
+
+const Wrapper = styled('ul')`
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  list-style: none;
+  padding: 0;
+`;
+
+const Item = styled('li')`
+  padding: 5px 0;
+`;
+
+const ItemLink = styled(NavLink)`
+  font-weight: 600;
+  display: inline-block;
+  color: ${colors.black};
+  font-size: 12px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid ${colors.gray};
+
+  &:hover {
+    border-color: ${colors.black};
+    color: ${colors.black};
+  }
+`;
+
+const Seperator = styled('span')`
+  vertical-align: middle;
+  color: ${colors.gray};
+  margin: 0 7px;
+`;
 
 class Breadcrumb extends Component {
   constructor(props) {
@@ -41,71 +76,63 @@ class Breadcrumb extends Component {
   getCategoryById = categoryId => {
     const url = `Category/GetCategoryById-${categoryId}`;
 
-    callAPI(url).then(res => this.setState({
-      isCategoryChanged: false,
-      isLoading: false,
-      currentCategory: res.data
-    }));
-  }
+    callAPI(url).then(res =>
+      this.setState({
+        isCategoryChanged: false,
+        isLoading: false,
+        currentCategory: res.data
+      })
+    );
+  };
 
   getAllCategory = (category, objTemp) => {
-    if (!category) {
-      return false;
+    if (category) {
+      if (category.parent) {
+        this.getAllCategory(category.parent, objTemp);
+      }
+      objTemp.arrCategories.push(category);
     }
+  };
 
-    if (category.parent) {
-      this.getAllCategory(category.parent, objTemp);
-    }
-    objTemp.arrCategories.push(category);
+  renderBreadcrumb = objTemp =>
+    objTemp.arrCategories.map(category => {
+      objTemp.url += `/${category.metaTitle}`;
 
-    return true;
-  }
-
-  renderBreadcrumb = objTemp => objTemp.arrCategories.map(category => {
-    objTemp.url += `/${category.metaTitle}`;
-
-    if (category.id === this.state.currentCategory.id) {
-      return (
-        <li key={category.id} className="breadcrumb-item">
-          <NavLink className="breadcrumb-link" to={`${objTemp.url}-${category.id}`}>
-            {category.name}
-          </NavLink>
-        </li>
-      )
-    }
-    else {
-      return (
-        <li key={category.id} className="breadcrumb-item">
-          <NavLink className="breadcrumb-link" to={`${objTemp.url}-${category.id}`}>
-            {category.name}
-          </NavLink>
-          <span className="breadcrumb-separator">/</span>
-        </li>
-      );
-    }
-  })
+      if (category.id === this.state.currentCategory.id) {
+        return (
+          <Item key={category.id}>
+            <ItemLink to={`${objTemp.url}-${category.id}`}>
+              {category.name}
+            </ItemLink>
+          </Item>
+        );
+      } else {
+        return (
+          <Item key={category.id}>
+            <ItemLink to={`${objTemp.url}-${category.id}`}>
+              {category.name}
+            </ItemLink>
+            <Seperator>/</Seperator>
+          </Item>
+        );
+      }
+    });
 
   render() {
     const { isLoading, currentCategory } = this.state;
-    let objTemp = { url: "/san-pham", arrCategories: [] };
-
-    if (isLoading) {
-      return (
-        <div className="container breadcrumb-wrapper first-section-gap"><Spin /></div>
-      );
-    }
-
+    let objTemp = { url: '/san-pham', arrCategories: [] };
     this.getAllCategory(currentCategory, objTemp);
-    return (
-      <div className="container breadcrumb-wrapper first-section-gap">
-        <ul className="small-breadcrumb">
-          <li className="breadcrumb-item">
-            <NavLink className="breadcrumb-link" to="/">Trang chủ</NavLink>
-            <span className="breadcrumb-separator">/</span>
-          </li>
-          {this.renderBreadcrumb(objTemp)}
-        </ul>
-      </div>
+
+    return isLoading ? (
+      <Spin />
+    ) : (
+      <Wrapper>
+        <Item>
+          <ItemLink to="/">Trang chủ</ItemLink>
+          <Seperator>/</Seperator>
+        </Item>
+        {this.renderBreadcrumb(objTemp)}
+      </Wrapper>
     );
   }
 }

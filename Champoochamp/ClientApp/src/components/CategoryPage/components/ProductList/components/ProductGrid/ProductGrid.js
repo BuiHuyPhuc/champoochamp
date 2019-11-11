@@ -204,7 +204,7 @@ class ProductGrid extends Component {
   renderProductCard = showingProductList =>
     showingProductList.map(product => {
       return (
-        <Col xs={12} md={8} key={product.id}>
+        <Col xs={12} sm={8} md={6} lg={8} xl={6} key={product.id}>
           <ProductCard imageGroup={imagesGroup.products} product={product} />
         </Col>
       );

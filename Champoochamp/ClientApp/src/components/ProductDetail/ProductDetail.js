@@ -4,7 +4,7 @@ import { Row, Col, Spin } from 'antd';
 import { topProductsName } from '../../shared/constants';
 import { callAPI, getIdInMetaTitle } from '../../shared/utils';
 
-import { Container, Section, TopProducts } from '../elements';
+import { PageContainer, Section, TopProducts } from '../elements';
 import ImageThumbnails from './components/ImageThumbnails';
 import ProductSummary from './components/ProductSummary';
 import ExtraInfo from './components/ExtraInfo';
@@ -22,7 +22,9 @@ class ProductDetail extends Component {
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    if (getIdInMetaTitle(nextProps.match.params.product) !== prevState.productId) {
+    if (
+      getIdInMetaTitle(nextProps.match.params.product) !== prevState.productId
+    ) {
       return {
         productId: getIdInMetaTitle(nextProps.match.params.product),
         isLoading: true,
@@ -42,20 +44,24 @@ class ProductDetail extends Component {
   }
 
   getImageUrls = selectedColor => {
-    this.setState({ imageUrls: selectedColor.productImages.imageUrls.split(',') });
-  }
+    this.setState({
+      imageUrls: selectedColor.productImages.imageUrls.split(',')
+    });
+  };
 
   componentDidMount() {
     this.getProductById(this.state.productId);
   }
 
   getProductById = productId => {
-    callAPI(`Product/GetProductById-${productId}`).then(res => this.setState({
-      isLoading: false,
-      isProductChanged: false,
-      product: res.data
-    }));
-  }
+    callAPI(`Product/GetProductById-${productId}`).then(res =>
+      this.setState({
+        isLoading: false,
+        isProductChanged: false,
+        product: res.data
+      })
+    );
+  };
 
   render() {
     const { isLoading, product, imageUrls } = this.state;
@@ -64,30 +70,30 @@ class ProductDetail extends Component {
     return isLoading ? (
       <Spin />
     ) : (
-        <Container>
-          <Section>
-            <Row gutter={32}>
-              <Col xs={24} md={14} lg={16}>
-                <ImageThumbnails imageUrls={imageUrls}></ImageThumbnails>
-              </Col>
-              <Col xs={24} md={10} lg={8}>
-                <ProductSummary
-                  product={product}
-                  getImageUrls={this.getImageUrls}
-                  userEmail={userEmail}
-                  getShoppingCartCount={getShoppingCartCount}
-                />
-              </Col>
-            </Row>
-          </Section>
-          <Section>
-            <ExtraInfo />
-          </Section>
-          <Section>
-            <TopProducts sectionTitle={topProductsName.discountProducts} />
-          </Section>
-        </Container>
-      );
+      <PageContainer>
+        <Section>
+          <Row gutter={32}>
+            <Col xs={24} md={12} lg={14} xl={16}>
+              <ImageThumbnails imageUrls={imageUrls} />
+            </Col>
+            <Col xs={24} md={12} lg={10} xl={8}>
+              <ProductSummary
+                product={product}
+                getImageUrls={this.getImageUrls}
+                userEmail={userEmail}
+                getShoppingCartCount={getShoppingCartCount}
+              />
+            </Col>
+          </Row>
+        </Section>
+        <Section>
+          <ExtraInfo />
+        </Section>
+        <Section>
+          <TopProducts sectionTitle={topProductsName.discountProducts} />
+        </Section>
+      </PageContainer>
+    );
   }
 }
 

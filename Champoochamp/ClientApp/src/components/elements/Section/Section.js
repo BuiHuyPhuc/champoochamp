@@ -7,7 +7,7 @@ import { breakpoint } from '../../../shared/principles';
 const Wrapper = styled('div')`
   padding: 30px 0;
 
-  ${breakpoint.md`
+  ${breakpoint.sm`
     padding: 20px 0;
   `}
 `;
@@ -16,12 +16,12 @@ class Section extends Component {
   render() {
     const { children } = this.props;
 
-    return <Wrapper >{children}</Wrapper>;
+    return <Wrapper>{children}</Wrapper>;
   }
 }
 
 Section.propsTypes = {
-  children: PropTypes.element.isRequired,
+  children: PropTypes.element.isRequired
 };
 
 export default Section;

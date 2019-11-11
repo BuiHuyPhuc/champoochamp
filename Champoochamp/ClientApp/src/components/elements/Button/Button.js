@@ -12,7 +12,7 @@ const Wrapper = styled("button")`
   font-weight: 600;
   letter-spacing: 0.8px;
   outline: none;
-  padding: 1rem 2rem;
+  padding: 0.9rem 1.5rem;
   margin: 0;
   transition: all 0.3s;
   width: ${props => (props.isBlockButton ? "100%" : "auto")};

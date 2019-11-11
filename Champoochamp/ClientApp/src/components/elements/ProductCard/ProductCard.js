@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 
 import { breakpoint, colors } from '../../../shared/principles';
-import { getImageUrl, groupBy } from "../../../shared/utils";
+import { getImageUrl, groupBy } from '../../../shared/utils';
 
 import ColorRow from '../ColorRow';
 import Image from '../Image';
@@ -12,6 +12,7 @@ import Image from '../Image';
 const Wrapper = styled('div')`
   background: ${colors.white};
   border: solid 1px transparent;
+  margin-bottom: 20px;
   padding: 10px;
 
   &:hover {
@@ -62,7 +63,7 @@ class ProductCard extends Component {
       selectedColor,
       thumbnail: selectedColor.thumbnail
     });
-  }
+  };
 
   render() {
     const { imageGroup, product } = this.props;
@@ -71,13 +72,15 @@ class ProductCard extends Component {
     return (
       <Wrapper>
         <NavLink to={`/chi-tiet/${product.metaTitle}-${product.id}`}>
-          <Image
-            imageUrl={getImageUrl(thumbnail, imageGroup)}
-            alt=""
-          ></Image>
+          <Image imageUrl={getImageUrl(thumbnail, imageGroup)} alt=""></Image>
         </NavLink>
         <ColorsWrapper>
-          <ColorRow colors={colors} size={20} selectedColor={selectedColor} getSelectedColor={this.getSelectedColor}></ColorRow>
+          <ColorRow
+            colors={colors}
+            size={20}
+            selectedColor={selectedColor}
+            getSelectedColor={this.getSelectedColor}
+          ></ColorRow>
         </ColorsWrapper>
         <Name>{product.name}</Name>
         <Price>{product.promotionPrice.toLocaleString()}đ</Price>

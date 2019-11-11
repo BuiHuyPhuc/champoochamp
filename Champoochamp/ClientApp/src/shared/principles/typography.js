@@ -39,7 +39,7 @@ const typography = {
   `,
 
   smTitle: css`
-    font-family: ${family.openSans};
+    font-family: ${family.robotoSlab};
     font-size: 22px;
     font-weight: ${weight.bold};
     line-height: 32px;
@@ -51,15 +51,13 @@ const typography = {
   `,
 
   xsTitle: css`
-    font-family: ${family.openSans};
-    font-size: 14px;
+    font-family: ${family.robotoSlab};
     font-weight: ${weight.bold};
-    line-height: 20px;
+    line-height: 22px;
   `,
 
-  normalBody: css`
+  body: css`
     font-family: ${family.openSans};
-    font-size: 14px;
     font-weight: ${weight.normal};
     line-height: 22px;
   `,
@@ -67,7 +65,6 @@ const typography = {
   lightBody: css`
     color: ${color.darkGray};
     font-family: ${family.openSans};
-    font-size: 14px;
     font-weight: ${weight.normal};
     line-height: 22px;
   `

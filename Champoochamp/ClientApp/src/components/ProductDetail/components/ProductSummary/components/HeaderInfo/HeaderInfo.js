@@ -59,8 +59,8 @@ class HeaderInfo extends Component {
 
     return (
       <Wrapper>
-        <SectionTitle content="Navigation 2019 Hunter Bet Jacket"></SectionTitle>
-        {isNew ? <NewTag>New</NewTag> : null}
+        <SectionTitle content={product.name}></SectionTitle>
+        {isNew && <NewTag>New</NewTag>}
         <PriceWrapper>
           <Price>{product.promotionPrice.toLocaleString()}đ</Price>
           <OriginalPrice>{product.price.toLocaleString()}đ</OriginalPrice>
