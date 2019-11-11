@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 
 import { colors } from '../../../shared/principles';
 import AwesomeIcon from '../AwesomeIcon';
-import getObjectById from './getObjectById';
 
 const Wrapper = styled('div')`
   position: relative;
@@ -51,12 +50,28 @@ const Option = styled('li')`
 class DropDown extends Component {
   constructor(props) {
     super(props);
+    const { title, prevSelectedOption, selectedColor } = props;
 
     this.state = {
       isOpen: false,
-      title: props.title,
-      selectedOption: props.prevSelectedOption
+      title,
+      selectedOption: prevSelectedOption,
+      selectedColor
     };
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (
+      prevState.selectedColor &&
+      nextProps.selectedColor.colorId !== prevState.selectedColor.colorId
+    ) {
+      return {
+        selectedColor: nextProps.selectedColor,
+        selectedOption: null
+      };
+    }
+
+    return null;
   }
 
   handleClickOutside = e => {
@@ -76,7 +91,7 @@ class DropDown extends Component {
 
     this.setState(
       {
-        selectedOption: getObjectById(optionList, id),
+        selectedOption: optionList.find(option => option.id === id),
         isOpen: false
       },
       () => callback(this.state.selectedOption)
@@ -120,7 +135,8 @@ DropDown.propTypes = {
   optionList: PropTypes.arrayOf(PropTypes.object).isRequired,
   callback: PropTypes.func,
   hasBorder: PropTypes.bool,
-  prevSelectedOption: PropTypes.object
+  prevSelectedOption: PropTypes.object,
+  selectedColor: PropTypes.object
 };
 
 export default listensToClickOutside(DropDown);

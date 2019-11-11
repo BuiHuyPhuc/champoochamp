@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { Component } from 'react';
-import { NavLink, withRouter } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { Menu } from 'antd';
 import styled from '@emotion/styled';
 import { css, jsx } from '@emotion/core';
@@ -146,4 +146,4 @@ class NavBarLeft extends Component {
   }
 }
 
-export default withRouter(NavBarLeft);
+export default NavBarLeft;

@@ -10,7 +10,11 @@ import {
   colors,
   typography
 } from '../../../../../../shared/principles';
-import { callAPI, getMoneyFilterGroup } from '../../../../../../shared/utils';
+import {
+  callAPI,
+  getMoneyFilterGroup,
+  checkCurrentFilter
+} from '../../../../../../shared/utils';
 
 import { Link } from '../../../../../elements';
 import SingleFilter from './conponents/SingleFilter';
@@ -368,7 +372,13 @@ class FilterPanel extends Component {
               <FilterWrapper>
                 <FilterHeader>
                   <FilterTitle>Lọc sản phẩm</FilterTitle>
-                  <Link content="Xoá tất cả" iconType="fas fa-times"></Link>
+                  {checkCurrentFilter(currentFilterList, currentMoneyFilter) ? (
+                    <Link
+                      content="Xoá tất cả"
+                      iconType="fas fa-times"
+                      onClick={this.clearCurrentFilterList}
+                    />
+                  ) : null}
                   <SelectedItemsWrapper>
                     {this.renderCurrentFilterList(currentFilterList)}
                     {this.renderCurrentMoneyFilter(
@@ -377,7 +387,6 @@ class FilterPanel extends Component {
                     )}
                   </SelectedItemsWrapper>
                 </FilterHeader>
-
                 <Collapse bordered={false} expandIconPosition="right">
                   {this.renderFilterGroupList(filterGroupList)}
                 </Collapse>
@@ -390,7 +399,13 @@ class FilterPanel extends Component {
           <FilterWrapper>
             <FilterHeader>
               <FilterTitle>Lọc sản phẩm</FilterTitle>
-              <Link content="Xoá tất cả" iconType="fas fa-times"></Link>
+              {checkCurrentFilter(currentFilterList, currentMoneyFilter) ? (
+                <Link
+                  content="Xoá tất cả"
+                  iconType="fas fa-times"
+                  onClick={this.clearCurrentFilterList}
+                />
+              ) : null}
               <SelectedItemsWrapper>
                 {this.renderCurrentFilterList(currentFilterList)}
                 {this.renderCurrentMoneyFilter(
@@ -399,7 +414,6 @@ class FilterPanel extends Component {
                 )}
               </SelectedItemsWrapper>
             </FilterHeader>
-
             <Collapse
               bordered={false}
               expandIconPosition="right"

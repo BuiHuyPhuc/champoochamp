@@ -3,7 +3,8 @@ import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 
-import { breakpoint, typography, colors } from '../../../shared/principles';
+import { breakpoint, colors } from '../../../shared/principles';
+import { getImageUrl, groupBy } from '../../../shared/utils';
 
 import ColorRow from '../ColorRow';
 import Image from '../Image';
@@ -51,43 +52,35 @@ class ProductCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      colors: [
-        {
-          id: 0,
-          name: '#E6BDA7'
-        },
-        {
-          id: 1,
-          name: '#989CA0'
-        },
-        {
-          id: 2,
-          name: '#B0D5C1'
-        }
-      ]
+      colors: groupBy(props.product.productVariant, p => p.colorId),
+      selectedColor: groupBy(props.product.productVariant, p => p.colorId)[0],
+      thumbnail: props.product.productVariant[0].thumbnail
     };
   }
 
-  getImageUrl = (imageName, imageGroup) =>
-    require(`../../../assets/images/${imageGroup}/${imageName}`);
+  getSelectedColor = selectedColor => {
+    this.setState({
+      selectedColor,
+      thumbnail: selectedColor.thumbnail
+    });
+  };
 
   render() {
     const { imageGroup, product } = this.props;
-    const { colors } = this.state;
+    const { colors, selectedColor, thumbnail } = this.state;
 
     return (
       <Wrapper>
         <NavLink to={`/chi-tiet/${product.metaTitle}-${product.id}`}>
-          <Image
-            imageUrl={this.getImageUrl(
-              product.productVariant[0].thumbnail,
-              imageGroup
-            )}
-            alt=""
-          ></Image>
+          <Image imageUrl={getImageUrl(thumbnail, imageGroup)} alt=""></Image>
         </NavLink>
         <ColorsWrapper>
-          <ColorRow size={20} colors={colors}></ColorRow>
+          <ColorRow
+            colors={colors}
+            size={20}
+            selectedColor={selectedColor}
+            getSelectedColor={this.getSelectedColor}
+          ></ColorRow>
         </ColorsWrapper>
         <Name>{product.name}</Name>
         <Price>{product.promotionPrice.toLocaleString()}đ</Price>

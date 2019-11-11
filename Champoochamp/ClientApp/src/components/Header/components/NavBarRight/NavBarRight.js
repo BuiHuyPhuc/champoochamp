@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import { Icon, Drawer } from 'antd';
 import styled from '@emotion/styled';
 
@@ -71,6 +72,7 @@ class NavBarRight extends Component {
   };
 
   render() {
+    const { shoppingCartCount } = this.props;
     const { isDrawerVisible, searchData } = this.state;
 
     return (
@@ -79,7 +81,7 @@ class NavBarRight extends Component {
           <SearchBar suggestions={searchData} history={this.props.history} />
         </MenuItem>
         <MenuItem title="Giỏ hàng">
-          <ShoppingCartHeader />
+          <ShoppingCartHeader shoppingCartCount={shoppingCartCount} />
         </MenuItem>
         <MenuItem title="Đăng nhập">
           <Icon type="user" />
@@ -101,4 +103,4 @@ class NavBarRight extends Component {
   }
 }
 
-export default NavBarRight;
+export default withRouter(NavBarRight);

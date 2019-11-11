@@ -24,6 +24,8 @@ namespace Data.Entity
         public string Ward { get; set; }
         public string Address { get; set; }
         public string Avatar { get; set; }
+        public string Favorites { get; set; }
+        public string ShoppingCarts { get; set; }
         public DateTime CreatedDate { get; set; }
         public short CreatedBy { get; set; }
         public DateTime? ModifiedDate { get; set; }

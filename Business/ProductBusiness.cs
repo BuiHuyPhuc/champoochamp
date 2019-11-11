@@ -43,8 +43,6 @@ namespace Business
         foreach (Product p in productList)
         {
           p.Category = null;
-          List<ProductVariant> pvList = p.ProductVariant.GroupBy(x => x.ColorId).Select(x => x.First()).ToList();
-          p.ProductVariant = pvList;
           foreach (ProductVariant pv in p.ProductVariant)
           {
             pv.Color.ProductVariant = null;
@@ -56,16 +54,56 @@ namespace Business
       }
     }
 
+    public List<Product> ShortProductList(List<Product> productList)
+    {
+      foreach (Product p in productList)
+      {
+        foreach (ProductVariant pv in p.ProductVariant)
+        {
+          pv.Color.ProductVariant = null;
+        }
+      }
+
+      return productList;
+    }
+
     public Product ShortProduct(Product product)
     {
       foreach (ProductVariant pv in product.ProductVariant)
       {
-        pv.Color.ProductVariant = null;
-        pv.Size.ProductVariant = null;
-        pv.ProductImages.ProductVariant = null;
+        if(pv.Color != null)
+        {
+          pv.Color.ProductVariant = null;
+        }
+        if (pv.Size != null)
+        {
+          pv.Size.ProductVariant = null;
+        }
+        if (pv.ProductImages != null)
+        {
+          pv.ProductImages.ProductVariant = null;
+        }
       }
 
       return product;
+    }
+
+    public ProductVariant ShortProductVariant(ProductVariant productVariant)
+    {
+      if (productVariant.Product != null)
+      {
+        productVariant.Product.ProductVariant = null;
+      }
+      if (productVariant.Color != null)
+      {
+        productVariant.Color.ProductVariant = null;
+      }
+      if (productVariant.Size != null)
+      {
+        productVariant.Size.ProductVariant = null;
+      }
+
+      return productVariant;
     }
   }
 }

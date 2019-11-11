@@ -3,7 +3,6 @@ import { Row, Col, Spin } from 'antd';
 
 import { topProductsName } from '../../shared/constants';
 import { callAPI, getIdInMetaTitle } from '../../shared/utils';
-import groupBy from './groupBy';
 
 import { PageContainer, Section, TopProducts } from '../elements';
 import ImageThumbnails from './components/ImageThumbnails';
@@ -16,11 +15,39 @@ class ProductDetail extends Component {
     this.state = {
       productId: getIdInMetaTitle(props.match.params.product),
       isLoading: true,
+      isProductChanged: false,
       product: null,
-      sizes: [],
-      colors: []
+      imageUrls: []
     };
   }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (
+      getIdInMetaTitle(nextProps.match.params.product) !== prevState.productId
+    ) {
+      return {
+        productId: getIdInMetaTitle(nextProps.match.params.product),
+        isLoading: true,
+        isProductChanged: true
+      };
+    }
+
+    return null;
+  }
+
+  componentDidUpdate() {
+    const { isProductChanged, productId } = this.state;
+
+    if (isProductChanged) {
+      this.getProductById(productId);
+    }
+  }
+
+  getImageUrls = selectedColor => {
+    this.setState({
+      imageUrls: selectedColor.productImages.imageUrls.split(',')
+    });
+  };
 
   componentDidMount() {
     this.getProductById(this.state.productId);
@@ -30,17 +57,15 @@ class ProductDetail extends Component {
     callAPI(`Product/GetProductById-${productId}`).then(res =>
       this.setState({
         isLoading: false,
-        product: res.data,
-        sizes: groupBy(res.data.productVariant, p => p.sizeId).map(
-          item => item.size
-        ),
-        colors: groupBy(res.data.productVariant, p => p.colorId)
+        isProductChanged: false,
+        product: res.data
       })
     );
   };
 
   render() {
-    const { isLoading, product, sizes, colors } = this.state;
+    const { isLoading, product, imageUrls } = this.state;
+    const { userEmail, getShoppingCartCount } = this.props;
 
     return isLoading ? (
       <Spin />
@@ -49,14 +74,15 @@ class ProductDetail extends Component {
         <Section>
           <Row gutter={32}>
             <Col xs={24} md={12} lg={14} xl={16}>
-              <ImageThumbnails colors={colors}></ImageThumbnails>
+              <ImageThumbnails imageUrls={imageUrls} />
             </Col>
             <Col xs={24} md={12} lg={10} xl={8}>
               <ProductSummary
                 product={product}
-                sizes={sizes}
-                colors={colors}
-              ></ProductSummary>
+                getImageUrls={this.getImageUrls}
+                userEmail={userEmail}
+                getShoppingCartCount={getShoppingCartCount}
+              />
             </Col>
           </Row>
         </Section>

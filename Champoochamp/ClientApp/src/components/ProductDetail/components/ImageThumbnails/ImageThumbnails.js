@@ -3,12 +3,10 @@ import styled from '@emotion/styled';
 import Slider from 'react-slick';
 
 import { breakpoint } from '../../../../shared/principles';
+import { getImageUrl } from '../../../../shared/utils';
+import { imagesGroup } from '../../../../shared/constants';
 
 import { Image } from '../../../elements';
-import exampleImg1 from '../../../../assets/images/products/000105_1.jpg';
-import exampleImg2 from '../../../../assets/images/products/000207_1.jpg';
-import exampleImg3 from '../../../../assets/images/products/000702_1.jpg';
-import exampleImg4 from '../../../../assets/images/products/000302_1.jpg';
 
 const Wrapper = styled('div')`
   .slick-dots {
@@ -35,17 +33,20 @@ const Wrapper = styled('div')`
 `;
 
 class ImageThumbnails extends Component {
+  renderImage = imageUrls => imageUrls.map((url, index) => {    
+    return (
+      <div key={index}>
+        <Image imageUrl={getImageUrl(url, imagesGroup.products)} alt="" />
+      </div>
+    );
+  });
+
   render() {
-    const imgSources = [
-      exampleImg1,
-      exampleImg2,
-      exampleImg3,
-      exampleImg4,
-      exampleImg1,
-      exampleImg2
-    ];
+    const { imageUrls } = this.props;
+    const imgSources = imageUrls.map(url => getImageUrl(url, imagesGroup.products));
+    
     const settings = {
-      customPaging: function(i) {
+      customPaging: function (i) {
         return (
           <div>
             <Image imageUrl={imgSources[i]} alt="" />
@@ -62,24 +63,7 @@ class ImageThumbnails extends Component {
     return (
       <Wrapper>
         <Slider {...settings}>
-          <div>
-            <Image imageUrl={exampleImg1} alt="" />
-          </div>
-          <div>
-            <Image imageUrl={exampleImg2} alt="" />
-          </div>
-          <div>
-            <Image imageUrl={exampleImg3} alt="" />
-          </div>
-          <div>
-            <Image imageUrl={exampleImg4} alt="" />
-          </div>
-          <div>
-            <Image imageUrl={exampleImg1} alt="" />
-          </div>
-          <div>
-            <Image imageUrl={exampleImg2} alt="" />
-          </div>
+          {this.renderImage(imageUrls)}
         </Slider>
       </Wrapper>
     );

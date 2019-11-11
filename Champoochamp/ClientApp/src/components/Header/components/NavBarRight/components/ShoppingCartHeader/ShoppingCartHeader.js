@@ -28,7 +28,7 @@ const CartSummary = styled('div')`
   background: ${colors.white};
   border: solid 1px ${colors.gray};
   box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.05);
-  max-height: 80vh;  
+  max-height: 80vh;
   overflow-y: auto;
   padding: 10px;
   position: absolute;
@@ -63,12 +63,13 @@ class ShoppingCartHeader extends Component {
   };
 
   render() {
+    const { shoppingCartCount } = this.props;
     const { isVisible } = this.state;
 
     return (
       <Wrapper onClick={this.onShowCartSummary}>
         <Icon type="shopping" />
-        <CartQuantity>2</CartQuantity>
+        <CartQuantity>{shoppingCartCount}</CartQuantity>
         {isVisible && <CartSummary>Hello</CartSummary>}
       </Wrapper>
     );

@@ -25,10 +25,10 @@ const Content = styled('span')`
 
 class Link extends Component {
   render() {
-    const { content, iconType } = this.props;
+    const { content, iconType, onClick } = this.props;
 
     return (
-      <Wrapper>
+      <Wrapper onClick={onClick}>
         {iconType && <AwesomeIcon type={iconType} />}
         <Content iconType={iconType}>{content}</Content>
       </Wrapper>
@@ -38,7 +38,8 @@ class Link extends Component {
 
 Link.propsTypes = {
   content: PropTypes.string.isRequired,
-  iconType: PropTypes.string
+  iconType: PropTypes.string,
+  onClick: PropTypes.func
 };
 
 export default Link;

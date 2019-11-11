@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import styled from '@emotion/styled';
 
 import { typography } from '../../../../../../shared/principles';
+import { groupBy } from '../../../../../../shared/utils';
+
 import { DropDown, ColorRow, QuantityInput } from '../../../../../elements';
 import SizeReference from './components/SizeReference';
 
@@ -20,58 +22,53 @@ const BoxTitle = styled('h4')`
 class VariantChoice extends Component {
   constructor(props) {
     super(props);
+    const { colors, product, getImageUrls, getColorId } = props;
     this.state = {
-      sizes: [
-        {
-          id: 0,
-          name: 'S'
-        },
-        {
-          id: 1,
-          name: 'M'
-        },
-        {
-          id: 2,
-          name: 'L'
-        },
-        {
-          id: 3,
-          name: 'XL'
-        },
-        {
-          id: 4,
-          name: 'XXL'
-        }
-      ],
-      colors: [
-        {
-          id: 0,
-          name: '#E6BDA7'
-        },
-        {
-          id: 1,
-          name: '#989CA0'
-        },
-        {
-          id: 2,
-          name: '#B0D5C1'
-        }
-      ]
+      selectedColor: colors[0],
+      sizes: groupBy(
+        product.productVariant.filter(
+          item => item.colorId === colors[0].colorId
+        ),
+        p => p.sizeId
+      ).map(item => item.size)
     };
+
+    const { selectedColor } = this.state;
+    getImageUrls && getImageUrls(selectedColor);
+    getColorId && getColorId(selectedColor.color.id);
   }
 
-  callback = () => {
-    //do something here
+  getSelectedColor = selectedColor => {
+    const { product, getImageUrls, getColorId } = this.props;
+
+    this.setState({
+      selectedColor,
+      sizes: groupBy(
+        product.productVariant.filter(
+          item => item.colorId === selectedColor.colorId
+        ),
+        p => p.sizeId
+      ).map(item => item.size)
+    });
+
+    getImageUrls && getImageUrls(selectedColor);
+    getColorId && getColorId(selectedColor.color.id);
   };
 
   render() {
-    const { colors, sizes } = this.state;
+    const { sizes, selectedColor } = this.state;
+    const { colors, getSize } = this.props;
 
     return (
       <Wrapper>
         <ChoiceBox>
           <BoxTitle>Màu sắc</BoxTitle>
-          <ColorRow colors={colors} size={30} />
+          <ColorRow
+            colors={colors}
+            size={30}
+            selectedColor={selectedColor}
+            getSelectedColor={this.getSelectedColor}
+          />
         </ChoiceBox>
         <ChoiceBox>
           <BoxTitle>Kích thước</BoxTitle>
@@ -79,16 +76,14 @@ class VariantChoice extends Component {
             title="Chọn kích thước"
             optionList={sizes}
             hasBorder
-            callback={this.callback}
+            callback={getSize}
+            selectedColor={selectedColor}
           />
           <SizeReference />
         </ChoiceBox>
         <ChoiceBox>
           <BoxTitle>Số lượng</BoxTitle>
-          <QuantityInput
-            callback={this.callback}
-            width="120px"
-          />
+          <QuantityInput callback={this.callback} width="120px" />
         </ChoiceBox>
       </Wrapper>
     );
