@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Row, Col, Collapse, Spin } from 'antd';
 
 import { filtersGroup } from '../../../../../../shared/constants';
-import { callAPI, getMoneyFilterGroup } from '../../../../../../shared/utils';
+import { callAPI, getMoneyFilterGroup, checkCurrentFilter } from '../../../../../../shared/utils';
 
 import SingleFilter from './conponents/SingleFilter';
 
@@ -266,9 +266,11 @@ class FilterPanel extends Component {
             <div className="filter-panel">
               <div className="filter-header">
                 <h4 className="title-text">Lọc sản phẩm</h4>
-                <button className="clear-all" onClick={this.clearCurrentFilterList}>
-                  <i className="far fa-minus-square"></i>Xoá tất cả
-                </button>
+                {checkCurrentFilter(currentFilterList, currentMoneyFilter) ? (
+                  <button className="clear-all" onClick={this.clearCurrentFilterList}>
+                    <i className="far fa-minus-square"></i>Xoá tất cả
+                  </button>
+                ) : null}
                 <div className="selected-items-wrapper">
                   {this.renderCurrentFilterList(currentFilterList)}
                   {this.renderCurrentMoneyFilter(filtersGroup.money, currentMoneyFilter)}
@@ -291,9 +293,11 @@ class FilterPanel extends Component {
           <div className="filter-panel">
             <div className="filter-header">
               <h4 className="title-text">Lọc sản phẩm</h4>
-              <button className="clear-all" onClick={this.clearCurrentFilterList}>
-                <i className="far fa-minus-square"></i>Xoá tất cả
-              </button>
+              {checkCurrentFilter(currentFilterList, currentMoneyFilter) ? (
+                <button className="clear-all" onClick={this.clearCurrentFilterList}>
+                  <i className="far fa-minus-square"></i>Xoá tất cả
+                  </button>
+              ) : null}
               <div className="selected-items-wrapper">
                 {this.renderCurrentFilterList(currentFilterList)}
                 {this.renderCurrentMoneyFilter(filtersGroup.money, currentMoneyFilter)}

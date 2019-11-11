@@ -15,9 +15,30 @@ class ProductDetail extends Component {
     this.state = {
       productId: getIdInMetaTitle(props.match.params.product),
       isLoading: true,
+      isProductChanged: false,
       product: null,
       imageUrls: []
     };
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (getIdInMetaTitle(nextProps.match.params.product) !== prevState.productId) {
+      return {
+        productId: getIdInMetaTitle(nextProps.match.params.product),
+        isLoading: true,
+        isProductChanged: true
+      };
+    }
+
+    return null;
+  }
+
+  componentDidUpdate() {
+    const { isProductChanged, productId } = this.state;
+
+    if (isProductChanged) {
+      this.getProductById(productId);
+    }
   }
 
   getImageUrls = selectedColor => {
@@ -31,12 +52,14 @@ class ProductDetail extends Component {
   getProductById = productId => {
     callAPI(`Product/GetProductById-${productId}`).then(res => this.setState({
       isLoading: false,
+      isProductChanged: false,
       product: res.data
     }));
   }
 
   render() {
     const { isLoading, product, imageUrls } = this.state;
+    const { userEmail, getShoppingCartCount } = this.props;
 
     return isLoading ? (
       <Spin />
@@ -48,7 +71,12 @@ class ProductDetail extends Component {
                 <ImageThumbnails imageUrls={imageUrls}></ImageThumbnails>
               </Col>
               <Col xs={24} md={10} lg={8}>
-                <ProductSummary product={product} getImageUrls={this.getImageUrls} />
+                <ProductSummary
+                  product={product}
+                  getImageUrls={this.getImageUrls}
+                  userEmail={userEmail}
+                  getShoppingCartCount={getShoppingCartCount}
+                />
               </Col>
             </Row>
           </Section>

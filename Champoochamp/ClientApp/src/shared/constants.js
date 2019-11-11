@@ -1,5 +1,6 @@
 ﻿const apiPort = 'http://localhost:4000';
 const newProductInDays = 30;
+const storageShoppingCartKey = 'MyShoppingCart';
 
 const viewportWidth = {
   sm: 575,
@@ -54,6 +55,7 @@ const sortsGroup = [
 export {
   apiPort,
   newProductInDays,
+  storageShoppingCartKey,
   viewportWidth,
   topProductsName,
   imagesGroup,
