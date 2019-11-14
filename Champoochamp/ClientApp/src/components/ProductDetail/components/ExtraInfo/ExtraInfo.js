@@ -19,13 +19,15 @@ const SmallTitle = styled('h4')`
 
 class ExtraInfo extends Component {
   render() {
+    const { product } = this.props;
+
     return (
       <Wrapper>
         <SectionTitle content="Thông tin chi tiết"></SectionTitle>
         <Row gutter={32}>
           <Col xs={24} md={12}>
             <SmallTitle>Mô tả sản phẩm</SmallTitle>
-            <ProductDescription />
+            <ProductDescription product={product}/>
           </Col>
           <Col xs={24} md={12}>
             <SmallTitle>Câu hỏi thường gặp</SmallTitle>

@@ -63,7 +63,7 @@ class QuantityInput extends Component {
     } else {
       this.setState({
         number: Math.floor(number)
-      });
+      }, () => this.props.callback(this.state.number));
     }
   };
 
@@ -73,20 +73,20 @@ class QuantityInput extends Component {
     if (isIncrease) {
       this.setState({
         number: number + 1
-      });
+      }, () => this.props.callback(this.state.number));
     } else {
       if (number <= 1) {
         return;
       }
       this.setState({
         number: number - 1
-      });
+      }, () => this.props.callback(this.state.number));
     }
   };
 
   render() {
     const { number } = this.state;
-    const { callback, width } = this.props;
+    const { width } = this.props;
 
     return (
       <Wrapper width={width}>

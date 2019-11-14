@@ -72,7 +72,7 @@ class NavBarRight extends Component {
   };
 
   render() {
-    const { shoppingCartCount } = this.props;
+    const { cartTotalQuantity } = this.props;
     const { isDrawerVisible, searchData } = this.state;
 
     return (
@@ -81,7 +81,7 @@ class NavBarRight extends Component {
           <SearchBar suggestions={searchData} history={this.props.history} />
         </MenuItem>
         <MenuItem title="Giỏ hàng">
-          <ShoppingCartHeader shoppingCartCount={shoppingCartCount} />
+          <ShoppingCartHeader shoppingCartCount={cartTotalQuantity} />
         </MenuItem>
         <MenuItem title="Đăng nhập">
           <Icon type="user" />

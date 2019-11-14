@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import styled from '@emotion/styled';
 import Slider from 'react-slick';
 
-import { breakpoint } from '../../../../shared/principles';
+import { breakpoint, colors } from '../../../../shared/principles';
 import { getImageUrl } from '../../../../shared/utils';
 import { imagesGroup } from '../../../../shared/constants';
 
@@ -18,6 +18,10 @@ const Wrapper = styled('div')`
       height: auto;
       margin: 10px;
       width: 70px;
+      
+      &.slick-active {
+        border: solid 1px ${colors.black};
+      }
     }
   }
 

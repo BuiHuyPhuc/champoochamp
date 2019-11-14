@@ -40,7 +40,7 @@ namespace API.Controllers
 
     [EnableQuery]
     [Route("GetProductsByCategoryId-{id}")]
-    public IEnumerable<Product> GetProductsByIdCategory(int id)
+    public IEnumerable<Product> GetProductsByCategoryId(int id)
     {
       using (champoochampContext db = new champoochampContext())
       {
@@ -67,9 +67,37 @@ namespace API.Controllers
                               .ThenInclude(p => p.ProductVariant)
                                 .ThenInclude(p => p.ProductImages)
                             .SingleOrDefault();
-          productBusiness.GetProductsByCategory(category, ref productList);        
+          productBusiness.GetProductsByCategory(category, ref productList);
 
           return productList;
+        }
+        catch (Exception e)
+        {
+          Console.WriteLine(e.Message);
+          return null;
+        }
+      }
+    }
+
+    [EnableQuery]
+    [Route("GetRelativeProducts-{productId}-{collectionId}-{categoryId}")]
+    public IEnumerable<Product> GetRelativeProducts(int productId, int collectionId, int categoryId)
+    {
+      using (champoochampContext db = new champoochampContext())
+      {
+        try
+        {
+          List<Product> result = new List<Product>();
+
+          List<Product> productList = db.Product.Where(p =>
+            p.Id != productId &&
+            (p.CategoryId == categoryId || p.CollectionId == collectionId))
+            .Include(p => p.ProductVariant)
+              .ThenInclude(p => p.Color)
+            .OrderByDescending(p => p.CollectionId)
+            .ToList();
+
+          return productBusiness.ShortProductList(productList);
         }
         catch (Exception e)
         {
@@ -98,6 +126,30 @@ namespace API.Controllers
             .SingleOrDefault();
 
           return productBusiness.ShortProduct(product);
+        }
+        catch (Exception e)
+        {
+          Console.WriteLine(e.Message);
+          return null;
+        }
+      }
+    }
+
+    [Route("GetProductsByCollectionId-{collectionId}")]
+    public IEnumerable<Product> GetProductsByCollectionId(int collectionId)
+    {
+      using (champoochampContext db = new champoochampContext())
+      {
+        try
+        {
+          List<Product> productList = db.Product
+            .Where(p => p.CollectionId == collectionId)
+            .Include(p => p.Collection)
+            .Include(p => p.ProductVariant)
+              .ThenInclude(p => p.Color)            
+            .ToList();
+
+          return productBusiness.ShortProductList(productList);
         }
         catch (Exception e)
         {
