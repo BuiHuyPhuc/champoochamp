@@ -1,12 +1,12 @@
 ﻿import { storageShoppingCartKey } from '../constants';
 import callAPI from './callAPI';
-import getShoppingCartList from './getShoppingCartList';
+import getCartTotalQuantity from './getCartTotalQuantity';
 
-const addCartItem = (productId, colorId, sizeId, quantity, user, getShoppingCartCount) => {
+const addCartItem = (productId, colorId, sizeId, quantity, user, updateCartTotalQuantity) => {  
   if (user) {
     const url = `Cart/AddCartItem-${productId}-${colorId}-${sizeId}-${quantity}-${user.Email}`;
 
-    callAPI(url).then(res => getShoppingCartCount(getShoppingCartList(res.data).size));
+    callAPI(url).then(res => updateCartTotalQuantity(getCartTotalQuantity(res.data)));
   }
   else {
     const url = `Cart/GetCartItem-${productId}-${colorId}-${sizeId}-${quantity}`;
@@ -18,9 +18,9 @@ const addCartItem = (productId, colorId, sizeId, quantity, user, getShoppingCart
         : `${res.data.productVariant.id}-${res.data.quantity}`;
 
       localStorage.setItem(storageShoppingCartKey, strShoppingCart);
-      getShoppingCartCount(getShoppingCartList(strShoppingCart).size);
+      updateCartTotalQuantity(getCartTotalQuantity(strShoppingCart));
     });
-  }  
+  }
 }
 
 export default addCartItem;

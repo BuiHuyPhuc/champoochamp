@@ -114,7 +114,8 @@ class FilterPanel extends Component {
         { name: filtersGroup.color, data: [] },
         { name: filtersGroup.brand, data: [] }
       ],
-      currentMoneyFilter: { id: 0 }
+      currentMoneyFilter: { id: 0 },
+      activeKey: []
     };
   }
 
@@ -122,7 +123,8 @@ class FilterPanel extends Component {
     if (nextProps.categoryId !== prevState.categoryId) {
       return {
         categoryId: nextProps.categoryId,
-        isCategoryChanged: true
+        isCategoryChanged: true,
+        activeKey: []
       };
     }
 
@@ -155,7 +157,13 @@ class FilterPanel extends Component {
           { name: filtersGroup.brand, data: [] }
         ],
         currentMoneyFilter: { id: 0 }
-      })
+      },
+        () =>
+          this.props.getCurrentFilterList(
+            this.state.currentFilterList,
+            this.state.currentMoneyFilter
+          )
+      )
     );
   };
 
@@ -184,7 +192,7 @@ class FilterPanel extends Component {
             group={filterGroup.name}
             filterItem={item}
             title={item.name}
-            callback={this.parentOnclick}
+            callback={this.selectedFilterItem}
           />
         </Col>
       );
@@ -199,7 +207,7 @@ class FilterPanel extends Component {
               group={moneyFilterGroup.name}
               filterItem={item}
               title={`Dưới ${item.toMoney}`}
-              callback={this.parentOnclick}
+              callback={this.selectedFilterItem}
             />
           </Col>
         );
@@ -210,7 +218,7 @@ class FilterPanel extends Component {
               group={moneyFilterGroup.name}
               filterItem={item}
               title={`Trên ${item.fromMoney}`}
-              callback={this.parentOnclick}
+              callback={this.selectedFilterItem}
             />
           </Col>
         );
@@ -221,7 +229,7 @@ class FilterPanel extends Component {
               group={moneyFilterGroup.name}
               filterItem={item}
               title={`${item.fromMoney} - ${item.toMoney}`}
-              callback={this.parentOnclick}
+              callback={this.selectedFilterItem}
             />
           </Col>
         );
@@ -238,7 +246,7 @@ class FilterPanel extends Component {
             filterItem={item}
             title={item.name}
             iconType="fas fa-times"
-            callback={this.parentOnclick}
+            callback={this.selectedFilterItem}
           />
         );
       });
@@ -255,7 +263,7 @@ class FilterPanel extends Component {
           filterItem={currentMoneyFilter}
           title={`Dưới ${currentMoneyFilter.toMoney}`}
           iconType="fas fa-times"
-          callback={this.parentOnclick}
+          callback={this.selectedFilterItem}
         />
       );
     } else if (!currentMoneyFilter.toMoney) {
@@ -266,7 +274,7 @@ class FilterPanel extends Component {
           filterItem={currentMoneyFilter}
           title={`Trên ${currentMoneyFilter.fromMoney}`}
           iconType="fas fa-times"
-          callback={this.parentOnclick}
+          callback={this.selectedFilterItem}
         />
       );
     } else {
@@ -277,7 +285,7 @@ class FilterPanel extends Component {
           filterItem={currentMoneyFilter}
           title={`${currentMoneyFilter.fromMoney} - ${currentMoneyFilter.toMoney}`}
           iconType="fas fa-times"
-          callback={this.parentOnclick}
+          callback={this.selectedFilterItem}
         />
       );
     }
@@ -303,7 +311,7 @@ class FilterPanel extends Component {
     );
   };
 
-  parentOnclick = (group, filterItem) => {
+  selectedFilterItem = (group, filterItem) => {
     const { currentFilterList, currentMoneyFilter } = this.state;
 
     if (group === filtersGroup.money) {
@@ -349,82 +357,98 @@ class FilterPanel extends Component {
     }
   };
 
+  onChangeCollapseFilter = key => {
+    this.setState({ activeKey: key });
+  };
+
+  onCloseCollapseFilter = () => {
+    this.setState({ activeKey: [] });
+  };
+
   render() {
     const {
       isLoading,
       filterGroupList,
       currentFilterList,
-      currentMoneyFilter
+      currentMoneyFilter,
+      activeKey
     } = this.state;
 
     return isLoading ? (
       <Spin />
     ) : (
-      <Fragment>
-        <MobileWrapper>
-          <Collapse bordered={false} css={collapseFilterPanel}>
-            <Panel
-              header={
-                <Link content="Bộ lọc" iconType="fas fa-sliders-h"></Link>
-              }
-              showArrow={false}
-            >
-              <FilterWrapper>
-                <FilterHeader>
-                  <FilterTitle>Lọc sản phẩm</FilterTitle>
-                  {checkCurrentFilter(currentFilterList, currentMoneyFilter) ? (
-                    <Link
-                      content="Xoá tất cả"
-                      iconType="fas fa-times"
-                      onClick={this.clearCurrentFilterList}
-                    />
-                  ) : null}
-                  <SelectedItemsWrapper>
-                    {this.renderCurrentFilterList(currentFilterList)}
-                    {this.renderCurrentMoneyFilter(
-                      filtersGroup.money,
-                      currentMoneyFilter
-                    )}
-                  </SelectedItemsWrapper>
-                </FilterHeader>
-                <Collapse bordered={false} expandIconPosition="right">
-                  {this.renderFilterGroupList(filterGroupList)}
-                </Collapse>
-              </FilterWrapper>
-            </Panel>
-          </Collapse>
-        </MobileWrapper>
-
-        <DesktopWrapper>
-          <FilterWrapper>
-            <FilterHeader>
-              <FilterTitle>Lọc sản phẩm</FilterTitle>
-              {checkCurrentFilter(currentFilterList, currentMoneyFilter) ? (
-                <Link
-                  content="Xoá tất cả"
-                  iconType="fas fa-times"
-                  onClick={this.clearCurrentFilterList}
-                />
-              ) : null}
-              <SelectedItemsWrapper>
-                {this.renderCurrentFilterList(currentFilterList)}
-                {this.renderCurrentMoneyFilter(
-                  filtersGroup.money,
-                  currentMoneyFilter
-                )}
-              </SelectedItemsWrapper>
-            </FilterHeader>
+        <Fragment>
+          <MobileWrapper>
             <Collapse
+              activeKey={activeKey}
+              onChange={this.onChangeCollapseFilter}
               bordered={false}
-              expandIconPosition="right"
-              css={collapseFilterPanel}
-            >
-              {this.renderFilterGroupList(filterGroupList)}
+              css={collapseFilterPanel}>
+              <Panel
+                header={
+                  <Link content="Bộ lọc" iconType="fas fa-sliders-h"></Link>
+                }
+                showArrow={false}
+              >
+                <FilterWrapper>
+                  <FilterHeader>
+                    <FilterTitle>Lọc sản phẩm</FilterTitle>
+                    {checkCurrentFilter(currentFilterList, currentMoneyFilter) ? (
+                      <Link
+                        content="Xoá tất cả"
+                        iconType="fas fa-times"
+                        onClick={this.clearCurrentFilterList}
+                      />
+                    ) : null}
+                    <SelectedItemsWrapper>
+                      {this.renderCurrentFilterList(currentFilterList)}
+                      {this.renderCurrentMoneyFilter(
+                        filtersGroup.money,
+                        currentMoneyFilter
+                      )}
+                    </SelectedItemsWrapper>
+                  </FilterHeader>
+                  <Collapse bordered={false} expandIconPosition="right">
+                    {this.renderFilterGroupList(filterGroupList)}
+                  </Collapse>
+                </FilterWrapper>
+                <Link content="Đóng" onClick={this.onCloseCollapseFilter} />
+              </Panel>
             </Collapse>
-          </FilterWrapper>
-        </DesktopWrapper>
-      </Fragment>
-    );
+          </MobileWrapper>
+
+          <DesktopWrapper>
+            <FilterWrapper>
+              <FilterHeader>
+                <FilterTitle>Lọc sản phẩm</FilterTitle>
+                {checkCurrentFilter(currentFilterList, currentMoneyFilter) ? (
+                  <Link
+                    content="Xoá tất cả"
+                    iconType="fas fa-times"
+                    onClick={this.clearCurrentFilterList}
+                  />
+                ) : null}
+                <SelectedItemsWrapper>
+                  {this.renderCurrentFilterList(currentFilterList)}
+                  {this.renderCurrentMoneyFilter(
+                    filtersGroup.money,
+                    currentMoneyFilter
+                  )}
+                </SelectedItemsWrapper>
+              </FilterHeader>
+              <Collapse
+                activeKey={activeKey}
+                onChange={this.onChangeCollapseFilter}
+                bordered={false}
+                expandIconPosition="right"
+                css={collapseFilterPanel}
+              >
+                {this.renderFilterGroupList(filterGroupList)}
+              </Collapse>
+            </FilterWrapper>
+          </DesktopWrapper>
+        </Fragment>
+      );
   }
 }
 

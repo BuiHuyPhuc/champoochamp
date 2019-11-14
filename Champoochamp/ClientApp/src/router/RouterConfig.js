@@ -2,6 +2,7 @@
 import { Route, Switch } from 'react-router-dom';
 import Homepage from "../components/Homepage";
 import CategoryPage from "../components/CategoryPage";
+import CollectionPage from "../components/CollectionPage";
 import SearchPage from "../components/SearchPage";
 import ProductDetail from "../components/ProductDetail";
 import Cart from "../components/CartPage";
@@ -9,27 +10,20 @@ import Payment from "../components/PaymentPage";
 
 class RouterConfig extends Component {
   render() {
-    const { getShoppingCartCount } = this.props;
-    const user = {
-      Email: 'buihuyphuc97@gmail.com',
-      FirstName: 'Bùi Huy',
-      LastName: 'Phúc',
-      Telephone: '0914659369',
-      CreatedDate: '2019-11-08'
-    };
-    //const user = null;
+    const { user, updateCartTotalQuantity } = this.props;    
 
     return (
       <Switch>
         <Route exact path="/" component={Homepage} />
         <Route path="/san-pham/:lv1?/:lv2?/:lv3?" component={CategoryPage} />
+        <Route path="/bo-suu-tap/:collection" component={CollectionPage} />
         <Route path="/tim-kiem/:key?" component={SearchPage} />
         <Route path="/chi-tiet/:product" render={(props) =>
-          (<ProductDetail {...props} user={user} getShoppingCartCount={getShoppingCartCount} />)
+          (<ProductDetail {...props} user={user} updateCartTotalQuantity={updateCartTotalQuantity} />)
         }
         />
         <Route path="/gio-hang" render={(props) =>
-          (<Cart {...props} user={user} getShoppingCartCount={getShoppingCartCount} />)
+          (<Cart {...props} user={user} updateCartTotalQuantity={updateCartTotalQuantity} />)
         }
         />
         <Route path="/thanh-toan" render={(props) =>

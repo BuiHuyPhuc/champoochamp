@@ -47,13 +47,13 @@ class Header extends Component {
   };
 
   render() {
-    const { shoppingCartCount } = this.props;
+    const { cartTotalQuantity } = this.props;
     
     return (
       <Wrapper>
         <HeaderInner>
           <NavBarLeft />
-          <NavBarRight shoppingCartCount={shoppingCartCount} />
+          <NavBarRight cartTotalQuantity={cartTotalQuantity} />
         </HeaderInner>
       </Wrapper>
     );

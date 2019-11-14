@@ -1,4 +1,4 @@
-/** @jsx jsx */
+﻿/** @jsx jsx */
 import { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Menu } from 'antd';
@@ -62,7 +62,7 @@ const menuItemGroupStyle = css`
       outline: none;
     }
 
-    & > a {
+    a {
       color: ${colors.darkGray};
 
       &:hover {
@@ -76,7 +76,8 @@ class NavBarLeft extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      categoryMenu: []
+      categoryMenu: [],
+      collectionMenu: []
     };
   }
 
@@ -86,9 +87,14 @@ class NavBarLeft extends Component {
         categoryMenu: res.data
       })
     );
+    callAPI(`Collection/GetAllCollections`).then(res =>
+      this.setState({
+        collectionMenu: res.data
+      })
+    );
   }
 
-  renderMenu = (categories, url) =>
+  renderCategoryMenu = (categories, url) =>
     categories.map(category => {
       if (!category.parentId) {
         return (
@@ -96,7 +102,7 @@ class NavBarLeft extends Component {
             key={category.id}
             title={<MenuItemTitle>{category.name}</MenuItemTitle>}
           >
-            {this.renderMenu(
+            {this.renderCategoryMenu(
               category.inverseParent,
               `${url}/${category.metaTitle}`
             )}
@@ -109,7 +115,7 @@ class NavBarLeft extends Component {
             title={category.name}
             css={menuItemGroupStyle}
           >
-            {this.renderMenu(
+            {this.renderCategoryMenu(
               category.inverseParent,
               `${url}/${category.metaTitle}`
             )}
@@ -128,8 +134,19 @@ class NavBarLeft extends Component {
       return true;
     });
 
+  renderCollectionMenu = collectionMenu =>
+    collectionMenu.map(collection => {
+      return (
+        <Menu.Item key={collection.id}>
+          <NavLink to={`/bo-suu-tap/${collection.metaTitle}-${collection.id}`}>
+            {collection.name}
+          </NavLink>
+        </Menu.Item>
+      );
+  })
+
   render() {
-    const { categoryMenu } = this.state;
+    const { categoryMenu, collectionMenu } = this.state;
 
     return (
       <div>
@@ -139,7 +156,12 @@ class NavBarLeft extends Component {
           </NavLink>
         </Logo>
         <Menu mode="horizontal" css={menuStyle}>
-          {this.renderMenu(categoryMenu, '/san-pham')}
+          {this.renderCategoryMenu(categoryMenu, '/san-pham')}
+          <Menu.SubMenu
+            title={<MenuItemTitle>Bộ sưu tập</MenuItemTitle>}
+          >
+            {this.renderCollectionMenu(collectionMenu)}
+          </Menu.SubMenu>
         </Menu>
       </div>
     );

@@ -57,7 +57,7 @@ class VariantChoice extends Component {
 
   render() {
     const { sizes, selectedColor } = this.state;
-    const { colors, getSize } = this.props;
+    const { colors, getSize, getQuantity } = this.props;
 
     return (
       <Wrapper>
@@ -83,7 +83,7 @@ class VariantChoice extends Component {
         </ChoiceBox>
         <ChoiceBox>
           <BoxTitle>Số lượng</BoxTitle>
-          <QuantityInput callback={this.callback} width="120px" />
+          <QuantityInput callback={getQuantity} width="120px" />
         </ChoiceBox>
       </Wrapper>
     );

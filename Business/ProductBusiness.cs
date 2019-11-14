@@ -45,8 +45,14 @@ namespace Business
           p.Category = null;
           foreach (ProductVariant pv in p.ProductVariant)
           {
-            pv.Color.ProductVariant = null;
-            pv.ProductImages.ProductVariant = null;
+            if (pv.Color != null)
+            {
+              pv.Color.ProductVariant = null;
+            }
+            if (pv.ProductImages != null)
+            {
+              pv.ProductImages.ProductVariant = null;
+            }
           }
 
           result.Add(p);
@@ -58,9 +64,17 @@ namespace Business
     {
       foreach (Product p in productList)
       {
+        if (p.Collection != null)
+        {
+          p.Collection.Product = null;
+        }
+
         foreach (ProductVariant pv in p.ProductVariant)
         {
-          pv.Color.ProductVariant = null;
+          if (pv.Color != null)
+          {
+            pv.Color.ProductVariant = null;
+          }
         }
       }
 
@@ -68,7 +82,7 @@ namespace Business
     }
 
     public Product ShortProduct(Product product)
-    {
+    {    
       foreach (ProductVariant pv in product.ProductVariant)
       {
         if(pv.Color != null)

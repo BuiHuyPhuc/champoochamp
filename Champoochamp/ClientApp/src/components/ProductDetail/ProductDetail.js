@@ -65,7 +65,7 @@ class ProductDetail extends Component {
 
   render() {
     const { isLoading, product, imageUrls } = this.state;
-    const { userEmail, getShoppingCartCount } = this.props;
+    const { user, updateCartTotalQuantity } = this.props;
 
     return isLoading ? (
       <Spin />
@@ -80,17 +80,17 @@ class ProductDetail extends Component {
               <ProductSummary
                 product={product}
                 getImageUrls={this.getImageUrls}
-                userEmail={userEmail}
-                getShoppingCartCount={getShoppingCartCount}
+                user={user}
+                updateCartTotalQuantity={updateCartTotalQuantity}
               />
             </Col>
           </Row>
         </Section>
         <Section>
-          <ExtraInfo />
+          <ExtraInfo product={product} />
         </Section>
         <Section>
-          <TopProducts sectionTitle={topProductsName.discountProducts} />
+          <TopProducts product={product} sectionTitle={topProductsName.relatedProducts} />
         </Section>
       </PageContainer>
     );
