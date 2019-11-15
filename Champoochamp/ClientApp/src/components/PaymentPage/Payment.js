@@ -17,8 +17,8 @@ class Payment extends Component {
     this.getShoppingCart(this.props.user);
   }
 
-  getShoppingCart = (user) => {
-    const url = `Cart/GetShoppingCart-${user ? user.Email : null}||${localStorage.getItem(storageShoppingCartKey)}`
+  getShoppingCart = user => {
+    const url = `Cart/GetShoppingCart-${user && user.Email}||${localStorage.getItem(storageShoppingCartKey)}`;
     callAPI(url).then(res =>
       this.setState({
         isLoading: false,

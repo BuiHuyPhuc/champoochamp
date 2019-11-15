@@ -13,7 +13,8 @@ class ProductSummary extends Component {
     this.state = {
       colors: groupBy(props.product.productVariant, p => p.colorId),
       colorId: 0,
-      sizeId: 0
+      sizeId: 0,
+      quantity: 0
     };
   }
 
@@ -25,10 +26,13 @@ class ProductSummary extends Component {
     this.setState({ sizeId: size.id });
   };
 
+  getQuantity = quantity => {
+    this.setState({ quantity });
+  }
+
   onAddCartItem = user => {
-    const { colorId, sizeId } = this.state;
-    const { product, getShoppingCartCount } = this.props;
-    const quantity = 1;
+    const { colorId, sizeId, quantity } = this.state;
+    const { product, updateCartTotalQuantity } = this.props;
 
     if (colorId > 0 && sizeId > 0 && product) {
       if (!user && !typeof Storage) {
@@ -42,7 +46,7 @@ class ProductSummary extends Component {
         sizeId,
         quantity,
         user,
-        getShoppingCartCount
+        updateCartTotalQuantity
       );
       alert('Thêm thành công');
     } else {
@@ -63,6 +67,7 @@ class ProductSummary extends Component {
           getImageUrls={getImageUrls}
           getColorId={this.getColorId}
           getSize={this.getSize}
+          getQuantity={this.getQuantity}
         />
         <Button
           title="Thêm vào giỏ"

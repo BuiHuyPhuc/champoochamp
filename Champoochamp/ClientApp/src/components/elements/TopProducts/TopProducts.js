@@ -81,7 +81,8 @@ class TopProducts extends Component {
           productList: res.data
         })
       );
-    } else if (this.props.sectionTitle === topProductsName.newProducts) {
+    }
+    else if (this.props.sectionTitle === topProductsName.newProducts) {
       const url = `Product/GetAllProducts`;
       const query = `?$orderby=createdDate desc&$top=10`;
 
@@ -92,6 +93,22 @@ class TopProducts extends Component {
         })
       );
     }
+    else if (this.props.sectionTitle === topProductsName.relatedProducts) {
+      const { product } = this.props;
+      const query = `?$top=10`;
+      const url = `Product/GetRelativeProducts-${product.id}-${product.collectionId ? product.collectionId : 0}-${product.categoryId}`;
+      
+      callAPI(url, query).then(res =>
+        this.setState({
+          isLoading: false,
+          productList: res.data
+        })
+      );
+    }
+  }
+
+  getSlidesToShow = (productList, limit) => {
+    return productList.length < limit ? productList.length : limit
   }
 
   renderTopProducts = productList =>
@@ -108,12 +125,13 @@ class TopProducts extends Component {
   render() {
     const { isLoading, productList } = this.state;
     const { sectionTitle } = this.props;
+    
     const settings = {
       infinite: true,
       autoplaySpeed: 5000,
       draggable: true,
-      slidesToShow: 5,
-      slidesToScroll: 5,
+      slidesToShow: this.getSlidesToShow(productList, 5),
+      slidesToScroll: this.getSlidesToShow(productList, 5),
       speed: 500,
       nextArrow: <NextArrow />,
       prevArrow: <PrevArrow />,
@@ -121,22 +139,22 @@ class TopProducts extends Component {
         {
           breakpoint: viewportWidth.lg,
           settings: {
-            slidesToShow: 4,
-            slidesToScroll: 4
+            slidesToShow: this.getSlidesToShow(productList, 4),
+            slidesToScroll: this.getSlidesToShow(productList, 4)
           }
         },
         {
           breakpoint: viewportWidth.md,
           settings: {
-            slidesToShow: 3,
-            slidesToScroll: 3
+            slidesToShow: this.getSlidesToShow(productList, 3),
+            slidesToScroll: this.getSlidesToShow(productList, 3)
           }
         },
         {
           breakpoint: viewportWidth.sm,
           settings: {
-            slidesToShow: 2,
-            slidesToScroll: 2
+            slidesToShow: this.getSlidesToShow(productList, 2),
+            slidesToScroll: this.getSlidesToShow(productList, 2)
           }
         }
       ]

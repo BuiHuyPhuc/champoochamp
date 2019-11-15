@@ -20,31 +20,25 @@ const Content = styled('span')`
 
 class ProductDescription extends Component {
   render() {
+    const { product } = this.props;
+    
     return (
       <Wrapper>
         <Item>
           <AwesomeIcon type="fas fa-angle-right" />
-          <Content>Chất liệu: 90% vải cotton và 10% vải thun</Content>
+          <Content>Chất liệu: {product.material.name}</Content>
         </Item>
         <Item>
           <AwesomeIcon type="fas fa-angle-right" />
-          <Content>Chất liệu: 90% vải cotton và 10% vải thun</Content>
+          <Content>Thương hiệu: {product.brand.name}</Content>
         </Item>
         <Item>
           <AwesomeIcon type="fas fa-angle-right" />
-          <Content>Chất liệu: 90% vải cotton và 10% vải thun</Content>
-        </Item>
+          <Content>Thời hạn bảo hành: {product.warrantyPeriod}</Content>
+        </Item>        
         <Item>
           <AwesomeIcon type="fas fa-angle-right" />
-          <Content>Chất liệu: 90% vải cotton và 10% vải thun</Content>
-        </Item>
-        <Item>
-          <AwesomeIcon type="fas fa-angle-right" />
-          <Content>Chất liệu: 90% vải cotton và 10% vải thun</Content>
-        </Item>
-        <Item>
-          <AwesomeIcon type="fas fa-angle-right" />
-          <Content>Chất liệu: 90% vải cotton và 10% vải thun</Content>
+          <Content>Chi tiết: {product.detail}</Content>
         </Item>
       </Wrapper>
     );

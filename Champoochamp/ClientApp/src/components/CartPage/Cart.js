@@ -55,7 +55,7 @@ class Cart extends Component {
         updateShoppingCart(
           this.state.strShoppingCart,
           user,
-          this.props.getShoppingCartCount
+          this.props.updateCartTotalQuantity
         )
     );
   };
@@ -76,7 +76,7 @@ class Cart extends Component {
         updateShoppingCart(
           this.state.strShoppingCart,
           user,
-          this.props.getShoppingCartCount
+          this.props.updateCartTotalQuantity
         )
     );
   };
