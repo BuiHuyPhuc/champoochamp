@@ -34,18 +34,6 @@ const HeaderInner = styled('div')`
 `;
 
 class Header extends Component {
-  onShowDrawer = () => {
-    this.setState({
-      isDrawerVisible: true
-    });
-  };
-
-  onCloseDrawer = () => {
-    this.setState({
-      isDrawerVisible: false
-    });
-  };
-
   render() {
     const { shoppingCartCount } = this.props;
     

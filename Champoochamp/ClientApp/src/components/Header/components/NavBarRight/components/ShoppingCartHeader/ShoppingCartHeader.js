@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
-import listensToClickOutside from 'react-onclickoutside';
 import { Icon } from 'antd';
 import styled from '@emotion/styled';
 
 import { colors } from '../../../../../../shared/principles';
 
 const Wrapper = styled('div')`
-  cursor: pointer;
   position: relative;
 `;
 
-const CartQuantity = styled('span')`
+const CartIcon = styled('div')`
+  cursor: pointer;
+`;
+
+const Quantity = styled('span')`
   background: ${colors.black};
   border-radius: 50%;
   color: ${colors.white};
@@ -24,56 +26,19 @@ const CartQuantity = styled('span')`
   width: 17px;
 `;
 
-const CartSummary = styled('div')`
-  background: ${colors.white};
-  border: solid 1px ${colors.gray};
-  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.05);
-  max-height: 80vh;
-  overflow-y: auto;
-  padding: 10px;
-  position: absolute;
-  right: -15px;
-  top: 150%;
-  width: 400px;
-  z-index: 100;
-`;
-
 class ShoppingCartHeader extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isVisible: false
-    };
-  }
-
-  onShowCartSummary = () => {
-    this.setState({
-      isVisible: true
-    });
-  };
-
-  onHideCartSummary = () => {
-    this.setState({
-      isVisible: false
-    });
-  };
-
-  handleClickOutside = () => {
-    this.onHideCartSummary();
-  };
-
   render() {
-    const { shoppingCartCount } = this.props;
-    const { isVisible } = this.state;
+    const { shoppingCartCount, onShowCartDrawer } = this.props;
 
     return (
-      <Wrapper onClick={this.onShowCartSummary}>
-        <Icon type="shopping" />
-        <CartQuantity>{shoppingCartCount}</CartQuantity>
-        {isVisible && <CartSummary>Hello</CartSummary>}
+      <Wrapper onClick={onShowCartDrawer}>
+        <CartIcon title="Giỏ hàng">
+          <Icon type="shopping" />
+          <Quantity>{shoppingCartCount}</Quantity>
+        </CartIcon>
       </Wrapper>
     );
   }
 }
 
-export default listensToClickOutside(ShoppingCartHeader);
+export default ShoppingCartHeader;
