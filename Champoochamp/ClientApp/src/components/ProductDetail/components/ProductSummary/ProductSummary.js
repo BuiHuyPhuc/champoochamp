@@ -5,7 +5,6 @@ import { groupBy, addCartItem } from '../../../../shared/utils';
 import { Button } from '../../../elements';
 import HeaderInfo from './components/HeaderInfo';
 import VariantChoice from './components/VariantChoice';
-import ActionButtons from './components/ActionButtons';
 
 class ProductSummary extends Component {
   constructor(props) {
@@ -14,7 +13,7 @@ class ProductSummary extends Component {
       colors: groupBy(props.product.productVariant, p => p.colorId),
       colorId: 0,
       sizeId: 0,
-      quantity: 0
+      quantity: 1
     };
   }
 

@@ -14,14 +14,15 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: {
-        Email: 'buihuyphuc97@gmail.com',
-        FirstName: 'Bùi Huy',
-        LastName: 'Phúc',
-        Telephone: '0914659369',
-        CreatedDate: '2019-11-08'
-      },
-      cartTotalQuantity: 0
+      // user: {
+      //   Email: 'buihuyphuc97@gmail.com',
+      //   FirstName: 'Bùi Huy',
+      //   LastName: 'Phúc',
+      //   Telephone: '0914659369',
+      //   CreatedDate: '2019-11-08'
+      // },
+      user: null,
+      shoppingCartCount: 0
     };
   }
 
@@ -32,29 +33,29 @@ class App extends Component {
       const url = `User/GetUserByEmail-${user.Email}`;
       callAPI(url).then(res =>
         this.setState({
-          cartTotalQuantity: getCartTotalQuantity(res.data.shoppingCarts)
+          shoppingCartCount: getCartTotalQuantity(res.data.shoppingCarts)
         })
       );
     }
     else {
       this.setState({
-        cartTotalQuantity: getCartTotalQuantity(localStorage.getItem(storageShoppingCartKey))
+        shoppingCartCount: getCartTotalQuantity(localStorage.getItem(storageShoppingCartKey))
       })
     }   
   }
 
-  updateCartTotalQuantity = cartTotalQuantity => {
+  updateCartTotalQuantity = shoppingCartCount => {
     this.setState({
-      cartTotalQuantity
+      shoppingCartCount
     });
   }
 
   render() {
-    const { user, cartTotalQuantity } = this.state;
+    const { user, shoppingCartCount } = this.state;
 
     return (
       <Router history={history}>
-        <Header user={user} cartTotalQuantity={cartTotalQuantity} />
+        <Header user={user} shoppingCartCount={shoppingCartCount} />
         <RouterConfig user={user} updateCartTotalQuantity={this.updateCartTotalQuantity}></RouterConfig>
       </Router>
     );

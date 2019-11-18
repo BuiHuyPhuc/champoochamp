@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom';
 import { Row, Col } from 'antd';
 import styled from '@emotion/styled';
 
@@ -7,9 +8,9 @@ import {
   typography,
   breakpoint
 } from '../../../../../../shared/principles';
-import { Image, Link, Button } from '../../../../../elements';
+import { Image, Link, Button, SectionTitle } from '../../../../../elements';
 
-import productImg from '../../../../../../assets/images/products/000105_1.jpg';
+import productImg from '../../../../../../assets/images/products/00001005_1.jpg';
 
 const Wrapper = styled('div')`
   padding: 40px;
@@ -17,10 +18,6 @@ const Wrapper = styled('div')`
   ${breakpoint.sm`
     padding: 40px 20px;
   `}
-`;
-
-const Title = styled('h4')`
-  ${typography.mdTitle};
 `;
 
 const CartItemList = styled('ul')`
@@ -35,7 +32,7 @@ const CartItem = styled('li')`
 `;
 
 const ProductName = styled('span')`
-  font-weight: 700;
+  ${typography.boldText};
 `;
 
 const ProductPrice = styled('div')`
@@ -61,11 +58,12 @@ const BackButton = styled('div')`
 
 class CartSummary extends Component {
   render() {
-    const { onCloseCartDrawer } = this.props;
+    const { onCloseDrawer } = this.props;
 
     return (
       <Wrapper>
-        <Title>Giỏ hàng</Title>
+        <SectionTitle content="Giỏ hàng" />
+
         <CartItemList>
           <CartItem>
             <Row gutter={16}>
@@ -110,6 +108,7 @@ class CartSummary extends Component {
             </Row>
           </CartItem>
         </CartItemList>
+
         <TotalWrapper>
           <Row gutter={8}>
             <Col span={12}>
@@ -120,12 +119,16 @@ class CartSummary extends Component {
             </Col>
           </Row>
         </TotalWrapper>
-        <Button title="Xem giỏ hàng" isBlockButton />
+
+        <NavLink to={`/gio-hang`}>
+          <Button title="Xem giỏ hàng" isBlockButton onClick={onCloseDrawer} />
+        </NavLink>
+
         <BackButton>
           <Link
-            content="Tiếp tục mua sắm"
+            content="Quay lại"
             iconType="fas fa-chevron-left"
-            onClick={onCloseCartDrawer}
+            onClick={onCloseDrawer}
           />
         </BackButton>
       </Wrapper>

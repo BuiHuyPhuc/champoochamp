@@ -3,6 +3,10 @@ import styled from '@emotion/styled';
 import { Input, Icon } from 'antd';
 import PropTypes from 'prop-types';
 
+import {
+  minProductQuantity,
+  maxProductQuantity
+} from '../../../shared/constants';
 import { colors } from '../../../shared/principles';
 
 const Wrapper = styled('div')`
@@ -25,8 +29,6 @@ const SingleInput = styled(Input)`
   border: none;
   border-radius: 0;
   color: ${colors.black};
-  font-size: inherit;
-  height: auto;
   padding: 10px;
   text-align: center;
 
@@ -45,7 +47,7 @@ class QuantityInput extends Component {
     const value = props.value || {};
 
     this.state = {
-      number: value.number || 1
+      number: value.number || minProductQuantity
     };
   }
 
@@ -58,29 +60,44 @@ class QuantityInput extends Component {
   handleInputBlur = e => {
     const number = e.target.value;
 
-    if (isNaN(number) || number <= 1) {
-      this.setState({ number: 1 });
+    if (isNaN(number) || number < minProductQuantity) {
+      this.setState({ number: minProductQuantity });
+    } else if (number > maxProductQuantity) {
+      this.setState({ number: maxProductQuantity });
     } else {
-      this.setState({
-        number: Math.floor(number)
-      }, () => this.props.callback(this.state.number));
+      this.setState(
+        {
+          number: Math.floor(number)
+        },
+        () => this.props.callback(this.state.number)
+      );
     }
   };
 
   handleButtonClick = isIncrease => {
     const { number } = this.state;
+    const { callback } = this.props;
 
     if (isIncrease) {
-      this.setState({
-        number: number + 1
-      }, () => this.props.callback(this.state.number));
-    } else {
-      if (number <= 1) {
+      if (number >= maxProductQuantity) {
         return;
       }
-      this.setState({
-        number: number - 1
-      }, () => this.props.callback(this.state.number));
+      this.setState(
+        {
+          number: number + 1
+        },
+        () => callback(this.state.number)
+      );
+    } else {
+      if (number <= minProductQuantity) {
+        return;
+      }
+      this.setState(
+        {
+          number: number - 1
+        },
+        () => callback(this.state.number)
+      );
     }
   };
 

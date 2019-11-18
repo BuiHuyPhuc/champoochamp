@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 
 import { topProductsName } from '../../shared/constants';
 import { TopProducts, Section, PageContainer } from '../elements';
@@ -7,8 +7,8 @@ import Banner from './components/Banner';
 class Homepage extends Component {
   render() {
     return (
-      <div>
-        {/*<Banner></Banner>*/}
+      <Fragment>
+        <Banner></Banner>
         <PageContainer>
           <Section>
             <TopProducts sectionTitle={topProductsName.discountProducts} />
@@ -17,7 +17,7 @@ class Homepage extends Component {
             <TopProducts sectionTitle={topProductsName.newProducts} />
           </Section>
         </PageContainer>
-      </div>
+      </Fragment>
     );
   }
 }

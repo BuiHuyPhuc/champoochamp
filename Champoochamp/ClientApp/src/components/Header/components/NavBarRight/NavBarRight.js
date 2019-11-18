@@ -22,7 +22,7 @@ const MenuItem = styled('div')`
     padding: 0;
   }
 
-  &:nth-last-child(2) {
+  &:nth-last-of-type(2) {
     padding-right: 0;
   }
 
@@ -31,7 +31,7 @@ const MenuItem = styled('div')`
       padding: 10px 0 10px 15px;
     }
 
-    &:nth-last-child(2){
+    &:nth-last-of-type(2){
       padding: 10px 15px;
     }
   `}
@@ -72,27 +72,15 @@ class NavBarRight extends Component {
     );
   }
 
-  onShowMenuDrawer = () => {
+  onShowDrawer = drawerType => {
     this.setState({
-      isMenuDrawerVisible: true
+      [drawerType]: true
     });
   };
 
-  onCloseMenuDrawer = () => {
+  onCloseDrawer = drawerType => {
     this.setState({
-      isMenuDrawerVisible: false
-    });
-  };
-
-  onShowCartDrawer = () => {
-    this.setState({
-      isCartDrawerVisible: true
-    });
-  };
-
-  onCloseCartDrawer = () => {
-    this.setState({
-      isCartDrawerVisible: false
+      [drawerType]: false
     });
   };
 
@@ -108,20 +96,23 @@ class NavBarRight extends Component {
         <MenuItem>
           <ShoppingCartHeader
             shoppingCartCount={shoppingCartCount}
-            onShowCartDrawer={this.onShowCartDrawer}
+            onShowDrawer={() => this.onShowDrawer('isCartDrawerVisible')}
           />
         </MenuItem>
         <MenuItem title="Đăng nhập">
           <Icon type="user" />
         </MenuItem>
         <MenuItem>
-          <CollapseMenuButton type="menu" onClick={this.onShowMenuDrawer} />
+          <CollapseMenuButton
+            type="menu"
+            onClick={() => this.onShowDrawer('isMenuDrawerVisible')}
+          />
         </MenuItem>
 
         <Drawer
           placement="right"
           closable={false}
-          onClose={this.onCloseMenuDrawer}
+          onClose={() => this.onCloseDrawer('isMenuDrawerVisible')}
           visible={isMenuDrawerVisible}
         >
           <SearchBar suggestions={searchData} history={history} />
@@ -130,10 +121,12 @@ class NavBarRight extends Component {
         <CartDrawer
           placement="right"
           closable={false}
-          onClose={this.onCloseCartDrawer}
+          onClose={() => this.onCloseDrawer('isCartDrawerVisible')}
           visible={isCartDrawerVisible}
         >
-          <CartSummary onCloseCartDrawer={this.onCloseCartDrawer} />
+          <CartSummary
+            onCloseDrawer={() => this.onCloseDrawer('isCartDrawerVisible')}
+          />
         </CartDrawer>
       </Wrapper>
     );

@@ -35,13 +35,13 @@ const HeaderInner = styled('div')`
 
 class Header extends Component {
   render() {
-    const { cartTotalQuantity } = this.props;
+    const { shoppingCartCount } = this.props;
     
     return (
       <Wrapper>
         <HeaderInner>
           <NavBarLeft />
-          <NavBarRight cartTotalQuantity={cartTotalQuantity} />
+          <NavBarRight shoppingCartCount={shoppingCartCount} />
         </HeaderInner>
       </Wrapper>
     );

@@ -1,5 +1,5 @@
 ﻿import React, { Component } from 'react';
-import { Spin } from 'antd';
+import { Spin, Row, Col } from 'antd';
 import { NavLink } from 'react-router-dom';
 
 import {
@@ -9,7 +9,11 @@ import {
 } from '../../shared/utils';
 import { storageShoppingCartKey } from '../../shared/constants';
 
-class Cart extends Component {
+import { PageContainer, Section, SectionTitle } from '../elements';
+import CartItemList from './components/CartItemList';
+import CartInfo from './components/CartInfo';
+
+class CartPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -27,7 +31,8 @@ class Cart extends Component {
   getShoppingCart = user => {
     const url = `Cart/GetShoppingCart-${
       user ? user.Email : null
-    }||${localStorage.getItem(storageShoppingCartKey)}`;
+    } || ${localStorage.getItem(storageShoppingCartKey)}`;
+
     callAPI(url).then(res =>
       this.setState({
         isLoading: false,
@@ -47,6 +52,7 @@ class Cart extends Component {
     shoppingCartList.find(
       p => p.productVariant.id === productVariantId
     ).quantity = parseInt(quantity, 10);
+
     this.setState(
       {
         strShoppingCart: getStrShoppingCart(shoppingCartList)
@@ -118,13 +124,18 @@ class Cart extends Component {
     return isLoading ? (
       <Spin />
     ) : (
-      <div>
-        {this.renderCartItem(shoppingCartList)}
-        <br />
-        <NavLink to={`/thanh-toan`}>Tới trang thanh toán</NavLink>
-      </div>
+      <PageContainer>
+        <Section>
+          <SectionTitle content="Giỏ hàng" />
+          <CartItemList />
+          <CartInfo />
+        </Section>
+
+        {/* {this.renderCartItem(shoppingCartList)}
+        <NavLink to={`/thanh-toan`}>Tới trang thanh toán</NavLink> */}
+      </PageContainer>
     );
   }
 }
 
-export default Cart;
+export default CartPage;

@@ -28,10 +28,10 @@ const Quantity = styled('span')`
 
 class ShoppingCartHeader extends Component {
   render() {
-    const { shoppingCartCount, onShowCartDrawer } = this.props;
+    const { shoppingCartCount, onShowDrawer } = this.props;
 
     return (
-      <Wrapper onClick={onShowCartDrawer}>
+      <Wrapper onClick={onShowDrawer}>
         <CartIcon title="Giỏ hàng">
           <Icon type="shopping" />
           <Quantity>{shoppingCartCount}</Quantity>
