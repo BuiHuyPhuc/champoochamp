@@ -1,6 +1,12 @@
 ﻿const apiPort = 'http://localhost:4000';
+
 const newProductInDays = 30;
+
 const storageShoppingCartKey = 'MyShoppingCart';
+
+const minProductQuantity = 1;
+
+const maxProductQuantity = 99;
 
 const viewportWidth = {
   sm: 575,
@@ -56,6 +62,8 @@ export {
   apiPort,
   newProductInDays,
   storageShoppingCartKey,
+  minProductQuantity,
+  maxProductQuantity,
   viewportWidth,
   topProductsName,
   imagesGroup,

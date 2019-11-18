@@ -12,12 +12,12 @@ const Wrapper = styled('div')`
 `;
 
 const NewTag = styled('span')`
+  ${typography.semiBoldText};
   background: ${colors.black};
   border-radius: 20px;
   color: ${colors.white};
   display: inline-block;
   font-size: 10px;
-  font-weight: 600;
   letter-spacing: 0.8px;
   margin-bottom: 10px;
   padding: 5px 12px;
@@ -29,8 +29,8 @@ const PriceWrapper = styled('div')`
 `;
 
 const Price = styled('span')`
+  ${typography.semiBoldText};
   font-size: 18px;
-  font-weight: 600;
   margin-right: 10px;
 `;
 
@@ -41,7 +41,7 @@ const OriginalPrice = styled('span')`
 `;
 
 const Description = styled('p')`
-  ${typography.lightBody};
+  ${typography.lightText};
   margin-bottom: 20px;
 `;
 

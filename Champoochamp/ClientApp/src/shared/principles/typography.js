@@ -2,20 +2,17 @@ import { css } from '@emotion/core';
 import breakpoint from './breakpoint';
 import color from './colors';
 
-const family = {
-  openSans: '"Open Sans", sans-serif',
-  robotoSlab: '"Roboto Slab", serif'
-};
+const titleFont = '"Roboto Slab", serif';
 
 const weight = {
   bold: '700 !important',
-  medium: '600 !important',
+  semiBold: '600 !important',
   normal: '400 !important'
 };
 
 const typography = {
   lgTitle: css`
-    font-family: ${family.robotoSlab};
+    font-family: ${titleFont};
     font-size: 36px;
     font-weight: ${weight.bold};
     line-height: 48px;
@@ -27,7 +24,7 @@ const typography = {
   `,
 
   mdTitle: css`
-    font-family: ${family.robotoSlab};
+    font-family: ${titleFont};
     font-size: 28px;
     font-weight: ${weight.bold};
     line-height: 38px;
@@ -39,7 +36,7 @@ const typography = {
   `,
 
   smTitle: css`
-    font-family: ${family.robotoSlab};
+    font-family: ${titleFont};
     font-size: 22px;
     font-weight: ${weight.bold};
     line-height: 32px;
@@ -51,22 +48,22 @@ const typography = {
   `,
 
   xsTitle: css`
-    font-family: ${family.robotoSlab};
+    font-family: ${titleFont};
     font-weight: ${weight.bold};
     line-height: 22px;
   `,
 
-  body: css`
-    font-family: ${family.openSans};
-    font-weight: ${weight.normal};
-    line-height: 22px;
+  boldText: css`
+    font-weight: ${weight.bold};
   `,
 
-  lightBody: css`
+  semiBoldText: css`
+    font-weight: ${weight.semiBold};
+  `,
+
+  lightText: css`
     color: ${color.darkGray};
-    font-family: ${family.openSans};
     font-weight: ${weight.normal};
-    line-height: 22px;
   `
 };
 

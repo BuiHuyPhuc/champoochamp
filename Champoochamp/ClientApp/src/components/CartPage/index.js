@@ -1,3 +1,3 @@
-﻿import Cart from "./Cart";
+﻿import CartPage from "./CartPage";
 
-export default Cart;
+export default CartPage;
