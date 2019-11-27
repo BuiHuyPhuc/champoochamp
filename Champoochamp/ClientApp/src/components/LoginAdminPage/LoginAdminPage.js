@@ -58,4 +58,4 @@ class LoginAdminPage extends Component {
   }
 }
 
-export default Form.create({ name: 'normal_login' })(LoginAdminPage);
+export default Form.create({ name: 'adminLogin' })(LoginAdminPage);

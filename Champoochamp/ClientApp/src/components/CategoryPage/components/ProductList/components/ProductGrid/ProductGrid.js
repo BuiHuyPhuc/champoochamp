@@ -2,7 +2,7 @@
 import { Row, Col, Spin } from 'antd';
 import styled from '@emotion/styled';
 
-import { breakpoint, colors } from '../../../../../../shared/principles';
+import { breakpoint, colors, typography } from '../../../../../../shared/principles';
 import { sortsGroup, imagesGroup } from '../../../../../../shared/constants';
 import {
   callAPI,
@@ -33,7 +33,7 @@ const Header = styled('div')`
 `;
 
 const TotalProducts = styled('span')`
-  font-weight: 700;
+  ${typography.boldText};
 `;
 
 class ProductGrid extends Component {

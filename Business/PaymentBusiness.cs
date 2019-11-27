@@ -1,27 +1,154 @@
 ﻿using Data.Entity;
+using Data.Model;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Net;
+using System.Net.Mail;
 using System.Text;
 
 namespace Business
 {
   public class PaymentBusiness
   {
-    public bool SaveInVoice(string strShoppingCart, User user)
+    public bool SaveInVoice(PaymentModel paymentModel)
     {
       using (champoochampContext db = new champoochampContext())
       {
-        try
+        using (var transaction = db.Database.BeginTransaction())
         {
-          
+          try
+          {
+            bool result = false;
+            Invoice invoice = getInvoice(paymentModel);
+            db.Add(invoice);
+            db.SaveChanges();
 
-          return true;
-        }
-        catch (Exception e)
-        {
-          return false;
-        }
+            List<InvoiceDetail> invoiceDetailList = getInvoiceDetail(paymentModel.shoppingCartList, invoice.Id);
+            foreach (InvoiceDetail item in invoiceDetailList)
+            {
+              db.Add(item);
+            }
+
+            User user = db.User.Find(paymentModel.user.Id);
+            if(user != null)
+            {
+              user.ShoppingCarts = string.Empty;
+            }
+            db.SaveChanges();
+
+            result = SendEmail(paymentModel);
+
+            transaction.Commit();
+            return result;
+          }
+          catch (Exception e)
+          {
+            transaction.Rollback();
+            return false;
+          }
+        }          
       }
     }
-  }
+
+    public Invoice getInvoice(PaymentModel paymentModel)
+    {
+      User user = paymentModel.user;
+
+      Invoice invoice = new Invoice()
+      {
+        CustomerEmail = user.Email,
+        CustomerFirstName = user.FirstName,
+        CustomerLastName = user.LastName,
+        CustomerTelephone = user.Telephone,
+        CustomerProvince = user.Province,
+        CustomerDistrict = user.District,
+        CustomerWard = user.Ward,
+        CustomerAddress = user.Address,
+        Message = paymentModel.message,
+        Total = paymentModel.total,
+        CreatedDate = DateTime.Now
+      };
+
+      if (user.Id > 0)
+      {
+        invoice.UserId = user.Id;
+      }
+
+      if (paymentModel.discount != null)
+      {
+        invoice.DiscountId = paymentModel.discount.Id;
+      }
+
+      return invoice;
+    }
+
+    public List<InvoiceDetail> getInvoiceDetail(List<CartItemModel> shoppingCartList, int invoiceId)
+    {
+      List<InvoiceDetail> invoiceDetaiList = new List<InvoiceDetail>();
+
+      foreach (CartItemModel item in shoppingCartList)
+      {
+        InvoiceDetail detail = new InvoiceDetail()
+        {
+          PriceCurrent = item.productVariant.Product.PromotionPrice,
+          Quantity = (short)item.quantity,
+          Total = item.productVariant.Product.PromotionPrice * item.quantity,
+          CreatedDate = DateTime.Now,
+          ProductVariantId = item.productVariant.Id,
+          InvoiceId = invoiceId
+        };
+
+        invoiceDetaiList.Add(detail);
+      }
+
+      return invoiceDetaiList;
+    }
+
+    public bool SendEmail(PaymentModel paymentModel)
+    {
+      try
+      {
+        User user = paymentModel.user;
+
+        //string body = string.Empty;
+        //using (StreamReader reader = new StreamReader(Server.MapPath("~/HtmlTemplate.html")))
+        //{
+        //  body = reader.ReadToEnd();
+        //}
+        //body = body.Replace("{UserName}", userName);  
+        //body = body.Replace("{Title}", title);
+        //body = body.Replace("{message}", message);
+
+        // Credentials
+        var credentials = new NetworkCredential("no.reply.guitarshop@gmail.com", "guitarshop.com");
+        // Mail message
+        var mail = new MailMessage()
+        {
+          From = new MailAddress("no.reply.guitarshop@gmail.com"),
+          Subject = "Email Sender App",
+          Body = "Hello"
+        };
+        mail.IsBodyHtml = true;
+        mail.To.Add(new MailAddress(user.Email));
+        // Smtp client
+        var client = new SmtpClient()
+        {
+          Port = 587,
+          DeliveryMethod = SmtpDeliveryMethod.Network,
+          UseDefaultCredentials = false,
+          Host = "smtp.gmail.com",
+          EnableSsl = true,
+          Credentials = credentials
+        };
+        client.Send(mail);
+        return true;
+      }
+      catch (System.Exception e)
+      {
+        return false;
+      }
+
+    }
+  }  
 }

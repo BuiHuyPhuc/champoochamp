@@ -20,6 +20,7 @@ namespace Data.Entity
         public virtual DbSet<Collection> Collection { get; set; }
         public virtual DbSet<Color> Color { get; set; }
         public virtual DbSet<Contact> Contact { get; set; }
+        public virtual DbSet<Discount> Discount { get; set; }
         public virtual DbSet<Employee> Employee { get; set; }
         public virtual DbSet<EmployeeGroupRules> EmployeeGroupRules { get; set; }
         public virtual DbSet<Feedback> Feedback { get; set; }
@@ -236,6 +237,36 @@ namespace Data.Entity
                 entity.Property(e => e.Telephone).HasColumnType("varchar(255)");
 
                 entity.Property(e => e.Ward).HasColumnType("varchar(255)");
+            });
+
+            modelBuilder.Entity<Discount>(entity =>
+            {
+                entity.ToTable("discount");
+
+                entity.Property(e => e.Id).HasColumnType("smallint(6)");
+
+                entity.Property(e => e.Code).HasColumnType("varchar(255)");
+
+                entity.Property(e => e.CreatedBy).HasColumnType("smallint(6)");
+
+                entity.Property(e => e.CreatedDate)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("'current_timestamp()'");
+
+                entity.Property(e => e.ModifiedBy).HasColumnType("smallint(6)");
+
+                entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Name).HasColumnType("varchar(2555)");
+
+                entity.Property(e => e.Rate)
+                    .HasColumnType("smallint(6)")
+                    .HasDefaultValueSql("'0'");
+
+                entity.Property(e => e.Status)
+                    .IsRequired()
+                    .HasColumnType("bit(1)")
+                    .HasDefaultValueSql("'b\\'1\\''");
             });
 
             modelBuilder.Entity<Employee>(entity =>
@@ -484,6 +515,9 @@ namespace Data.Entity
             {
                 entity.ToTable("invoice");
 
+                entity.HasIndex(e => e.DiscountId)
+                    .HasName("fk_invoice__discount");
+
                 entity.HasIndex(e => e.EmployeeId)
                     .HasName("fk_invoice__employee");
 
@@ -492,8 +526,6 @@ namespace Data.Entity
 
                 entity.Property(e => e.Id).HasColumnType("int(11)");
 
-                entity.Property(e => e.CreatedBy).HasColumnType("smallint(6)");
-
                 entity.Property(e => e.CreatedDate)
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("'current_timestamp()'");
@@ -501,6 +533,8 @@ namespace Data.Entity
                 entity.Property(e => e.CustomerAddress).HasColumnType("varchar(255)");
 
                 entity.Property(e => e.CustomerDistrict).HasColumnType("varchar(255)");
+
+                entity.Property(e => e.CustomerEmail).HasColumnType("varchar(255)");
 
                 entity.Property(e => e.CustomerFirstName).HasColumnType("varchar(255)");
 
@@ -511,6 +545,8 @@ namespace Data.Entity
                 entity.Property(e => e.CustomerTelephone).HasColumnType("varchar(255)");
 
                 entity.Property(e => e.CustomerWard).HasColumnType("varchar(255)");
+
+                entity.Property(e => e.DiscountId).HasColumnType("smallint(6)");
 
                 entity.Property(e => e.EmployeeId).HasColumnType("smallint(6)");
 
@@ -538,16 +574,19 @@ namespace Data.Entity
 
                 entity.Property(e => e.UserId).HasColumnType("int(11)");
 
+                entity.HasOne(d => d.Discount)
+                    .WithMany(p => p.Invoice)
+                    .HasForeignKey(d => d.DiscountId)
+                    .HasConstraintName("fk_invoice__discount");
+
                 entity.HasOne(d => d.Employee)
                     .WithMany(p => p.Invoice)
                     .HasForeignKey(d => d.EmployeeId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_invoice__employee");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Invoice)
                     .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_invoice__user");
             });
 
@@ -561,9 +600,7 @@ namespace Data.Entity
                 entity.HasIndex(e => e.ProductVariantId)
                     .HasName("fk_invoice_detail__product_variant");
 
-                entity.Property(e => e.Id).HasColumnType("int(11)");
-
-                entity.Property(e => e.CreatedBy).HasColumnType("smallint(6)");
+                entity.Property(e => e.Id).HasColumnType("smallint(6)");
 
                 entity.Property(e => e.CreatedDate)
                     .HasColumnType("datetime")
@@ -752,11 +789,6 @@ namespace Data.Entity
                 entity.Property(e => e.DiscountAmount)
                     .HasColumnType("smallint(6)")
                     .HasDefaultValueSql("'0'");
-
-                entity.Property(e => e.IsDiscount)
-                    .IsRequired()
-                    .HasColumnType("bit(1)")
-                    .HasDefaultValueSql("'b\\'0\\''");
 
                 entity.Property(e => e.MaterialId).HasColumnType("smallint(6)");
 

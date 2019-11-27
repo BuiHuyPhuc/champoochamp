@@ -1,6 +1,16 @@
 ﻿const apiPort = 'http://localhost:4000';
+
 const newProductInDays = 30;
+
 const storageShoppingCartKey = 'MyShoppingCart';
+
+const emailKey = 'ChampoochampEmail';
+
+const passwordKey = 'ChampoochampPassword';
+
+const minProductQuantity = 1;
+
+const maxProductQuantity = 99;
 
 const viewportWidth = {
   sm: 575,
@@ -56,10 +66,14 @@ export {
   apiPort,
   newProductInDays,
   storageShoppingCartKey,
+  emailKey,
+  passwordKey,
+  minProductQuantity,
+  maxProductQuantity,
   viewportWidth,
   topProductsName,
   imagesGroup,
   filtersGroup,
   searchGroup,
-  sortsGroup
+  sortsGroup  
 };

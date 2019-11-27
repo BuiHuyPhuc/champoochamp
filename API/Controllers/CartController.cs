@@ -62,19 +62,19 @@ namespace API.Controllers
         {
           List<CartItemModel> shoppingCart = new List<CartItemModel>();
 
-          string strShoppingCarts = String.Empty;
+          string shoppingCarts = String.Empty;
           if (userEmail != "null")
           {
-            strShoppingCarts = db.User.Where(p => p.Email == userEmail).Select(p => p.ShoppingCarts).SingleOrDefault();
+            shoppingCarts = db.User.Where(p => p.Email == userEmail).Select(p => p.ShoppingCarts).SingleOrDefault();
           }
           else if (strShoppingCart != "null")
           {
-            strShoppingCarts = strShoppingCart;
+            shoppingCarts = strShoppingCart;
           }
 
-          if (!String.IsNullOrEmpty(strShoppingCarts))
+          if (!String.IsNullOrEmpty(shoppingCarts))
           {
-            foreach (KeyValuePair<string, int> item in cartBusiness.getDictShoppingCarts(strShoppingCarts))
+            foreach (KeyValuePair<string, int> item in cartBusiness.getDictShoppingCarts(shoppingCarts))
             {
               ProductVariant pv = db.ProductVariant.Where(p => p.Id == item.Key)
                                   .Include(p => p.Product)

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 
-import { colors } from '../../../shared/principles';
 import AwesomeIcon from '../AwesomeIcon';
 
 const Wrapper = styled('button')`
@@ -17,10 +16,13 @@ const Wrapper = styled('button')`
 `;
 
 const Content = styled('span')`
-  border-bottom: ${props =>
-    props.iconType ? 'none' : `1px solid ${colors.black}`};
   font-size: inherit;
   margin-left: ${props => (props.iconType ? '10px' : '0')};
+  text-decoration: ${props => (props.iconType ? 'none' : 'underline')};
+
+  &:hover{
+    text-decoration: underline;
+  }
 `;
 
 class Link extends Component {

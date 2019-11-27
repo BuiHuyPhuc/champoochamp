@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 
-import { breakpoint, colors } from '../../../shared/principles';
+import { breakpoint, colors, typography } from '../../../shared/principles';
 import { getImageUrl, groupBy } from '../../../shared/utils';
 
 import ColorRow from '../ColorRow';
@@ -29,7 +29,7 @@ const ColorsWrapper = styled('div')`
 `;
 
 const Name = styled('div')`
-  font-weight: 700;
+  ${typography.boldText};
   margin-bottom: 5px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -37,7 +37,7 @@ const Name = styled('div')`
 `;
 
 const Price = styled('span')`
-  color: ${colors.black};
+  color: ${colors.black}; 
   display: inline-block;
   margin-right: 10px;
 `;
@@ -84,7 +84,7 @@ class ProductCard extends Component {
         </ColorsWrapper>
         <Name>{product.name}</Name>
         <Price>{product.promotionPrice.toLocaleString()}đ</Price>
-        {product.isDiscount && (
+        {product.discountAmount > 0 && (
           <OriginalPrice>{product.price.toLocaleString()}đ</OriginalPrice>
         )}
       </Wrapper>

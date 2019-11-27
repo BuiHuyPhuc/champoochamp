@@ -6,7 +6,7 @@ import styled from '@emotion/styled';
 import { css, jsx } from '@emotion/core';
 
 import { callAPI } from '../../../../shared/utils';
-import { breakpoint, typography, colors } from '../../../../shared/principles';
+import { breakpoint, colors } from '../../../../shared/principles';
 import logo from '../../../../assets/logo.png';
 
 import { Image } from '../../../elements';
@@ -48,7 +48,6 @@ const menuStyle = css`
 `;
 
 const MenuItemTitle = styled('span')`
-  ${typography.body};
   letter-spacing: 1px;
 `;
 

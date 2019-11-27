@@ -5,7 +5,6 @@ import { groupBy, addCartItem } from '../../../../shared/utils';
 import { Button } from '../../../elements';
 import HeaderInfo from './components/HeaderInfo';
 import VariantChoice from './components/VariantChoice';
-import ActionButtons from './components/ActionButtons';
 
 class ProductSummary extends Component {
   constructor(props) {
@@ -14,7 +13,7 @@ class ProductSummary extends Component {
       colors: groupBy(props.product.productVariant, p => p.colorId),
       colorId: 0,
       sizeId: 0,
-      quantity: 0
+      quantity: 1
     };
   }
 
@@ -26,13 +25,13 @@ class ProductSummary extends Component {
     this.setState({ sizeId: size.id });
   };
 
-  getQuantity = quantity => {
+  getQuantity = (productVariantId, quantity) => {
     this.setState({ quantity });
   }
 
   onAddCartItem = user => {
     const { colorId, sizeId, quantity } = this.state;
-    const { product, updateCartTotalQuantity } = this.props;
+    const { product, updateShoppingCart } = this.props;
 
     if (colorId > 0 && sizeId > 0 && product) {
       if (!user && !typeof Storage) {
@@ -46,7 +45,7 @@ class ProductSummary extends Component {
         sizeId,
         quantity,
         user,
-        updateCartTotalQuantity
+        updateShoppingCart
       );
       alert('Thêm thành công');
     } else {

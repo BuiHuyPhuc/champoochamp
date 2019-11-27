@@ -10,15 +10,14 @@ const Title = styled('h3')`
 
 class SectionTitle extends Component {
   render() {
-    const { content, hasDecoration } = this.props;
+    const { content } = this.props;
 
-    return <Title hasDecoration={hasDecoration}>{content}</Title>;
+    return <Title>{content}</Title>;
   }
 }
 
 SectionTitle.propTypes = {
-  content: PropTypes.string.isRequired,
-  hasDecoration: PropTypes.bool
+  content: PropTypes.string.isRequired
 };
 
 export default SectionTitle;

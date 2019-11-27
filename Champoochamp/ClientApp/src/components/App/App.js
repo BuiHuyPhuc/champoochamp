@@ -5,8 +5,8 @@ import history from "../App/history";
 import Header from "../Header";
 import RouterConfig from "../../router/RouterConfig";
 
-import { callAPI, getCartTotalQuantity } from '../../shared/utils';
-import { storageShoppingCartKey } from '../../shared/constants';
+import { callAPI, getCookie } from '../../shared/utils';
+import { storageShoppingCartKey, emailKey, passwordKey } from '../../shared/constants';
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -16,39 +16,48 @@ class App extends Component {
     super(props);
     this.state = {
       isRenderMenu: true,
-      user: {
-        Email: 'buihuyphuc97@gmail.com',
-        FirstName: 'Bùi Huy',
-        LastName: 'Phúc',
-        Telephone: '0914659369',
-        CreatedDate: '2019-11-08'
-      },
-      cartTotalQuantity: 0
+      user: null,
+      strShoppingCart: null
     };
   }
 
   componentDidMount() {
-    const { user } = this.state;
-
-    if (user) {
-      const url = `User/GetUserByEmail-${user.Email}`;
-      callAPI(url).then(res =>
-        this.setState({
-          cartTotalQuantity: getCartTotalQuantity(res.data.shoppingCarts)
-        })
-      );
-    }
-    else {
-      this.setState({
-        cartTotalQuantity: getCartTotalQuantity(localStorage.getItem(storageShoppingCartKey))
-      })
-    }   
+    this.getShoppingCartByUser(this.state.user);
+    this.checkLoginUserByCookie();    
   }
 
-  updateCartTotalQuantity = cartTotalQuantity => {
-    this.setState({
-      cartTotalQuantity
+  checkLoginUserByCookie = () => {
+    const data = {
+      email: getCookie(emailKey),
+      password: getCookie(passwordKey)
+    }
+    callAPI('User/CheckLogin', '', 'POST', data).then(res => {
+      if (res.data) {        
+        //setCookie(emailKey, values.email, 1);
+        //setCookie(passwordKey, values.password, 1);
+        this.getLoginUser(res.data);
+      }
     });
+  }
+
+  getShoppingCartByUser = user => {
+    if (user) {
+      const url = `User/GetUserByEmail-${user.email}`;
+      callAPI(url).then(res => this.setState({ strShoppingCart: res.data.shoppingCarts }));
+    }
+    else if (localStorage.getItem(storageShoppingCartKey)) {
+      this.setState({ strShoppingCart: localStorage.getItem(storageShoppingCartKey) })
+    }
+  }
+
+  getLoginUser = user => {
+    this.setState({
+      user
+    }, () => this.getShoppingCartByUser(this.state.user));
+  }
+
+  updateShoppingCart = strShoppingCart => {    
+    this.setState({ strShoppingCart });
   }
 
   onRenderMenu = isRenderMenu => {
@@ -58,14 +67,16 @@ class App extends Component {
   }
 
   render() {
-    const { isRenderMenu, user, cartTotalQuantity } = this.state;
+    const { isRenderMenu, user, strShoppingCart } = this.state;
 
     return (
       <Router history={history}>
-        {isRenderMenu && <Header user={user} cartTotalQuantity={cartTotalQuantity} />}
+        {isRenderMenu && <Header user={user} getLoginUser={this.getLoginUser} strShoppingCart={strShoppingCart} updateShoppingCart={this.updateShoppingCart} />}
         <RouterConfig
           user={user}
-          updateCartTotalQuantity={this.updateCartTotalQuantity}
+          getLoginUser={this.getLoginUser}
+          strShoppingCart={strShoppingCart}
+          updateShoppingCart={this.updateShoppingCart}
           onRenderMenu={this.onRenderMenu}
         />
       </Router>

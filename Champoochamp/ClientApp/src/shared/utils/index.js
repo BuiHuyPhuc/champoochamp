@@ -7,10 +7,14 @@ import getImageUrl from './getImageUrl';
 import getMoneyFilterGroup from './getMoneyFilterGroup';
 import getQueryFilter from './getQueryFilter';
 import getTotalFilter from './getTotalFilter';
+import getTotalMoney from './getTotalMoney';
 import getShoppingCartList from './getShoppingCartList';
 import getStrShoppingCart from './getStrShoppingCart';
 import getCartTotalQuantity from './getCartTotalQuantity';
+import getCookie from './getCookie';
 import groupBy from './groupBy';
+import formatMoney from './formatMoney';
+import setCookie from './setCookie';
 import updateShoppingCart from './updateShoppingCart';
 
 export {
@@ -22,10 +26,14 @@ export {
   getImageUrl,
   getMoneyFilterGroup,
   getQueryFilter,
-  getTotalFilter,  
+  getTotalFilter, 
+  getTotalMoney,
   getShoppingCartList,  
   getStrShoppingCart,
   getCartTotalQuantity,
-  groupBy,  
+  getCookie,
+  groupBy,
+  formatMoney,
+  setCookie,
   updateShoppingCart
 };

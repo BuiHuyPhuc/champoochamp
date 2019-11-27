@@ -1,12 +1,11 @@
 ﻿import { storageShoppingCartKey } from '../constants';
 import callAPI from './callAPI';
-import getCartTotalQuantity from './getCartTotalQuantity';
 
-const addCartItem = (productId, colorId, sizeId, quantity, user, updateCartTotalQuantity) => {  
+const addCartItem = (productId, colorId, sizeId, quantity, user, updateShoppingCart) => {  
   if (user) {
-    const url = `Cart/AddCartItem-${productId}-${colorId}-${sizeId}-${quantity}-${user.Email}`;
-
-    callAPI(url).then(res => updateCartTotalQuantity(getCartTotalQuantity(res.data)));
+    const url = `Cart/AddCartItem-${productId}-${colorId}-${sizeId}-${quantity}-${user.email}`;
+    
+    callAPI(url).then(res => updateShoppingCart(res.data));
   }
   else {
     const url = `Cart/GetCartItem-${productId}-${colorId}-${sizeId}-${quantity}`;
@@ -18,7 +17,7 @@ const addCartItem = (productId, colorId, sizeId, quantity, user, updateCartTotal
         : `${res.data.productVariant.id}-${res.data.quantity}`;
 
       localStorage.setItem(storageShoppingCartKey, strShoppingCart);
-      updateCartTotalQuantity(getCartTotalQuantity(strShoppingCart));
+      updateShoppingCart(strShoppingCart);
     });
   }
 }

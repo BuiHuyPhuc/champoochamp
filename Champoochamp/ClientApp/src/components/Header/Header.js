@@ -34,26 +34,14 @@ const HeaderInner = styled('div')`
 `;
 
 class Header extends Component {
-  onShowDrawer = () => {
-    this.setState({
-      isDrawerVisible: true
-    });
-  };
-
-  onCloseDrawer = () => {
-    this.setState({
-      isDrawerVisible: false
-    });
-  };
-
   render() {
-    const { cartTotalQuantity } = this.props;
+    const { user, getLoginUser, strShoppingCart, updateShoppingCart } = this.props;
     
     return (
       <Wrapper>
         <HeaderInner>
           <NavBarLeft />
-          <NavBarRight cartTotalQuantity={cartTotalQuantity} />
+          <NavBarRight user={user} getLoginUser={getLoginUser} strShoppingCart={strShoppingCart} updateShoppingCart={updateShoppingCart} />
         </HeaderInner>
       </Wrapper>
     );

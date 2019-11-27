@@ -4,7 +4,7 @@ import { Spin } from 'antd';
 import styled from '@emotion/styled';
 
 import { callAPI } from '../../../../shared/utils';
-import { colors } from '../../../../shared/principles';
+import { colors, typography } from '../../../../shared/principles';
 
 const Wrapper = styled('ul')`
   align-items: center;
@@ -20,7 +20,7 @@ const Item = styled('li')`
 `;
 
 const ItemLink = styled(NavLink)`
-  font-weight: 600;
+  ${typography.semiBoldText};
   display: inline-block;
   color: ${colors.black};
   font-size: 12px;

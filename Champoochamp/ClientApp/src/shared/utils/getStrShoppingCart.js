@@ -4,7 +4,7 @@
     return arr.join(',');
   }
 
-  return ' ';
+  return '';
 }
 
 export default getStrShoppingCart;

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import styled from '@emotion/styled';
 
-import { typography } from '../../../../../../shared/principles';
 import { AwesomeIcon } from '../../../../../elements';
 
 const Wrapper = styled('ul')`
@@ -10,7 +9,6 @@ const Wrapper = styled('ul')`
 `;
 
 const Item = styled('li')`
-  ${typography.body};
   margin-bottom: 15px;
 `;
 

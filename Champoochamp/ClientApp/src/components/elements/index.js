@@ -1,9 +1,10 @@
 import AwesomeIcon from './AwesomeIcon';
 import Button from './Button';
 import ColorRow from './ColorRow';
-import Divider from './Divider';
+import Dialog from './Dialog';
 import DropDown from './DropDown';
 import Image from './Image';
+import TextInput from './TextInput';
 import Link from './Link';
 import PageContainer from './PageContainer';
 import ProductCard from './ProductCard';
@@ -16,9 +17,10 @@ export {
   AwesomeIcon,
   Button,
   ColorRow,
-  Divider,
+  Dialog,
   DropDown,
   Image,
+  TextInput,
   Link,
   PageContainer,
   ProductCard,
