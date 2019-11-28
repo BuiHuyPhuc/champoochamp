@@ -4,6 +4,10 @@ const newProductInDays = 30;
 
 const storageShoppingCartKey = 'MyShoppingCart';
 
+const emailKey = 'ChampoochampEmail';
+
+const passwordKey = 'ChampoochampPassword';
+
 const minProductQuantity = 1;
 
 const maxProductQuantity = 99;
@@ -62,6 +66,8 @@ export {
   apiPort,
   newProductInDays,
   storageShoppingCartKey,
+  emailKey,
+  passwordKey,
   minProductQuantity,
   maxProductQuantity,
   viewportWidth,
@@ -69,5 +75,5 @@ export {
   imagesGroup,
   filtersGroup,
   searchGroup,
-  sortsGroup
+  sortsGroup  
 };

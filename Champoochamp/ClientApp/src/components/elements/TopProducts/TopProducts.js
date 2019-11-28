@@ -73,7 +73,7 @@ class TopProducts extends Component {
   componentDidMount() {
     if (this.props.sectionTitle === topProductsName.discountProducts) {
       const url = `Product/GetAllProducts`;
-      const query = `?$filter=isDiscount eq true&$orderby=discountAmount desc&$top=10`;
+      const query = `?$orderby=discountAmount desc&$top=10`;
 
       callAPI(url, query).then(res =>
         this.setState({

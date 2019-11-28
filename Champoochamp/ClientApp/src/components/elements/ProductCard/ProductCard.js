@@ -84,7 +84,7 @@ class ProductCard extends Component {
         </ColorsWrapper>
         <Name>{product.name}</Name>
         <Price>{product.promotionPrice.toLocaleString()}đ</Price>
-        {product.isDiscount && (
+        {product.discountAmount > 0 && (
           <OriginalPrice>{product.price.toLocaleString()}đ</OriginalPrice>
         )}
       </Wrapper>

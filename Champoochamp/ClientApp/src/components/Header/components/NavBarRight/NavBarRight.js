@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 import { Icon, Drawer } from 'antd';
 import styled from '@emotion/styled';
 
-import { callAPI } from '../../../../shared/utils';
+import { callAPI, setCookie } from '../../../../shared/utils';
 import { breakpoint } from '../../../../shared/principles';
+import { emailKey, passwordKey } from '../../../../shared/constants';
 
 import SearchBar from '../SearchBar';
 import CartSummary from './components/CartSummary';
@@ -84,8 +85,14 @@ class NavBarRight extends Component {
     });
   };
 
+  onLogOut = () => {
+    setCookie(emailKey, '', -1);
+    setCookie(passwordKey, '', -1);
+    this.props.getLoginUser(null);
+  }
+
   render() {
-    const { shoppingCartCount, history } = this.props;
+    const { user, strShoppingCart, updateShoppingCart, history } = this.props;
     const { isMenuDrawerVisible, isCartDrawerVisible, searchData } = this.state;
 
     return (
@@ -95,12 +102,13 @@ class NavBarRight extends Component {
         </MenuItem>
         <MenuItem>
           <ShoppingCartHeader
-            shoppingCartCount={shoppingCartCount}
+            strShoppingCart={strShoppingCart}
             onShowDrawer={() => this.onShowDrawer('isCartDrawerVisible')}
           />
         </MenuItem>
         <MenuItem title="Đăng nhập">
-          <Icon type="user" />
+          {!user && <NavLink to={`/dang-nhap`}>Đăng nhập</NavLink>}          
+          <Icon type="user" onClick={this.onLogOut} />
         </MenuItem>
         <MenuItem>
           <CollapseMenuButton
@@ -125,6 +133,9 @@ class NavBarRight extends Component {
           visible={isCartDrawerVisible}
         >
           <CartSummary
+            user={user}
+            strShoppingCart={strShoppingCart}
+            updateShoppingCart={updateShoppingCart}
             onCloseDrawer={() => this.onCloseDrawer('isCartDrawerVisible')}
           />
         </CartDrawer>

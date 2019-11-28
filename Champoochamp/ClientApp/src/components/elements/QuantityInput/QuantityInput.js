@@ -44,10 +44,8 @@ class QuantityInput extends Component {
   constructor(props) {
     super(props);
 
-    const value = props.value || {};
-
     this.state = {
-      number: value.number || minProductQuantity
+      number: props.value
     };
   }
 
@@ -69,7 +67,7 @@ class QuantityInput extends Component {
         {
           number: Math.floor(number)
         },
-        () => this.props.callback(this.state.number)
+        () => this.props.callback(this.props.productVariantId, this.state.number)
       );
     }
   };
@@ -86,7 +84,7 @@ class QuantityInput extends Component {
         {
           number: number + 1
         },
-        () => callback(this.state.number)
+        () => callback(this.props.productVariantId, this.state.number)
       );
     } else {
       if (number <= minProductQuantity) {
@@ -96,7 +94,7 @@ class QuantityInput extends Component {
         {
           number: number - 1
         },
-        () => callback(this.state.number)
+        () => callback(this.props.productVariantId, this.state.number)
       );
     }
   };
@@ -125,7 +123,9 @@ class QuantityInput extends Component {
 
 QuantityInput.propTypes = {
   callback: PropTypes.func,
-  width: PropTypes.string
+  width: PropTypes.string,
+  value: PropTypes.number,
+  productVariantId: PropTypes.string
 };
 
 export default QuantityInput;

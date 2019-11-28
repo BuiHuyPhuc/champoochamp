@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { Row, Col } from 'antd';
+import { withRouter } from 'react-router-dom';
 import styled from '@emotion/styled';
 
 import { colors, typography, breakpoint } from '../../../../shared/principles';
+import { getImageUrl, formatMoney } from '../../../../shared/utils';
+import { imagesGroup } from '../../../../shared/constants';
 
 import { Image, QuantityInput, Link } from '../../../elements';
-
-import productImg from '../../../../assets/images/products/00001005_1.jpg';
 
 const Wrapper = styled('ul')`
   list-style: none;
@@ -86,68 +87,51 @@ const OriginalPrice = styled('div')`
 `;
 
 class CartItemList extends Component {
-  callback = () => {
-    // get product quantity here
-  };
+  onClickProductName = (history, product) => {
+    history.push(`/chi-tiet/${product.metaTitle}-${product.id}`);
+  }
+
+  renderCartItem = shoppingCartList => shoppingCartList.map(item => {
+    const { onUpdateQuantity, onDeleteProduct, history } = this.props;
+    const { product, color, size, id, thumbnail } = item.productVariant;
+
+    return (
+      <CartItem key={id}>
+        <Row gutter={16}>
+          <Col xs={6} sm={4} lg={3}>
+            <Image imageUrl={getImageUrl(thumbnail, imagesGroup.products)} />
+          </Col>
+          <Col xs={18} sm={11} lg={12}>
+            <ProductName onClick={() => this.onClickProductName(history, product)}>{product.name}</ProductName>
+            <ProductVariant>{color.name}, {size.name}</ProductVariant>
+            {product.discountAmount > 0 && <Discount>- {Math.ceil(product.discountAmount)}%</Discount>}
+            <DeleteButton>
+              <Link onClick={() => onDeleteProduct(id)} content="Xoá" />
+            </DeleteButton>
+          </Col>
+          <Col xs={24} sm={9}>
+            <QuantityPriceWrapper>
+              <QuantityInput productVariantId={id} value={item.quantity} callback={onUpdateQuantity} width="120px" />
+              <PriceWrapper>
+                <Price>{formatMoney(product.promotionPrice * item.quantity, true)}đ</Price>
+                {product.discountAmount > 0 && <OriginalPrice>{formatMoney(product.price * item.quantity, true)}đ</OriginalPrice>}
+              </PriceWrapper>
+            </QuantityPriceWrapper>
+          </Col>
+        </Row>
+      </CartItem>
+    );
+  })
 
   render() {
+    const { shoppingCartList } = this.props;
+
     return (
       <Wrapper>
-        <CartItem>
-          <Row gutter={16}>
-            <Col xs={6} sm={4} lg={3}>
-              <Image imageUrl={productImg} />
-            </Col>
-            <Col xs={18} sm={11} lg={12}>
-              <ProductName href="/">
-                HnM T-shirt cotton summer collection
-              </ProductName>
-              <ProductVariant>Xám, 39</ProductVariant>
-              <Discount>- 20%</Discount>
-              <DeleteButton>
-                <Link content="Xoá" />
-              </DeleteButton>
-            </Col>
-            <Col xs={24} sm={9}>
-              <QuantityPriceWrapper>
-                <QuantityInput callback={this.callback} width="120px" />
-                <PriceWrapper>
-                  <Price>5.680.000đ</Price>
-                  <OriginalPrice>7.200.000đ</OriginalPrice>
-                </PriceWrapper>
-              </QuantityPriceWrapper>
-            </Col>
-          </Row>
-        </CartItem>
-        <CartItem>
-          <Row gutter={16}>
-            <Col xs={6} sm={4} lg={3}>
-              <Image imageUrl={productImg} />
-            </Col>
-            <Col xs={18} sm={11} lg={12}>
-              <ProductName href="/">
-                HnM T-shirt cotton summer collection
-              </ProductName>
-              <ProductVariant>Xám, 39</ProductVariant>
-              <Discount>- 12%</Discount>
-              <DeleteButton>
-                <Link content="Xoá" />
-              </DeleteButton>
-            </Col>
-            <Col xs={24} sm={9}>
-              <QuantityPriceWrapper>
-                <QuantityInput callback={this.callback} width="120px" />
-                <PriceWrapper>
-                  <Price>460.000đ</Price>
-                  <OriginalPrice>650.000đ</OriginalPrice>
-                </PriceWrapper>
-              </QuantityPriceWrapper>
-            </Col>
-          </Row>
-        </CartItem>
+        {this.renderCartItem(shoppingCartList)}
       </Wrapper>
     );
   }
 }
 
-export default CartItemList;
+export default withRouter(CartItemList);

@@ -8,7 +8,7 @@ class Homepage extends Component {
   render() {
     return (
       <Fragment>
-        <Banner></Banner>
+        {/*<Banner></Banner>*/}
         <PageContainer>
           <Section>
             <TopProducts sectionTitle={topProductsName.discountProducts} />
