@@ -25,13 +25,13 @@ class ProductSummary extends Component {
     this.setState({ sizeId: size.id });
   };
 
-  getQuantity = quantity => {
+  getQuantity = (productVariantId, quantity) => {
     this.setState({ quantity });
   }
 
   onAddCartItem = user => {
     const { colorId, sizeId, quantity } = this.state;
-    const { product, updateCartTotalQuantity } = this.props;
+    const { product, updateShoppingCart } = this.props;
 
     if (colorId > 0 && sizeId > 0 && product) {
       if (!user && !typeof Storage) {
@@ -45,7 +45,7 @@ class ProductSummary extends Component {
         sizeId,
         quantity,
         user,
-        updateCartTotalQuantity
+        updateShoppingCart
       );
       alert('Thêm thành công');
     } else {

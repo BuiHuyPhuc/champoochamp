@@ -11,6 +11,7 @@ namespace Data.Entity
         }
 
         public int Id { get; set; }
+        public string CustomerEmail { get; set; }
         public string CustomerFirstName { get; set; }
         public string CustomerLastName { get; set; }
         public string CustomerTelephone { get; set; }
@@ -24,13 +25,14 @@ namespace Data.Entity
         public string PaymentMethod { get; set; }
         public DateTime? ShipDate { get; set; }
         public DateTime CreatedDate { get; set; }
-        public short CreatedBy { get; set; }
         public DateTime? ModifiedDate { get; set; }
         public short? ModifiedBy { get; set; }
         public short? Status { get; set; }
-        public int UserId { get; set; }
-        public short EmployeeId { get; set; }
+        public short? DiscountId { get; set; }
+        public int? UserId { get; set; }
+        public short? EmployeeId { get; set; }
 
+        public virtual Discount Discount { get; set; }
         public virtual Employee Employee { get; set; }
         public virtual User User { get; set; }
         public virtual ICollection<InvoiceDetail> InvoiceDetail { get; set; }

@@ -46,7 +46,7 @@ namespace API
                 app.UseHsts();
             }
 
-            app.UseCors(builder => builder.WithOrigins("http://localhost:5000"));
+            app.UseCors(builder => builder.WithOrigins("http://localhost:5000").AllowAnyHeader());
             app.UseHttpsRedirection();
             app.UseMvc(b =>
             {

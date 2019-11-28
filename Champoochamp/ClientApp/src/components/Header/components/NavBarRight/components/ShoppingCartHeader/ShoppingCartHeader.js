@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Icon } from 'antd';
 import styled from '@emotion/styled';
 
+import { getCartTotalQuantity } from '../../../../../../shared/utils';
 import { colors } from '../../../../../../shared/principles';
 
 const Wrapper = styled('div')`
@@ -28,13 +29,13 @@ const Quantity = styled('span')`
 
 class ShoppingCartHeader extends Component {
   render() {
-    const { shoppingCartCount, onShowDrawer } = this.props;
+    const { strShoppingCart, onShowDrawer } = this.props;
 
     return (
       <Wrapper onClick={onShowDrawer}>
         <CartIcon title="Giỏ hàng">
           <Icon type="shopping" />
-          <Quantity>{shoppingCartCount}</Quantity>
+          <Quantity>{strShoppingCart ? getCartTotalQuantity(strShoppingCart) : 0}</Quantity>
         </CartIcon>
       </Wrapper>
     );

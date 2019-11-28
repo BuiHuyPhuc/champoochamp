@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import styled from '@emotion/styled';
+import { withRouter } from 'react-router-dom';
 
 import { typography } from '../../../../shared/principles';
-import { TextInput, Button, Link } from '../../../elements';
+import { callAPI, formatMoney, getTotalMoney } from '../../../../shared/utils';
+
+import { TextInput, Button, Link, Dialog } from '../../../elements';
 
 const Wrapper = styled('div')`
   padding: 25px 0;
@@ -21,37 +24,72 @@ const InfoText = styled('span')`
 `;
 
 class CartInfo extends Component {
-  applyDiscountCode = () => {
-    // apply discount code here.
+  constructor(props) {
+    super(props);
+    this.state = {
+      discount: null
+    };
+  }
+
+  applyDiscountCode = code => {
+    if (code && code!=='') {
+      const url = `Discount/GetDiscountByCode-${code}`;
+
+      callAPI(url).then(res => this.setState(
+        {
+          discount: res.data
+        }, () => {
+          if (!this.state.discount) {
+            alert('Mã giảm giá không chính xác!')
+          }
+        }
+      ));
+    }
+    else {
+      this.setState({ discount: null })
+    }
   };
 
   checkout = () => {
-    // checkout here.
+    const { discount } = this.state;
+    const { getDiscount, history } = this.props;
+    getDiscount(discount);
+    history.push(`/thanh-toan`);
   };
 
   continueShopping = () => {
-    // return to continue shopping here.
+    this.props.history.push(`/`);
   };
 
   render() {
+    const { discount } = this.state;
+    const { shoppingCartList } = this.props;
+    const discountAmount = discount ? discount.rate : 0;
+    const tempMoney = formatMoney(getTotalMoney(shoppingCartList), false);
+    const discountMoney = formatMoney(tempMoney * discountAmount / 100, false);
+    const totalMoney = tempMoney - discountMoney;
+
     return (
       <Wrapper>
         <ContentRow>
-          <InfoText>Tạm tính: 5.290.000đ</InfoText>
+          <InfoText>Tạm tính: {formatMoney(tempMoney, true)}đ</InfoText>
         </ContentRow>
-        <ContentRow>
-          <InfoText>Giảm giá: -1.650.000đ</InfoText>
-        </ContentRow>
+        {
+          discountAmount > 0 &&
+          <ContentRow>
+            <InfoText>Giảm giá: -{formatMoney(discountMoney, true)}đ</InfoText>
+          </ContentRow>
+        }        
         <ContentRow>
           <TextInput
             id="name"
             placeholder="Nhập mã giảm giá"
             width="200px"
-            onBlur={this.callback}
+            callback={this.applyDiscountCode}
           />
         </ContentRow>
         <ContentRow>
-          <InfoText isTotal>Tổng cộng: 4.640.000đ</InfoText>
+          <InfoText isTotal>Tổng cộng: {formatMoney(totalMoney, true)}đ</InfoText>
         </ContentRow>
         <ContentRow>
           <Link
@@ -68,4 +106,4 @@ class CartInfo extends Component {
   }
 }
 
-export default CartInfo;
+export default withRouter(CartInfo);

@@ -35,7 +35,7 @@ namespace Business
         }
         catch (Exception e)
         {
-          return e.Message;
+          return null;
         }
       }
     }
@@ -48,7 +48,13 @@ namespace Business
         {
           User user = db.User.Where(p => p.Email == userEmail).SingleOrDefault();
 
-          user.ShoppingCarts = strShoppingCart;
+          if (string.IsNullOrEmpty(strShoppingCart) || strShoppingCart == "null")
+          {
+            user.ShoppingCarts = String.Empty;
+          }
+          else {
+            user.ShoppingCarts = strShoppingCart;
+          }
           db.SaveChanges();
 
           return true;

@@ -16,7 +16,6 @@ namespace Data.Entity
         public string MetaTitle { get; set; }
         public decimal? Price { get; set; }
         public decimal? PromotionPrice { get; set; }
-        public bool? IsDiscount { get; set; }
         public short? DiscountAmount { get; set; }
         public short? TotalQuantity { get; set; }
         public string Description { get; set; }

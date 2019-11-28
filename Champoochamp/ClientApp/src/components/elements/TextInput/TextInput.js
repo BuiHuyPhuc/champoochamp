@@ -30,8 +30,39 @@ const SingleInput = styled(Input)`
 `;
 
 class TextInput extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      text: props.text
+    };
+  }
+
+  handleInputChange = e => {
+    const text = e.target.value;
+
+    this.setState({ text });
+  };
+
+  handleInputBlur = e => {
+    const text = e.target.value;
+
+    this.setState(
+    {
+      text
+    },
+      () => this.props.callback && this.props.callback(this.state.text)
+    );
+  };
+
+  handleInputKeyDown = e => {
+    if (e.keyCode === 13) {
+      this.handleInputBlur(e);
+    }
+  };
+
   render() {
-    const { id, label, isRequired } = this.props;
+    const { text } = this.state;
+    const { id, label, isRequired, width } = this.props;
 
     return (
       <Fragment>
@@ -41,7 +72,13 @@ class TextInput extends Component {
             {isRequired && ' *'}
           </Label>
         )}
-        <SingleInput {...this.props}></SingleInput>
+        <SingleInput
+          onChange={this.handleInputChange}
+          onBlur={this.handleInputBlur}
+          onKeyDown={this.handleInputKeyDown}
+          value={text}
+          width={width}
+        />
       </Fragment>
     );
   }
@@ -49,6 +86,7 @@ class TextInput extends Component {
 
 TextInput.propsTypes = {
   id: PropTypes.string,
+  callback: PropTypes.func,
   isRequired: PropTypes.bool,
   label: PropTypes.string,
   onBlur: PropTypes.func,

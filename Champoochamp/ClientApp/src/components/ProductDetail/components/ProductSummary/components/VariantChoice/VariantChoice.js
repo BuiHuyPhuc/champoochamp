@@ -6,6 +6,7 @@ import { groupBy } from '../../../../../../shared/utils';
 
 import { DropDown, ColorRow, QuantityInput } from '../../../../../elements';
 import SizeReference from './components/SizeReference';
+import { minProductQuantity } from '../../../../../../shared/constants';
 
 const Wrapper = styled('div')`
   padding: 0;
@@ -83,7 +84,7 @@ class VariantChoice extends Component {
         </ChoiceBox>
         <ChoiceBox>
           <BoxTitle>Số lượng</BoxTitle>
-          <QuantityInput callback={getQuantity} width="120px" />
+          <QuantityInput value={minProductQuantity} callback={getQuantity} width="120px" />
         </ChoiceBox>
       </Wrapper>
     );
