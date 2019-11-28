@@ -1,6 +1,10 @@
 ﻿import React, { Component } from 'react';
 
-import { callAPI, updateShoppingCart, getStrShoppingCart } from '../../shared/utils';
+import {
+  callAPI,
+  updateShoppingCart,
+  getStrShoppingCart
+} from '../../shared/utils';
 import { storageShoppingCartKey } from '../../shared/constants';
 
 import { PageContainer, Section, SectionTitle } from '../elements';

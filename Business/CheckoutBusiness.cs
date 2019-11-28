@@ -9,9 +9,9 @@ using System.Text;
 
 namespace Business
 {
-  public class PaymentBusiness
+  public class CheckoutBusiness
   {
-    public bool SaveInVoice(PaymentModel paymentModel)
+    public bool SaveInVoice(CheckoutModel checkoutModel)
     {
       using (champoochampContext db = new champoochampContext())
       {
@@ -20,24 +20,24 @@ namespace Business
           try
           {
             bool result = false;
-            Invoice invoice = getInvoice(paymentModel);
+            Invoice invoice = getInvoice(checkoutModel);
             db.Add(invoice);
             db.SaveChanges();
 
-            List<InvoiceDetail> invoiceDetailList = getInvoiceDetail(paymentModel.shoppingCartList, invoice.Id);
+            List<InvoiceDetail> invoiceDetailList = getInvoiceDetail(checkoutModel.shoppingCartList, invoice.Id);
             foreach (InvoiceDetail item in invoiceDetailList)
             {
               db.Add(item);
             }
 
-            User user = db.User.Find(paymentModel.user.Id);
+            User user = db.User.Find(checkoutModel.user.Id);
             if(user != null)
             {
               user.ShoppingCarts = string.Empty;
             }
             db.SaveChanges();
 
-            result = SendEmail(paymentModel);
+            result = SendEmail(checkoutModel);
 
             transaction.Commit();
             return result;
@@ -51,9 +51,9 @@ namespace Business
       }
     }
 
-    public Invoice getInvoice(PaymentModel paymentModel)
+    public Invoice getInvoice(CheckoutModel checkoutModel)
     {
-      User user = paymentModel.user;
+      User user = checkoutModel.user;
 
       Invoice invoice = new Invoice()
       {
@@ -65,8 +65,8 @@ namespace Business
         CustomerDistrict = user.District,
         CustomerWard = user.Ward,
         CustomerAddress = user.Address,
-        Message = paymentModel.message,
-        Total = paymentModel.total,
+        Message = checkoutModel.message,
+        Total = checkoutModel.total,
         CreatedDate = DateTime.Now
       };
 
@@ -75,9 +75,9 @@ namespace Business
         invoice.UserId = user.Id;
       }
 
-      if (paymentModel.discount != null)
+      if (checkoutModel.discount != null)
       {
-        invoice.DiscountId = paymentModel.discount.Id;
+        invoice.DiscountId = checkoutModel.discount.Id;
       }
 
       return invoice;
@@ -105,11 +105,11 @@ namespace Business
       return invoiceDetaiList;
     }
 
-    public bool SendEmail(PaymentModel paymentModel)
+    public bool SendEmail(CheckoutModel checkoutModel)
     {
       try
       {
-        User user = paymentModel.user;
+        User user = checkoutModel.user;
 
         //string body = string.Empty;
         //using (StreamReader reader = new StreamReader(Server.MapPath("~/HtmlTemplate.html")))

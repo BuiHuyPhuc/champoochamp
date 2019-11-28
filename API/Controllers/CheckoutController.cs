@@ -14,15 +14,15 @@ namespace API.Controllers
 {
   [Route("api/[controller]")]
   [ApiController]
-  public class PaymentController : ControllerBase
+  public class CheckoutController : ControllerBase
   {
-    PaymentBusiness paymentBusiness = new PaymentBusiness();
+    CheckoutBusiness checkoutBusiness = new CheckoutBusiness();
 
     [HttpPost]
     [Route("SaveInVoice")]
-    public bool SaveInVoice(PaymentModel paymentModel)
+    public bool SaveInVoice(CheckoutModel checkoutModel)
     {
-      return paymentBusiness.SaveInVoice(paymentModel);
+      return checkoutBusiness.SaveInVoice(checkoutModel);
     }    
   }  
 }

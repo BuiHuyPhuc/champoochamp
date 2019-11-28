@@ -19,7 +19,7 @@ const SingleInput = styled(Input)`
   font-size: inherit;
   height: auto;
   padding: 10px;
-  width: ${props => props.width || 'auto'};
+  width: ${props => props.width || '100%'};
 
   &:active,
   &:focus,
@@ -62,7 +62,7 @@ class TextInput extends Component {
 
   render() {
     const { text } = this.state;
-    const { id, label, isRequired } = this.props;
+    const { id, label, isRequired, width } = this.props;
 
     return (
       <Fragment>
@@ -77,6 +77,7 @@ class TextInput extends Component {
           onBlur={this.handleInputBlur}
           onKeyDown={this.handleInputKeyDown}
           value={text}
+          width={width}
         />
       </Fragment>
     );
