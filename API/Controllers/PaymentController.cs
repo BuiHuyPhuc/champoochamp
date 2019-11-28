@@ -23,6 +23,23 @@ namespace API.Controllers
     public bool SaveInVoice(PaymentModel paymentModel)
     {
       return paymentBusiness.SaveInVoice(paymentModel);
-    }    
+    }
+
+    [Route("GetAllInvoice")]
+    public IEnumerable<Invoice> GetAllInvoice()
+    {
+      using (champoochampContext db = new champoochampContext())
+      {
+        try
+        {
+          return db.Invoice.ToList();
+        }
+        catch (Exception e)
+        {
+          Console.WriteLine(e.Message);
+          return null;
+        }
+      }
+    }
   }  
 }

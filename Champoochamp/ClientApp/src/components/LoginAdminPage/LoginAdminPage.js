@@ -13,7 +13,14 @@ class LoginAdminPage extends Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         const url = `Employee/CheckLogin`;
-        callAPI(url, '', 'POST', values).then(res => res && res.data && this.props.onLoginAdmin(true));        
+        callAPI(url, '', 'POST', values).then(res => {
+          if (res.data) {
+            this.props.onLoginAdmin(true);
+          }
+          else {
+            alert("Tài khoản hoặc mật khẩu không chính xác!");
+          }
+        });        
       }
     });
   }

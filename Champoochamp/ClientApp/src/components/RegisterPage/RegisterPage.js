@@ -13,8 +13,8 @@ class RegisterPage extends Component {
         callAPI('User/Register', '', 'POST', values).then(res => {
           if (res.data) {
             getLoginUser(res.data);
-            setCookie(emailKey, res.data.email, 1);
-            setCookie(passwordKey, res.data.password, 1);
+            setCookie(emailKey, values.email, 1);
+            setCookie(passwordKey, values.password, 1);
             history.push('/');
           }
           else {
