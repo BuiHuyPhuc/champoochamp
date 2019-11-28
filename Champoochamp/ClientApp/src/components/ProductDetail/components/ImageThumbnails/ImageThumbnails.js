@@ -18,7 +18,7 @@ const Wrapper = styled('div')`
       height: auto;
       margin: 10px;
       width: 70px;
-      
+
       &.slick-active {
         border: solid 1px ${colors.black};
       }
@@ -37,20 +37,23 @@ const Wrapper = styled('div')`
 `;
 
 class ImageThumbnails extends Component {
-  renderImage = imageUrls => imageUrls.map((url, index) => {    
-    return (
-      <div key={index}>
-        <Image imageUrl={getImageUrl(url, imagesGroup.products)} alt="" />
-      </div>
-    );
-  });
+  renderImage = imageUrls =>
+    imageUrls.map((url, index) => {
+      return (
+        <div key={index}>
+          <Image imageUrl={getImageUrl(url, imagesGroup.products)} alt="" />
+        </div>
+      );
+    });
 
   render() {
     const { imageUrls } = this.props;
-    const imgSources = imageUrls.map(url => getImageUrl(url, imagesGroup.products));
-    
+    const imgSources = imageUrls.map(url =>
+      getImageUrl(url, imagesGroup.products)
+    );
+
     const settings = {
-      customPaging: function (i) {
+      customPaging: function(i) {
         return (
           <div>
             <Image imageUrl={imgSources[i]} alt="" />
@@ -66,9 +69,7 @@ class ImageThumbnails extends Component {
     };
     return (
       <Wrapper>
-        <Slider {...settings}>
-          {this.renderImage(imageUrls)}
-        </Slider>
+        <Slider {...settings}>{this.renderImage(imageUrls)}</Slider>
       </Wrapper>
     );
   }

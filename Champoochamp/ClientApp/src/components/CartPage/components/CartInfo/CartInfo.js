@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from '@emotion/styled';
 
-import { colors, breakpoint, typography } from '../../../../shared/principles';
+import { typography } from '../../../../shared/principles';
 import { TextInput, Button, Link } from '../../../elements';
 
 const Wrapper = styled('div')`

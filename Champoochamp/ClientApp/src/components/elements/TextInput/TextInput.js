@@ -19,7 +19,7 @@ const SingleInput = styled(Input)`
   font-size: inherit;
   height: auto;
   padding: 10px;
-  width: ${props => props.width || 'auto'};
+  width: ${props => props.width || '100%'};
 
   &:active,
   &:focus,

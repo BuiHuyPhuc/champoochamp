@@ -1,6 +1,5 @@
 ﻿import React, { Component } from 'react';
-import { Spin, Row, Col } from 'antd';
-import { NavLink } from 'react-router-dom';
+import { Spin} from 'antd';
 
 import {
   callAPI,
@@ -119,7 +118,7 @@ class CartPage extends Component {
     });
 
   render() {
-    const { isLoading, shoppingCartList } = this.state;
+    const { isLoading } = this.state;
 
     return isLoading ? (
       <Spin />

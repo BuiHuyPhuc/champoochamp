@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Business
 {
-  public class PaymentBusiness
+  public class CheckoutBusiness
   {
     public bool SaveInVoice(string strShoppingCart, User user)
     {

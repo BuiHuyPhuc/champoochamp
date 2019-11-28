@@ -11,9 +11,9 @@ namespace API.Controllers
 {
   [Route("api/[controller]")]
   [ApiController]
-  public class PaymentController : ControllerBase
+  public class CheckoutController : ControllerBase
   {
-    PaymentBusiness paymentBusiness = new PaymentBusiness();
+    CheckoutBusiness checkoutBusiness = new CheckoutBusiness();
 
     [HttpPost]
     [Route("SaveInVoice")]

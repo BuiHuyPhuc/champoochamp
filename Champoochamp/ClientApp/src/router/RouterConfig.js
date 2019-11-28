@@ -6,7 +6,7 @@ import CollectionPage from "../components/CollectionPage";
 import SearchPage from "../components/SearchPage";
 import ProductDetail from "../components/ProductDetail";
 import Cart from "../components/CartPage";
-import Payment from "../components/PaymentPage";
+import CheckoutPage from "../components/CheckoutPage";
 
 class RouterConfig extends Component {
   render() {
@@ -27,7 +27,7 @@ class RouterConfig extends Component {
         }
         />
         <Route path="/thanh-toan" render={(props) =>
-          (<Payment {...props} user={user} />)
+          (<CheckoutPage {...props} user={user} />)
         }
         />
         <Route component={Homepage} />
