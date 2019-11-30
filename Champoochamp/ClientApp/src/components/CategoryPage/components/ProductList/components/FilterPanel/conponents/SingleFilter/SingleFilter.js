@@ -2,9 +2,12 @@ import React, { Component } from 'react';
 import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 
+import { colors } from '../../../../../../../../shared/principles';
+
 const Wrapper = styled('button')`
   background: none;
   border: none;
+  color: ${colors.black};
   cursor: pointer;
   outline: none;
   padding: 0;

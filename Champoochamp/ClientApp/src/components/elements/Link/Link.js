@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 
+import { colors } from '../../../shared/principles';
 import AwesomeIcon from '../AwesomeIcon';
 
 const Wrapper = styled('button')`
   align-items: center;
   background: transparent;
   border: none;
+  color: ${colors.black};
   cursor: pointer;
   display: flex;
   outline: none;
@@ -20,7 +22,7 @@ const Content = styled('span')`
   margin-left: ${props => (props.iconType ? '10px' : '0')};
   text-decoration: ${props => (props.iconType ? 'none' : 'underline')};
 
-  &:hover{
+  &:hover {
     text-decoration: underline;
   }
 `;

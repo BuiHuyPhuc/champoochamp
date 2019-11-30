@@ -1,6 +1,6 @@
 import { css } from '@emotion/core';
 import breakpoint from './breakpoint';
-import color from './colors';
+import colors from './colors';
 
 const titleFont = '"Roboto Slab", serif';
 
@@ -12,6 +12,7 @@ const weight = {
 
 const typography = {
   lgTitle: css`
+    color: ${colors.black};
     font-family: ${titleFont};
     font-size: 36px;
     font-weight: ${weight.bold};
@@ -24,6 +25,7 @@ const typography = {
   `,
 
   mdTitle: css`
+    color: ${colors.black};
     font-family: ${titleFont};
     font-size: 28px;
     font-weight: ${weight.bold};
@@ -36,6 +38,7 @@ const typography = {
   `,
 
   smTitle: css`
+    color: ${colors.black};
     font-family: ${titleFont};
     font-size: 22px;
     font-weight: ${weight.bold};
@@ -48,21 +51,24 @@ const typography = {
   `,
 
   xsTitle: css`
+    color: ${colors.black};
     font-family: ${titleFont};
     font-weight: ${weight.bold};
     line-height: 22px;
   `,
 
   boldText: css`
+    color: ${colors.black};
     font-weight: ${weight.bold};
   `,
 
   semiBoldText: css`
+    color: ${colors.black};
     font-weight: ${weight.semiBold};
   `,
 
   lightText: css`
-    color: ${color.darkGray};
+    color: ${colors.darkGray};
     font-weight: ${weight.normal};
   `
 };

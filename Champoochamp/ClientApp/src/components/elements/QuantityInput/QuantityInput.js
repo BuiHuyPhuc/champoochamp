@@ -20,9 +20,14 @@ const Wrapper = styled('div')`
 const ChangeQuantityButton = styled('button')`
   background: none;
   border: none;
+  color: ${colors.darkGray};
   cursor: pointer;
   outline: none;
   padding: 10px;
+
+  &:hover{
+    color: ${colors.black};
+  }
 `;
 
 const SingleInput = styled(Input)`
@@ -67,7 +72,8 @@ class QuantityInput extends Component {
         {
           number: Math.floor(number)
         },
-        () => this.props.callback(this.props.productVariantId, this.state.number)
+        () =>
+          this.props.callback(this.props.productVariantId, this.state.number)
       );
     }
   };

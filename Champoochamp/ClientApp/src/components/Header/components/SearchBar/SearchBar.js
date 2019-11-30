@@ -25,6 +25,7 @@ const Wrapper = styled('div')`
 const SearchInput = styled('input')`
   background: none;
   border: none;
+  color: ${colors.black};
   outline: none;
   width: 250px;
 
@@ -34,6 +35,7 @@ const SearchInput = styled('input')`
 `;
 
 const SearchIcon = styled(Icon)`
+  color: ${colors.darkGray};
   margin: 0 5px;
 `;
 
