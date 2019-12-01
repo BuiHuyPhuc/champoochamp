@@ -1,40 +1,14 @@
 import React, { Component, Fragment } from 'react';
+import { NavLink } from 'react-router-dom';
 import { Row, Col, Form, Input } from 'antd';
 import styled from '@emotion/styled';
 
-import { colors } from '../../../../shared/principles';
+import { formatForm } from '../../../../shared/utils';
 import { Link } from '../../../elements';
 
 const Wrapper = styled('div')`
+  ${formatForm};
   margin-top: 30px;
-
-  .ant-form-item {
-    margin-bottom: 15px;
-  }
-
-  .ant-input {
-    border-color: ${colors.gray};
-    border-radius: 0;
-    color: ${colors.black};
-    height: 40px;
-    transition: all 0.2s;
-
-    &:active,
-    &:focus,
-    &:hover {
-      border-color: ${colors.black};
-      box-shadow: none;
-    }
-  }
-
-  .ant-form-explain {
-    color: ${colors.black};
-    margin-top: 5px;
-  }
-
-  .has-error .ant-input:not([disabled]):hover {
-    border-color: ${colors.black};
-  }
 `;
 
 class InvoiceInfo extends Component {
@@ -48,7 +22,9 @@ class InvoiceInfo extends Component {
 
     return (
       <Fragment>
-        <Link content="Đăng nhập" onClick={this.login} />
+        <NavLink to="/dang-nhap">
+          <Link content="Đăng nhập" onClick={this.login} />
+        </NavLink>
 
         <Wrapper>
           <Form.Item>

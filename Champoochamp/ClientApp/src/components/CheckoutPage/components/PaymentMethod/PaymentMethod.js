@@ -3,36 +3,12 @@ import { Radio } from 'antd';
 import styled from '@emotion/styled';
 
 import { paymentMethod } from '../../../../shared/constants';
+import { formatRadio } from '../../../../shared/utils';
 import { colors } from '../../../../shared/principles';
 
 const Wrapper = styled('div')`
+  ${formatRadio};
   margin-top: 30px;
-
-  .ant-radio-group {
-    width: 100%;
-  }
-
-  .ant-radio-wrapper {
-    color: ${colors.black};
-    display: block;
-    margin-bottom: 15px;
-  }
-
-  span.ant-radio + * {
-    white-space: normal;
-  }
-
-  .ant-radio:hover .ant-radio-inner {
-    border-color: ${colors.black};
-  }
-
-  .ant-radio-checked .ant-radio-inner {
-    border-color: ${colors.black};
-
-    &:after {
-      background-color: ${colors.black};
-    }
-  }
 `;
 
 const BankingInfo = styled('div')`

@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import { NavLink } from 'react-router-dom';
 import styled from '@emotion/styled';
 
 import { typography, colors } from '../../../../shared/principles';
@@ -34,18 +35,12 @@ const FinishButton = styled(Button)`
 `;
 
 class CartInfo extends Component {
-  editCart = () => {
-    // Go to Cart page here.
-  };
-
-  submitForm = () => {
-    // Submit form here.
-  };
-
   render() {
     return (
       <Fragment>
-        <Link content="Chỉnh sửa" onClick={this.editCart} />
+        <NavLink to="/gio-hang">
+          <Link content="Chỉnh sửa" />
+        </NavLink>
 
         <CartItemWrapper>
           <TextRow>
@@ -83,12 +78,7 @@ class CartInfo extends Component {
           </RightText>
         </TextRow>
 
-        <FinishButton
-          title="Đặt hàng"
-          htmlType="submit"
-          isBlockButton
-          onClick={this.submitForm}
-        />
+        <FinishButton title="Đặt hàng" htmlType="submit" isBlockButton />
       </Fragment>
     );
   }
