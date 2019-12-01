@@ -13,7 +13,7 @@ const Wrapper = styled('button')`
   outline: none;
   padding: 0.9rem 1.5rem;
   margin: 0;
-  transition: all 0.3s;
+  transition: all 0.2s;
   width: ${props => (props.isBlockButton ? '100%' : props.width)};
 
   &:hover {

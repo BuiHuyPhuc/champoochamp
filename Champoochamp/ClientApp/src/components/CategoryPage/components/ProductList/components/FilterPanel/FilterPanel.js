@@ -68,7 +68,7 @@ const filterGroupWrapper = css`
 `;
 
 const FilterGroupTitle = styled('span')`
-  ${typography.xsTitle};
+  ${typography.boldText};
 `;
 
 const SelectedItemsWrapper = styled('div')`

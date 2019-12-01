@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import styled from '@emotion/styled';
 
+import { colors } from '../../../../../../shared/principles';
 import { AwesomeIcon } from '../../../../../elements';
 
 const Wrapper = styled('ul')`
+  color: ${colors.black};
   list-style: none;
   padding: 10px 0;
 `;
@@ -19,7 +21,7 @@ const Content = styled('span')`
 class ProductDescription extends Component {
   render() {
     const { product } = this.props;
-    
+
     return (
       <Wrapper>
         <Item>
@@ -33,7 +35,7 @@ class ProductDescription extends Component {
         <Item>
           <AwesomeIcon type="fas fa-angle-right" />
           <Content>Thời hạn bảo hành: {product.warrantyPeriod}</Content>
-        </Item>        
+        </Item>
         <Item>
           <AwesomeIcon type="fas fa-angle-right" />
           <Content>Chi tiết: {product.detail}</Content>

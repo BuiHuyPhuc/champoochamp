@@ -3,10 +3,7 @@ import styled from '@emotion/styled';
 import { Input, Icon } from 'antd';
 import PropTypes from 'prop-types';
 
-import {
-  minProductQuantity,
-  maxProductQuantity
-} from '../../../shared/constants';
+import { productQuantity } from '../../../shared/constants';
 import { colors } from '../../../shared/principles';
 
 const Wrapper = styled('div')`
@@ -20,9 +17,14 @@ const Wrapper = styled('div')`
 const ChangeQuantityButton = styled('button')`
   background: none;
   border: none;
+  color: ${colors.darkGray};
   cursor: pointer;
   outline: none;
   padding: 10px;
+
+  &:hover {
+    color: ${colors.black};
+  }
 `;
 
 const SingleInput = styled(Input)`
@@ -58,16 +60,17 @@ class QuantityInput extends Component {
   handleInputBlur = e => {
     const number = e.target.value;
 
-    if (isNaN(number) || number < minProductQuantity) {
-      this.setState({ number: minProductQuantity });
-    } else if (number > maxProductQuantity) {
-      this.setState({ number: maxProductQuantity });
+    if (isNaN(number) || number < productQuantity.min) {
+      this.setState({ number: productQuantity.min });
+    } else if (number > productQuantity.max) {
+      this.setState({ number: productQuantity.max });
     } else {
       this.setState(
         {
           number: Math.floor(number)
         },
-        () => this.props.callback(this.props.productVariantId, this.state.number)
+        () =>
+          this.props.callback(this.props.productVariantId, this.state.number)
       );
     }
   };
@@ -77,7 +80,7 @@ class QuantityInput extends Component {
     const { callback } = this.props;
 
     if (isIncrease) {
-      if (number >= maxProductQuantity) {
+      if (number >= productQuantity.max) {
         return;
       }
       this.setState(
@@ -87,7 +90,7 @@ class QuantityInput extends Component {
         () => callback(this.props.productVariantId, this.state.number)
       );
     } else {
-      if (number <= minProductQuantity) {
+      if (number <= productQuantity.min) {
         return;
       }
       this.setState(

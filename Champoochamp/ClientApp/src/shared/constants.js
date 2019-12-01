@@ -1,28 +1,12 @@
 ﻿const apiPort = 'http://localhost:4000';
 
-const newProductInDays = 30;
-
-const storageShoppingCartKey = 'MyShoppingCart';
-
 const emailKey = 'ChampoochampEmail';
 
-const passwordKey = 'ChampoochampPassword';
-
-const minProductQuantity = 1;
-
-const maxProductQuantity = 99;
-
-const viewportWidth = {
-  sm: 575,
-  md: 767,
-  lg: 991,
-  xl: 1200
-};
-
-const topProductsName = {
-  discountProducts: 'Khuyến mãi hot',
-  newProducts: 'Sản phẩm mới',
-  relatedProducts: 'Sản phẩm liên quan'
+const filtersGroup = {
+  brand: 'Thương hiệu',
+  size: 'Kích cỡ',
+  color: 'Màu sắc',
+  money: 'Giá'
 };
 
 const imagesGroup = {
@@ -31,11 +15,18 @@ const imagesGroup = {
   collections: 'collections'
 };
 
-const filtersGroup = {
-  brand: 'Thương hiệu',
-  size: 'Kích cỡ',
-  color: 'Màu sắc',
-  money: 'Giá'
+const newProductPeriod = 30;
+
+const passwordKey = 'ChampoochampPassword';
+
+const paymentMethod = {
+  cod: 'COD',
+  banking: 'Banking'
+};
+
+const productQuantity = {
+  min: 1,
+  max: 99
 };
 
 const searchGroup = {
@@ -62,18 +53,33 @@ const sortsGroup = [
   }
 ];
 
+const storageShoppingCartKey = 'MyShoppingCart';
+
+const topProductsName = {
+  discountProducts: 'Khuyến mãi hot',
+  newProducts: 'Sản phẩm mới',
+  relatedProducts: 'Sản phẩm liên quan'
+};
+
+const viewportWidth = {
+  sm: 575,
+  md: 767,
+  lg: 991,
+  xl: 1200
+};
+
 export {
   apiPort,
-  newProductInDays,
-  storageShoppingCartKey,
   emailKey,
-  passwordKey,
-  minProductQuantity,
-  maxProductQuantity,
-  viewportWidth,
-  topProductsName,
-  imagesGroup,
   filtersGroup,
+  imagesGroup,
+  newProductPeriod,
+  passwordKey,
+  paymentMethod,
+  productQuantity,
   searchGroup,
-  sortsGroup  
+  sortsGroup,
+  storageShoppingCartKey,
+  topProductsName,
+  viewportWidth
 };
