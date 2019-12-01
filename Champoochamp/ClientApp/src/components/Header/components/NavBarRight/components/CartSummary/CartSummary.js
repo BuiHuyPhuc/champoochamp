@@ -3,9 +3,23 @@ import { NavLink } from 'react-router-dom';
 import { Row, Col } from 'antd';
 import styled from '@emotion/styled';
 
-import { colors, typography, breakpoint } from '../../../../../../shared/principles';
-import { callAPI, getImageUrl, formatMoney, getTotalMoney, getStrShoppingCart, updateShoppingCart } from '../../../../../../shared/utils';
-import { storageShoppingCartKey, imagesGroup } from '../../../../../../shared/constants';
+import {
+  colors,
+  typography,
+  breakpoint
+} from '../../../../../../shared/principles';
+import {
+  callAPI,
+  getImageUrl,
+  formatMoney,
+  getTotalMoney,
+  getStrShoppingCart,
+  updateShoppingCart
+} from '../../../../../../shared/utils';
+import {
+  storageShoppingCartKey,
+  imagesGroup
+} from '../../../../../../shared/constants';
 
 import { Image, Link, Button, SectionTitle } from '../../../../../elements';
 
@@ -33,6 +47,7 @@ const ProductName = styled('span')`
 `;
 
 const ProductPrice = styled('div')`
+  color: ${colors.black};
   text-align: right;
 `;
 
@@ -71,8 +86,7 @@ class CartSummary extends Component {
         strShoppingCart: nextProps.strShoppingCart,
         isShoppingCartChanged: true
       };
-    }
-    else if (nextProps.user !== prevState.user) {
+    } else if (nextProps.user !== prevState.user) {
       return {
         user: nextProps.user,
         isUserChanged: true
@@ -97,21 +111,26 @@ class CartSummary extends Component {
   getShoppingCart = user => {
     const url = `Cart/GetShoppingCart-${
       user ? user.email : null
-      }||${localStorage.getItem(storageShoppingCartKey)}`;
+    }||${localStorage.getItem(storageShoppingCartKey)}`;
 
-    callAPI(url).then(res => this.setState({
-      isShoppingCartChanged: false,
-      shoppingCartList: res ? res.data : []
-    }, () => {
-        if (this.state.isUserChanged) {
-          this.setState({ isUserChanged: false });
-          updateShoppingCart(
-            getStrShoppingCart(this.state.shoppingCartList),
-            user,
-            this.props.updateShoppingCart
-          );
+    callAPI(url).then(res =>
+      this.setState(
+        {
+          isShoppingCartChanged: false,
+          shoppingCartList: res ? res.data : []
+        },
+        () => {
+          if (this.state.isUserChanged) {
+            this.setState({ isUserChanged: false });
+            updateShoppingCart(
+              getStrShoppingCart(this.state.shoppingCartList),
+              user,
+              this.props.updateShoppingCart
+            );
+          }
         }
-    }));
+      )
+    );
   };
 
   onDeleteProduct = productVariantId => {
@@ -127,26 +146,31 @@ class CartSummary extends Component {
     );
   };
 
-  renderCartItem = shoppingCartList => shoppingCartList.map(item => {
-    const { product, id, thumbnail } = item.productVariant;
+  renderCartItem = shoppingCartList =>
+    shoppingCartList.map(item => {
+      const { product, id, thumbnail } = item.productVariant;
 
-    return (
-      <CartItem key={id}>
-        <Row gutter={16}>
-          <Col span={4}>
-            <Image imageUrl={getImageUrl(thumbnail, imagesGroup.products)} />
-          </Col>
-          <Col span={12}>
-            <ProductName>{item.quantity} x {product.name}</ProductName>
-            <Link onClick={() => this.onDeleteProduct(id)} content="Xoá" />
-          </Col>
-          <Col span={8}>
-            <ProductPrice>{formatMoney(product.promotionPrice * item.quantity, true)}đ</ProductPrice>
-          </Col>
-        </Row>
-      </CartItem>
-    );
-  })
+      return (
+        <CartItem key={id}>
+          <Row gutter={16}>
+            <Col span={4}>
+              <Image imageUrl={getImageUrl(thumbnail, imagesGroup.products)} />
+            </Col>
+            <Col span={12}>
+              <ProductName>
+                {item.quantity} x {product.name}
+              </ProductName>
+              <Link onClick={() => this.onDeleteProduct(id)} content="Xoá" />
+            </Col>
+            <Col span={8}>
+              <ProductPrice>
+                {formatMoney(product.promotionPrice * item.quantity, true)}đ
+              </ProductPrice>
+            </Col>
+          </Row>
+        </CartItem>
+      );
+    });
 
   render() {
     const { shoppingCartList } = this.state;
@@ -156,9 +180,7 @@ class CartSummary extends Component {
       <Wrapper>
         <SectionTitle content="Giỏ hàng" />
 
-        <CartItemList>
-          {this.renderCartItem(shoppingCartList)}
-        </CartItemList>
+        <CartItemList>{this.renderCartItem(shoppingCartList)}</CartItemList>
 
         <TotalWrapper>
           <Row gutter={8}>
@@ -166,7 +188,9 @@ class CartSummary extends Component {
               <TotalTitle>Tổng cộng</TotalTitle>
             </Col>
             <Col span={12}>
-              <TotalPrice>{formatMoney(getTotalMoney(shoppingCartList), true)}đ</TotalPrice>
+              <TotalPrice>
+                {formatMoney(getTotalMoney(shoppingCartList), true)}đ
+              </TotalPrice>
             </Col>
           </Row>
         </TotalWrapper>

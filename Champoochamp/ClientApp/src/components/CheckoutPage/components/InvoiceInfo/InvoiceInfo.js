@@ -2,12 +2,8 @@ import React, { Component, Fragment } from 'react';
 import { Row, Col, Form, Input } from 'antd';
 import styled from '@emotion/styled';
 
-import { typography, colors } from '../../../../shared/principles';
+import { colors } from '../../../../shared/principles';
 import { Link } from '../../../elements';
-
-const SmallTitle = styled('h4')`
-  ${typography.smTitle};
-`;
 
 const Wrapper = styled('div')`
   margin-top: 30px;
@@ -32,7 +28,7 @@ const Wrapper = styled('div')`
   }
 
   .ant-form-explain {
-    color: ${colors.darkGray};
+    color: ${colors.black};
     margin-top: 5px;
   }
 
@@ -52,7 +48,6 @@ class InvoiceInfo extends Component {
 
     return (
       <Fragment>
-        <SmallTitle>Thông tin giao hàng</SmallTitle>        
         <Link content="Đăng nhập" onClick={this.login} />
 
         <Wrapper>

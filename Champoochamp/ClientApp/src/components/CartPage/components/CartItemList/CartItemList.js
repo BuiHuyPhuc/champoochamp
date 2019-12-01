@@ -76,7 +76,7 @@ const PriceWrapper = styled('div')`
 `;
 
 const Price = styled('div')`
-  ${typography.boldText};
+  color: ${colors.black};
   text-align: right;
 `;
 
@@ -89,48 +89,64 @@ const OriginalPrice = styled('div')`
 class CartItemList extends Component {
   onClickProductName = (history, product) => {
     history.push(`/chi-tiet/${product.metaTitle}-${product.id}`);
-  }
+  };
 
-  renderCartItem = shoppingCartList => shoppingCartList.map(item => {
-    const { onUpdateQuantity, onDeleteProduct, history } = this.props;
-    const { product, color, size, id, thumbnail } = item.productVariant;
+  renderCartItem = shoppingCartList =>
+    shoppingCartList.map(item => {
+      const { onUpdateQuantity, onDeleteProduct, history } = this.props;
+      const { product, color, size, id, thumbnail } = item.productVariant;
 
-    return (
-      <CartItem key={id}>
-        <Row gutter={16}>
-          <Col xs={6} sm={4} lg={3}>
-            <Image imageUrl={getImageUrl(thumbnail, imagesGroup.products)} />
-          </Col>
-          <Col xs={18} sm={11} lg={12}>
-            <ProductName onClick={() => this.onClickProductName(history, product)}>{product.name}</ProductName>
-            <ProductVariant>{color.name}, {size.name}</ProductVariant>
-            {product.discountAmount > 0 && <Discount>- {Math.ceil(product.discountAmount)}%</Discount>}
-            <DeleteButton>
-              <Link onClick={() => onDeleteProduct(id)} content="Xoá" />
-            </DeleteButton>
-          </Col>
-          <Col xs={24} sm={9}>
-            <QuantityPriceWrapper>
-              <QuantityInput productVariantId={id} value={item.quantity} callback={onUpdateQuantity} width="120px" />
-              <PriceWrapper>
-                <Price>{formatMoney(product.promotionPrice * item.quantity, true)}đ</Price>
-                {product.discountAmount > 0 && <OriginalPrice>{formatMoney(product.price * item.quantity, true)}đ</OriginalPrice>}
-              </PriceWrapper>
-            </QuantityPriceWrapper>
-          </Col>
-        </Row>
-      </CartItem>
-    );
-  })
+      return (
+        <CartItem key={id}>
+          <Row gutter={16}>
+            <Col xs={6} sm={4} lg={3}>
+              <Image imageUrl={getImageUrl(thumbnail, imagesGroup.products)} />
+            </Col>
+            <Col xs={18} sm={11} lg={12}>
+              <ProductName
+                onClick={() => this.onClickProductName(history, product)}
+              >
+                {product.name}
+              </ProductName>
+              <ProductVariant>
+                {color.name}, {size.name}
+              </ProductVariant>
+              {product.discountAmount > 0 && (
+                <Discount>- {Math.ceil(product.discountAmount)}%</Discount>
+              )}
+              <DeleteButton>
+                <Link onClick={() => onDeleteProduct(id)} content="Xoá" />
+              </DeleteButton>
+            </Col>
+            <Col xs={24} sm={9}>
+              <QuantityPriceWrapper>
+                <QuantityInput
+                  productVariantId={id}
+                  value={item.quantity}
+                  callback={onUpdateQuantity}
+                  width="120px"
+                />
+                <PriceWrapper>
+                  <Price>
+                    {formatMoney(product.promotionPrice * item.quantity, true)}đ
+                  </Price>
+                  {product.discountAmount > 0 && (
+                    <OriginalPrice>
+                      {formatMoney(product.price * item.quantity, true)}đ
+                    </OriginalPrice>
+                  )}
+                </PriceWrapper>
+              </QuantityPriceWrapper>
+            </Col>
+          </Row>
+        </CartItem>
+      );
+    });
 
   render() {
     const { shoppingCartList } = this.props;
 
-    return (
-      <Wrapper>
-        {this.renderCartItem(shoppingCartList)}
-      </Wrapper>
-    );
+    return <Wrapper>{this.renderCartItem(shoppingCartList)}</Wrapper>;
   }
 }
 

@@ -4,10 +4,6 @@ import styled from '@emotion/styled';
 import { typography, colors } from '../../../../shared/principles';
 import { Link, Button } from '../../../elements';
 
-const SmallTitle = styled('h4')`
-  ${typography.smTitle};
-`;
-
 const CartItemWrapper = styled('div')`
   border-bottom: solid 1px ${colors.gray};
   margin: 30px 0 20px 0;
@@ -21,6 +17,7 @@ const TextRow = styled('div')`
 `;
 
 const LeftText = styled('span')`
+  ${typography.boldText};
   margin-right: 10px;
 `;
 
@@ -30,6 +27,10 @@ const RightText = styled('span')`
 
 const Total = styled('span')`
   ${typography.smTitle};
+`;
+
+const FinishButton = styled(Button)`
+  margin-top: 15px;
 `;
 
 class CartInfo extends Component {
@@ -44,7 +45,6 @@ class CartInfo extends Component {
   render() {
     return (
       <Fragment>
-        <SmallTitle>Chi tiết đơn hàng</SmallTitle>
         <Link content="Chỉnh sửa" onClick={this.editCart} />
 
         <CartItemWrapper>
@@ -83,7 +83,7 @@ class CartInfo extends Component {
           </RightText>
         </TextRow>
 
-        <Button
+        <FinishButton
           title="Đặt hàng"
           htmlType="submit"
           isBlockButton

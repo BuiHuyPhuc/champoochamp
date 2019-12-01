@@ -1,5 +1,5 @@
 ﻿import React, { Component } from 'react';
-import { Row, Col, Form, Button } from 'antd';
+import { Row, Col, Form } from 'antd';
 import styled from '@emotion/styled';
 
 import {
@@ -14,6 +14,11 @@ import { typography } from '../../shared/principles';
 import { PageContainer, Section } from '../elements';
 import InvoiceInfo from './components/InvoiceInfo';
 import CartInfo from './components/CartInfo';
+import PaymentMethod from './components/PaymentMethod';
+
+const SmallTitle = styled('h4')`
+  ${typography.smTitle};
+`;
 
 class CheckoutPage extends Component {
   constructor(props) {
@@ -76,11 +81,17 @@ class CheckoutPage extends Component {
           <Form onSubmit={this.onSubmit}>
             <Col xs={24} sm={12} md={14}>
               <Section>
+                <SmallTitle>Thông tin giao hàng</SmallTitle>
                 <InvoiceInfo user={user} form={form} />
+              </Section>
+              <Section>
+                <SmallTitle>Phương thức thanh toán</SmallTitle>
+                <PaymentMethod />
               </Section>
             </Col>
             <Col xs={24} sm={12} md={10}>
               <Section>
+                <SmallTitle>Chi tiết đơn hàng</SmallTitle>
                 <CartInfo />
               </Section>
             </Col>
