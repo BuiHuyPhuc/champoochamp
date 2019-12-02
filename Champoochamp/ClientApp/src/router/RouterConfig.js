@@ -49,7 +49,7 @@ class RouterConfig extends Component {
           render={props => <LoginPage {...props} getLoginUser={getLoginUser} />}
         />
         <Route
-          path="/dang-ky"
+          path="/dang-ki"
           render={props => (
             <RegisterPage
               {...props}

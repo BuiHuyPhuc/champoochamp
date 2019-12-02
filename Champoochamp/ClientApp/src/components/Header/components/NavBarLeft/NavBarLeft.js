@@ -6,7 +6,7 @@ import styled from '@emotion/styled';
 import { css, jsx } from '@emotion/core';
 
 import { callAPI } from '../../../../shared/utils';
-import { breakpoint, colors } from '../../../../shared/principles';
+import { breakpoint, colors, typography } from '../../../../shared/principles';
 import logo from '../../../../assets/logo.png';
 
 import { Image } from '../../../elements';
@@ -48,6 +48,7 @@ const menuStyle = css`
 `;
 
 const MenuItemTitle = styled('span')`
+  ${typography.boldText};
   letter-spacing: 1px;
 `;
 
@@ -142,7 +143,7 @@ class NavBarLeft extends Component {
           </NavLink>
         </Menu.Item>
       );
-  })
+    });
 
   render() {
     const { categoryMenu, collectionMenu } = this.state;
@@ -156,9 +157,7 @@ class NavBarLeft extends Component {
         </Logo>
         <Menu mode="horizontal" css={menuStyle}>
           {this.renderCategoryMenu(categoryMenu, '/san-pham')}
-          <Menu.SubMenu
-            title={<MenuItemTitle>Bộ sưu tập</MenuItemTitle>}
-          >
+          <Menu.SubMenu title={<MenuItemTitle>Bộ sưu tập</MenuItemTitle>}>
             {this.renderCollectionMenu(collectionMenu)}
           </Menu.SubMenu>
         </Menu>

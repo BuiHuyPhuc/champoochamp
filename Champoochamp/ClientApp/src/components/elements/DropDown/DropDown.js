@@ -7,6 +7,7 @@ import { colors } from '../../../shared/principles';
 import AwesomeIcon from '../AwesomeIcon';
 
 const Wrapper = styled('div')`
+  color: ${colors.black};
   position: relative;
 `;
 

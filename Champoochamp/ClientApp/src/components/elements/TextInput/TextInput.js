@@ -1,16 +1,9 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import styled from '@emotion/styled';
 import { Input } from 'antd';
 import PropTypes from 'prop-types';
 
-import { colors, typography } from '../../../shared/principles';
-
-const Label = styled('label')`
-  ${typography.lightText};
-  display: block;
-  font-size: 12px;
-  margin-bottom: 5px;
-`;
+import { colors } from '../../../shared/principles';
 
 const SingleInput = styled(Input)`
   border: solid 1px ${colors.gray};
@@ -30,28 +23,8 @@ const SingleInput = styled(Input)`
 `;
 
 class TextInput extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      text: props.text
-    };
-  }
-
-  handleInputChange = e => {
-    const text = e.target.value;
-
-    this.setState({ text });
-  };
-
   handleInputBlur = e => {
-    const text = e.target.value;
-
-    this.setState(
-    {
-      text
-    },
-      () => this.props.callback && this.props.callback(this.state.text)
-    );
+    this.props.callback && this.props.callback(e.target.value);
   };
 
   handleInputKeyDown = e => {
@@ -61,38 +34,22 @@ class TextInput extends Component {
   };
 
   render() {
-    const { text } = this.state;
-    const { id, label, isRequired, width } = this.props;
+    const { placeholder, width } = this.props;
 
     return (
-      <Fragment>
-        {label && (
-          <Label for={id}>
-            {label}
-            {isRequired && ' *'}
-          </Label>
-        )}
-        <SingleInput
-          onChange={this.handleInputChange}
-          onBlur={this.handleInputBlur}
-          onKeyDown={this.handleInputKeyDown}
-          value={text}
-          width={width}
-        />
-      </Fragment>
+      <SingleInput
+        onBlur={this.handleInputBlur}
+        placeholder={placeholder}
+        width={width}
+      />
     );
   }
 }
 
 TextInput.propsTypes = {
-  id: PropTypes.string,
   callback: PropTypes.func,
-  isRequired: PropTypes.bool,
-  label: PropTypes.string,
-  onBlur: PropTypes.func,
   placeholder: PropTypes.string,
   type: PropTypes.string,
-  value: PropTypes.string || PropTypes.number,
   width: PropTypes.string
 };
 
