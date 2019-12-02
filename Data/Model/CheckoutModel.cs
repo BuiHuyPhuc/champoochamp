@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Data.Model
 {
-  public class PaymentModel
+  public class CheckoutModel
   {
     public User user { get; set; }
     public List<CartItemModel> shoppingCartList { get; set; }
@@ -13,12 +13,12 @@ namespace Data.Model
     public Discount discount { get; set; }
     public decimal? total { get; set; }
 
-    public PaymentModel()
+    public CheckoutModel()
     {
       shoppingCartList = new List<CartItemModel>();
     }
 
-    public PaymentModel(User user, List<CartItemModel> shoppingCartList, string message, Discount discount, decimal? total)
+    public CheckoutModel(User user, List<CartItemModel> shoppingCartList, string message, Discount discount, decimal? total)
     {
       this.user = user;
       this.shoppingCartList = shoppingCartList;

@@ -48,7 +48,7 @@ class InvoicePage extends Component {
   }
 
   getAllInvoice = () => {
-    callAPI('Payment/GetAllInvoice').then(res => this.setState({ invoiceList: res.data }));    
+    callAPI('Checkout/GetAllInvoice').then(res => this.setState({ invoiceList: res.data }));    
   }
 
   handleChange = (pagination, filters, sorter) => {

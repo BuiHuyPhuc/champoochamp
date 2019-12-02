@@ -1,16 +1,21 @@
-﻿import React, { Component } from "react";
-import { Form, Input, Button } from 'antd';
+﻿import React, { Component } from 'react';
+import { Row, Col, Form, Input, Button } from 'antd';
+import styled from '@emotion/styled';
 
 import { callAPI, formatMoney, getTotalMoney, updateShoppingCart } from '../../shared/utils';
 import { storageShoppingCartKey } from '../../shared/constants';
+import { typography } from '../../shared/principles';
 
-import { TextInput } from '../elements';
+import { PageContainer, Section } from '../elements';
 
-class Payment extends Component {
+const SmallTitle = styled('h4')`
+  ${typography.smTitle};
+`;
+
+class CheckoutPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      message: null,
       shoppingCartList: []
     };
   }
@@ -26,25 +31,25 @@ class Payment extends Component {
     }));
   }
 
-  getMessage = message => {
-    this.setState({ message })
-  }
+  // getMessage = message => {
+  //   this.setState({ message })
+  // }
 
   onSubmit = e => {
     e.preventDefault();    
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        const { shoppingCartList, message } = this.state;
+        const { shoppingCartList } = this.state;
         const { user, discount, history } = this.props;
         const data = {
           user: values,
           shoppingCartList,
-          message,
+          message: values.message,
           discount,
           total: formatMoney(getTotalMoney(shoppingCartList, discount && discount.rate))
         }
 
-        callAPI('Payment/SaveInVoice', '', 'POST', data).then(res => {
+        callAPI('Checkout/SaveInVoice', '', 'POST', data).then(res => {
           if (res.data) {
             updateShoppingCart(
               '',
@@ -68,12 +73,12 @@ class Payment extends Component {
     const { getFieldDecorator } = this.props.form;
 
     return (
-      <div>
-        <br />
-        <br />
-        <br />
-        <br />
-        <Form onSubmit={this.onSubmit}>
+      <PageContainer>
+        <Row gutter={32}>
+          <Col xs={24} sm={14}>
+            <Section>
+              <SmallTitle>Thông tin giao hàng</SmallTitle>
+              <Form onSubmit={this.onSubmit}>
           {/*
            <Form.Item>
             {getFieldDecorator('email', {
@@ -88,23 +93,15 @@ class Payment extends Component {
               initialValue: user && user.email,
               rules: [{ required: true, message: 'Vui lòng nhập email!' }]
             })(
-              <Input />
+              <Input placeholder="Email" />
             )}
           </Form.Item>          
-          <Form.Item>
-            {getFieldDecorator('firstName', {
-              initialValue: user && user.firstName,
-              rules: [{ required: true, message: 'Vui lòng nhập họ!' }]
-            })(
-              <Input />
-            )}
-          </Form.Item>
           <Form.Item>
             {getFieldDecorator('lastName', {
               initialValue: user && user.lastName,
               rules: [{ required: true, message: 'Vui lòng nhập tên!' }]
             })(
-              <Input />
+              <Input placeholder="Tên" />
             )}
           </Form.Item>
           <Form.Item>
@@ -112,7 +109,7 @@ class Payment extends Component {
               initialValue: user && user.telephone,
               rules: [{ required: true, message: 'Vui lòng nhập số điện thoại!' }]
             })(
-              <Input />
+              <Input placeholder="Số điện thoại" />
             )}
           </Form.Item>
           <Form.Item>
@@ -120,7 +117,7 @@ class Payment extends Component {
               initialValue: user && user.province,
               rules: [{ required: true, message: 'Vui lòng nhập tỉnh!' }]
             })(
-              <Input />
+              <Input placeholder="Tỉnh, thành phố" />
             )}
           </Form.Item>
           <Form.Item>
@@ -128,7 +125,7 @@ class Payment extends Component {
               initialValue: user && user.district,
               rules: [{ required: true, message: 'Vui lòng nhập huyện!' }]
             })(
-              <Input />
+              <Input placeholder="Quận, huyện" />
             )}
           </Form.Item>
           <Form.Item>
@@ -136,7 +133,7 @@ class Payment extends Component {
               initialValue: user && user.ward,
               rules: [{ required: true, message: 'Vui lòng nhập đường!' }]
             })(
-              <Input />
+              <Input placeholder="Đường" />
             )}
           </Form.Item>
           <Form.Item>
@@ -144,21 +141,34 @@ class Payment extends Component {
               initialValue: user && user.address,
               rules: [{ required: true, message: 'Vui lòng nhập địa chỉ!' }]
             })(
-              <Input />
+              <Input placeholder="Số nhà" />
             )}
           </Form.Item>
           <Form.Item>
-            <TextInput callback={this.getMessage} />
+            {getFieldDecorator('message')(
+              <Input placeholder="Tin nhắn" />
+            )}
           </Form.Item>
+          {/* <Form.Item>
+            <Input callback={this.getMessage} />
+          </Form.Item> */}
           <Form.Item>
             <Button type="primary" htmlType="submit">
               Thanh toán
             </Button>
           </Form.Item>
         </Form>
-      </div>
+            </Section>
+          </Col>
+          <Col xs={24} sm={10}>
+            <Section>
+              <SmallTitle>Chi tiết đơn hàng</SmallTitle>
+            </Section>
+          </Col>
+        </Row>
+      </PageContainer>
     );
   }
 }
 
-export default Form.create({ name: 'customerCheckout' })(Payment);
+export default Form.create({ name: 'CheckoutPage' })(CheckoutPage);

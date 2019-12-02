@@ -2,7 +2,8 @@
 import { Modal } from 'antd';
 import styled from '@emotion/styled';
 
-import { Link } from '../../../../../../../elements';
+import { Link, Image } from '../../../../../../../elements';
+import sizeTable from '../../../../../../../../assets/size-table.jpg';
 
 const Wrapper = styled('div')`
   display: flex;
@@ -25,13 +26,7 @@ class SizeReference extends Component {
     });
   };
 
-  handleOk = e => {
-    this.setState({
-      visible: false
-    });
-  };
-
-  handleCancel = e => {
+  hideModal = () => {
     this.setState({
       visible: false
     });
@@ -44,14 +39,12 @@ class SizeReference extends Component {
       <Wrapper>
         <Link content="Hướng dẫn chọn size" onClick={this.showModal} />
         <Modal
-          title="Basic Modal"
+          title="Hướng dẫn chọn size quần áo"
           visible={visible}
-          onOk={this.handleOk}
-          onCancel={this.handleCancel}
+          onCancel={this.hideModal}
+          footer={null}
         >
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-          <p>Some contents...</p>
+          <Image imageUrl={sizeTable} alt="" />
         </Modal>
       </Wrapper>
     );
