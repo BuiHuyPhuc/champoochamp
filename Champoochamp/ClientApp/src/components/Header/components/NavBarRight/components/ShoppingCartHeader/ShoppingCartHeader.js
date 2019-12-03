@@ -6,11 +6,8 @@ import { getCartTotalQuantity } from '../../../../../../shared/utils';
 import { colors } from '../../../../../../shared/principles';
 
 const Wrapper = styled('div')`
-  position: relative;
-`;
-
-const CartIcon = styled('div')`
   cursor: pointer;
+  position: relative;
 `;
 
 const Quantity = styled('span')`
@@ -32,11 +29,11 @@ class ShoppingCartHeader extends Component {
     const { strShoppingCart, onShowDrawer } = this.props;
 
     return (
-      <Wrapper onClick={onShowDrawer}>
-        <CartIcon title="Giỏ hàng">
-          <Icon type="shopping" />
-          <Quantity>{strShoppingCart ? getCartTotalQuantity(strShoppingCart) : 0}</Quantity>
-        </CartIcon>
+      <Wrapper onClick={onShowDrawer} title="Giỏ hàng">
+        <Icon type="shopping" />
+        <Quantity>
+          {strShoppingCart ? getCartTotalQuantity(strShoppingCart) : 0}
+        </Quantity>
       </Wrapper>
     );
   }

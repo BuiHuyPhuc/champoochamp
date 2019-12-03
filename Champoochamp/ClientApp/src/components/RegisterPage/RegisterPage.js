@@ -10,7 +10,7 @@ import {
   formatCheckbox
 } from '../../shared/utils';
 import { emailKey, passwordKey, viewportWidth } from '../../shared/constants';
-import { colors } from '../../shared/principles';
+import { colors, breakpoint } from '../../shared/principles';
 
 import { PageContainer, Button, SectionTitle, Link } from '../elements';
 
@@ -25,6 +25,10 @@ const LoginForm = styled(Form)`
   margin: auto;
   max-width: ${viewportWidth.sm}px;
   width: 100%;
+
+  ${breakpoint.md`
+    margin-top: 30px;
+  `}
 `;
 
 const RegisterContainer = styled('div')`

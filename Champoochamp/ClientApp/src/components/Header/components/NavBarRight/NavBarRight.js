@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavLink, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { Icon, Drawer } from 'antd';
 import styled from '@emotion/styled';
 
@@ -10,6 +10,7 @@ import { emailKey, passwordKey } from '../../../../shared/constants';
 import SearchBar from '../SearchBar';
 import CartSummary from './components/CartSummary';
 import ShoppingCartHeader from './components/ShoppingCartHeader';
+import UserHeader from './components/UserHeader';
 
 const Wrapper = styled('div')`
   align-items: center;
@@ -85,11 +86,11 @@ class NavBarRight extends Component {
     });
   };
 
-  onLogOut = () => {
+  onLogout = () => {
     setCookie(emailKey, '', -1);
     setCookie(passwordKey, '', -1);
     this.props.getLoginUser(null);
-  }
+  };
 
   render() {
     const { user, strShoppingCart, updateShoppingCart, history } = this.props;
@@ -106,9 +107,8 @@ class NavBarRight extends Component {
             onShowDrawer={() => this.onShowDrawer('isCartDrawerVisible')}
           />
         </MenuItem>
-        <MenuItem title="Đăng nhập">
-          {!user && <NavLink to={`/dang-nhap`}>Đăng nhập</NavLink>}          
-          <Icon type="user" onClick={this.onLogOut} />
+        <MenuItem>
+          <UserHeader user={user} onLogout={this.onLogout} />
         </MenuItem>
         <MenuItem>
           <CollapseMenuButton
