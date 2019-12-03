@@ -92,7 +92,7 @@ class LoginPage extends Component {
               })(<Input type="password" placeholder="Mật khẩu" />)}
             </Form.Item>
             <Form.Item>
-              <Checkbox onChange={this.rememberMe}>Giữ tôi đăng nhập</Checkbox>
+              <Checkbox onChange={this.rememberMe}>Ghi nhớ đăng nhập</Checkbox>
             </Form.Item>
             <LoginButton title="Đăng nhập" htmlType="submit" isBlockButton />
             <NavLink to="/quen-mat-khau">
