@@ -1,5 +1,5 @@
 ﻿import React, { Component } from 'react';
-import { Row, Col, Form } from 'antd';
+import { Row, Col, Form, notification } from 'antd';
 import styled from '@emotion/styled';
 
 import {
@@ -8,10 +8,10 @@ import {
   getTotalMoney,
   updateShoppingCart
 } from '../../shared/utils';
-import { storageShoppingCartKey } from '../../shared/constants';
+import { localStorageKey, time } from '../../shared/constants';
 import { typography } from '../../shared/principles';
 
-import { PageContainer, Section } from '../elements';
+import { PageContainer, Section, Button } from '../elements';
 import InvoiceInfo from './components/InvoiceInfo';
 import CartInfo from './components/CartInfo';
 import PaymentMethod from './components/PaymentMethod';
@@ -33,9 +33,13 @@ class CheckoutPage extends Component {
   }
 
   getShoppingCart = user => {
-    const url = `Cart/GetShoppingCart-${user &&
-      user.email}||${localStorage.getItem(storageShoppingCartKey)}`;
-    callAPI(url).then(res =>
+    const url = 'Cart/GetShoppingCart';
+    const data = {
+      email: user && user.email,
+      shoppingCarts: `${localStorage.getItem(localStorageKey.storageShoppingCartKey)}`
+    };
+
+    callAPI(url, '', 'POST', data).then(res =>
       this.setState({
         shoppingCartList: res.data
       })
@@ -47,7 +51,7 @@ class CheckoutPage extends Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         const { shoppingCartList } = this.state;
-        const { user, discount, history } = this.props;
+        const { user, discount } = this.props;
         const data = {
           user: values,
           shoppingCartList,
@@ -61,10 +65,24 @@ class CheckoutPage extends Component {
         callAPI('Checkout/SaveInVoice', '', 'POST', data).then(res => {
           if (res.data) {
             updateShoppingCart('', user, this.props.updateShoppingCart);
-            alert('Thanh toán thành công!');
-            history.push('/');
+            notification.info({
+              message: 'Thanh toán thành công!',
+              placement: 'topRight',
+              btn: (
+                <div>
+                  <Button title="Trở về trang chủ" isSecondary onClick={() => this.props.history.push('/')} />
+                </div>
+              ),
+              onClick: () => notification.destroy(),
+              duration: time.durationNotification,
+            });
           } else {
-            alert('Thanh toán thất bại!');
+            notification.warning({
+              message: 'Thanh toán thất bại!',
+              placement: 'topRight',
+              onClick: () => notification.destroy(),
+              duration: time.durationNotification,
+            });
           }
         });
       }

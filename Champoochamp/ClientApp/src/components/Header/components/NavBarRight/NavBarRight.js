@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 
 import { callAPI, setCookie } from '../../../../shared/utils';
 import { breakpoint } from '../../../../shared/principles';
-import { emailKey, passwordKey } from '../../../../shared/constants';
+import { localStorageKey } from '../../../../shared/constants';
 
 import SearchBar from '../SearchBar';
 import CartSummary from './components/CartSummary';
@@ -63,8 +63,20 @@ class NavBarRight extends Component {
     this.state = {
       isMenuDrawerVisible: false,
       isCartDrawerVisible: false,
+      onCloseCart: false,
       searchData: []
     };
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.isCartDrawerVisible !== prevState.isCartDrawerVisible && nextProps.onCloseCart === prevState.onCloseCart) {
+      return {
+        isCartDrawerVisible: nextProps.isCartDrawerVisible,
+        onCloseCart: false
+      };
+    }
+
+    return null;
   }
 
   componentDidMount() {
@@ -81,13 +93,14 @@ class NavBarRight extends Component {
 
   onCloseDrawer = drawerType => {
     this.setState({
-      [drawerType]: false
+      [drawerType]: false,
+      onCloseCart: true
     });
   };
 
   onLogOut = () => {
-    setCookie(emailKey, '', -1);
-    setCookie(passwordKey, '', -1);
+    setCookie(localStorageKey.emailKey, '', -1);
+    setCookie(localStorageKey.passwordKey, '', -1);
     this.props.getLoginUser(null);
   }
 

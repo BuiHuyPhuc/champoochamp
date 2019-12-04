@@ -9,7 +9,7 @@ import {
   formatForm,
   formatCheckbox
 } from '../../shared/utils';
-import { emailKey, passwordKey, viewportWidth } from '../../shared/constants';
+import { localStorageKey, viewportWidth } from '../../shared/constants';
 import { colors } from '../../shared/principles';
 
 import { PageContainer, Button, SectionTitle, Link } from '../elements';
@@ -51,8 +51,8 @@ class LoginPage extends Component {
         callAPI(url, '', 'POST', values).then(res => {
           if (res.data) {
             getLoginUser(res.data);
-            setCookie(emailKey, values.email, 1);
-            setCookie(passwordKey, values.password, 1);
+            setCookie(localStorageKey.emailKey, values.email, 1);
+            setCookie(localStorageKey.passwordKey, values.password, 1);
             history.goBack();
             alert('Đăng nhập thanh công!');
           } else {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Row, Col } from 'antd';
+import { Row, Col, notification } from 'antd';
 import styled from '@emotion/styled';
 
 import {
@@ -17,8 +17,9 @@ import {
   updateShoppingCart
 } from '../../../../../../shared/utils';
 import {
-  storageShoppingCartKey,
-  imagesGroup
+  localStorageKey,
+  imagesGroup,
+  time
 } from '../../../../../../shared/constants';
 
 import { Image, Link, Button, SectionTitle } from '../../../../../elements';
@@ -109,11 +110,13 @@ class CartSummary extends Component {
   }
 
   getShoppingCart = user => {
-    const url = `Cart/GetShoppingCart-${
-      user ? user.email : null
-    }||${localStorage.getItem(storageShoppingCartKey)}`;
+    const url = 'Cart/GetShoppingCart';
+    const data = {
+      email: user && user.email,
+      shoppingCarts: `${localStorage.getItem(localStorageKey.storageShoppingCartKey)}`
+    };
 
-    callAPI(url).then(res =>
+    callAPI(url, '', 'POST', data).then(res =>
       this.setState(
         {
           isShoppingCartChanged: false,
@@ -144,6 +147,13 @@ class CartSummary extends Component {
       user,
       this.props.updateShoppingCart
     );
+
+    notification.info({
+      message: 'Xóa sản phẩm thành công!',
+      placement: 'topRight',
+      onClick: () => notification.destroy(),
+      duration: time.durationNotification,
+    });
   };
 
   renderCartItem = shoppingCartList =>

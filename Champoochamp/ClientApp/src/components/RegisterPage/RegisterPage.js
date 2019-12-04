@@ -2,7 +2,7 @@
 import { Form, Icon, Input, Button } from 'antd';
 
 import { callAPI, setCookie } from '../../shared/utils';
-import { emailKey, passwordKey } from '../../shared/constants';
+import { localStorageKey } from '../../shared/constants';
 
 class RegisterPage extends Component {
   onSubmit = e => {
@@ -13,8 +13,8 @@ class RegisterPage extends Component {
         callAPI('User/Register', '', 'POST', values).then(res => {
           if (res.data) {
             getLoginUser(res.data);
-            setCookie(emailKey, values.email, 1);
-            setCookie(passwordKey, values.password, 1);
+            setCookie(localStorageKey.emailKey, values.email, 1);
+            setCookie(localStorageKey.passwordKey, values.password, 1);
             history.push('/');
           }
           else {

@@ -40,21 +40,14 @@ namespace Business
       }
     }
 
-    public bool UpdateShoppingCart(string strShoppingCart, string userEmail)
+    public bool UpdateShoppingCart(User u)
     {
       using (champoochampContext db = new champoochampContext())
       {
         try
         {
-          User user = db.User.Where(p => p.Email == userEmail).SingleOrDefault();
-
-          if (string.IsNullOrEmpty(strShoppingCart) || strShoppingCart == "null")
-          {
-            user.ShoppingCarts = String.Empty;
-          }
-          else {
-            user.ShoppingCarts = strShoppingCart;
-          }
+          User user = db.User.Where(p => p.Email == u.Email).SingleOrDefault();
+          user.ShoppingCarts = u.ShoppingCarts;
           db.SaveChanges();
 
           return true;

@@ -33,6 +33,7 @@ class RouterConfig extends Component {
   render() {
     const { isLoginAdminSuccess, discount } = this.state;
     const {
+      onRenderCart,
       onRenderMenu,
       user,
       strShoppingCart,
@@ -68,6 +69,7 @@ class RouterConfig extends Component {
               {...props}
               user={user}
               updateShoppingCart={updateShoppingCart}
+              onRenderCart={onRenderCart}
             />
           )}
         />

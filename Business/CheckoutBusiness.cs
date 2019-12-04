@@ -58,9 +58,8 @@ namespace Business
       Invoice invoice = new Invoice()
       {
         CustomerEmail = user.Email,
-        CustomerFirstName = user.FirstName,
-        CustomerLastName = user.LastName,
-        CustomerTelephone = user.Telephone,
+        CustomerName = user.Name,
+        CustomerPhone = user.Phone,
         CustomerProvince = user.Province,
         CustomerDistrict = user.District,
         CustomerWard = user.Ward,

@@ -1,11 +1,12 @@
 ﻿import React, { Component } from 'react';
+import { notification } from 'antd';
 
 import {
   callAPI,
   updateShoppingCart,
   getStrShoppingCart
 } from '../../shared/utils';
-import { storageShoppingCartKey } from '../../shared/constants';
+import { localStorageKey, time } from '../../shared/constants';
 
 import { PageContainer, Section, SectionTitle } from '../elements';
 import CartItemList from './components/CartItemList';
@@ -46,12 +47,13 @@ class CartPage extends Component {
   }
 
   getShoppingCart = user => {
-    const localStrShoppingCart = localStorage.getItem(storageShoppingCartKey);
-    const url = `Cart/GetShoppingCart-${
-      user ? user.email : null
-      }||${localStrShoppingCart ? localStrShoppingCart : null}`;
+    const url = 'Cart/GetShoppingCart';
+    const data = {
+      email: user && user.email,
+      shoppingCarts: `${localStorage.getItem(localStorageKey.storageShoppingCartKey)}`
+    };
 
-    callAPI(url).then(res => this.setState({
+    callAPI(url, '', 'POST', data).then(res => this.setState({
       isShoppingCartChanged: false,
       shoppingCartList: res.data
     }));
@@ -84,6 +86,13 @@ class CartPage extends Component {
       user,
       this.props.updateShoppingCart
     );
+
+    notification.info({
+      message: 'Xóa sản phẩm thành công!',
+      placement: 'topRight',
+      onClick: () => notification.destroy(),
+      duration: time.durationNotification,
+    });
   };
 
   render() {

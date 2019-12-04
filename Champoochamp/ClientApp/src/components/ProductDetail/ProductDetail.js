@@ -65,7 +65,7 @@ class ProductDetail extends Component {
 
   render() {
     const { isLoading, product, imageUrls } = this.state;
-    const { user, updateShoppingCart } = this.props;
+    const { user, updateShoppingCart, onRenderCart } = this.props;
 
     return isLoading ? (
       <Spin />
@@ -82,6 +82,7 @@ class ProductDetail extends Component {
                 getImageUrls={this.getImageUrls}
                 user={user}
                 updateShoppingCart={updateShoppingCart}
+                onRenderCart={onRenderCart}
               />
             </Col>
           </Row>

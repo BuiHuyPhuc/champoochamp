@@ -24,10 +24,11 @@ namespace API.Controllers
       return cartBusiness.AddCartItem(productId, colorId, sizeId, quantity, userEmail);
     }
 
-    [Route("UpdateShoppingCart-{strShoppingCart}-{userEmail}")]
-    public bool UpdateShoppingCart(string strShoppingCart, string userEmail)
+    [HttpPost]
+    [Route("UpdateShoppingCart")]
+    public bool UpdateShoppingCart(User u)
     {
-      return cartBusiness.UpdateShoppingCart(strShoppingCart, userEmail);
+      return cartBusiness.UpdateShoppingCart(u);
     }
 
     [Route("GetCartItem-{productId}-{colorId}-{sizeId}-{quantity}")]
@@ -53,23 +54,24 @@ namespace API.Controllers
       }
     }
 
-    [Route("GetShoppingCart-{userEmail}||{strShoppingCart}")]
-    public List<CartItemModel> GetShoppingCart(string userEmail, string strShoppingCart)
+    [HttpPost]
+    [Route("GetShoppingCart")]
+    public List<CartItemModel> GetShoppingCart(User u)
     {
       using (champoochampContext db = new champoochampContext())
       {
         try
         {
-          List<CartItemModel> shoppingCart = new List<CartItemModel>();
+          List<CartItemModel> shoppingCartList = new List<CartItemModel>();
 
           string shoppingCarts = String.Empty;
-          if (userEmail != "null")
+          if (u.Email != null)
           {
-            shoppingCarts = db.User.Where(p => p.Email == userEmail).Select(p => p.ShoppingCarts).SingleOrDefault();
+            shoppingCarts = db.User.Where(p => p.Email == u.Email).Select(p => p.ShoppingCarts).SingleOrDefault();
           }
-          else if (strShoppingCart != "null")
+          else if (!string.IsNullOrEmpty(u.ShoppingCarts))
           {
-            shoppingCarts = strShoppingCart;
+            shoppingCarts = u.ShoppingCarts;
           }
 
           if (!String.IsNullOrEmpty(shoppingCarts))
@@ -81,11 +83,11 @@ namespace API.Controllers
                                   .Include(p => p.Color)
                                   .Include(p => p.Size)
                                   .SingleOrDefault();
-              shoppingCart.Add(new CartItemModel(productBusiness.ShortProductVariant(pv), item.Value));
+              shoppingCartList.Add(new CartItemModel(productBusiness.ShortProductVariant(pv), item.Value));
             }
           }
 
-          return shoppingCart;
+          return shoppingCartList;
         }
         catch (Exception e)
         {

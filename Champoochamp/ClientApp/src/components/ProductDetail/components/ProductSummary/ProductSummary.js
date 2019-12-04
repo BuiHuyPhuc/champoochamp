@@ -1,5 +1,8 @@
 import React, { Component, Fragment } from 'react';
+import { notification } from 'antd';
+import { withRouter } from 'react-router-dom';
 
+import { time } from '../../../../shared/constants';
 import { groupBy, addCartItem } from '../../../../shared/utils';
 
 import { Button } from '../../../elements';
@@ -35,7 +38,12 @@ class ProductSummary extends Component {
 
     if (colorId > 0 && sizeId > 0 && product) {
       if (!user && !typeof Storage) {
-        alert('Trình duyệt của bạn không hỗ trợ');
+        notification.warning({
+          message: 'Trình duyệt của bạn không hỗ trợ!',
+          placement: 'topRight',
+          onClick: () => notification.destroy(),
+          duration: time.durationNotification,
+        });
         return;
       }
 
@@ -46,10 +54,30 @@ class ProductSummary extends Component {
         quantity,
         user,
         updateShoppingCart
-      );
-      alert('Thêm thành công');
+      ) ? notification.info({
+        message: 'Thêm sản phẩm vào giỏ hàng thành công!',
+        placement: 'topRight',
+        btn: (
+          <div>
+            <Button title="Thanh toán" isSecondary onClick={() => this.props.history.push('/thanh-toan')} />
+            <Button title="Xem giỏ hàng" isSecondary onClick={() => this.props.onRenderCart(true)} />
+          </div>
+        ),
+        onClick: () => notification.destroy(),
+        duration: time.durationNotification,
+      }) : notification.warning({
+        message: 'Thêm sản phẩm vào giỏ hàng thất bại!',
+        placement: 'topRight',
+        onClick: () => notification.destroy(),
+        duration: time.durationNotification,
+      });
     } else {
-      alert('Vui lòng chọn size');
+      notification.warning({
+        message: 'Vui lòng chọn kích thước!',
+        placement: 'topRight',
+        onClick: () => notification.destroy(),
+        duration: time.durationNotification,
+      });
     }
   };
   
@@ -79,4 +107,4 @@ class ProductSummary extends Component {
   }
 }
 
-export default ProductSummary;
+export default withRouter(ProductSummary);
