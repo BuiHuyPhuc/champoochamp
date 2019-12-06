@@ -1,15 +1,16 @@
-import React, { Component } from 'react';
-import { NavLink, withRouter } from 'react-router-dom';
-import { Icon, Drawer } from 'antd';
+﻿import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
+import { Icon, Drawer, notification } from 'antd';
 import styled from '@emotion/styled';
 
 import { callAPI, setCookie } from '../../../../shared/utils';
 import { breakpoint } from '../../../../shared/principles';
-import { localStorageKey } from '../../../../shared/constants';
+import { localStorageKey, time } from '../../../../shared/constants';
 
 import SearchBar from '../SearchBar';
 import CartSummary from './components/CartSummary';
 import ShoppingCartHeader from './components/ShoppingCartHeader';
+import UserHeader from './components/UserHeader';
 
 const Wrapper = styled('div')`
   align-items: center;
@@ -63,16 +64,14 @@ class NavBarRight extends Component {
     this.state = {
       isMenuDrawerVisible: false,
       isCartDrawerVisible: false,
-      onCloseCart: false,
       searchData: []
     };
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.isCartDrawerVisible !== prevState.isCartDrawerVisible && nextProps.onCloseCart === prevState.onCloseCart) {
+    if (!prevState.isCartDrawerVisible && nextProps.isCartDrawerVisible) {
       return {
-        isCartDrawerVisible: nextProps.isCartDrawerVisible,
-        onCloseCart: false
+        isCartDrawerVisible: true
       };
     }
 
@@ -93,16 +92,21 @@ class NavBarRight extends Component {
 
   onCloseDrawer = drawerType => {
     this.setState({
-      [drawerType]: false,
-      onCloseCart: true
-    });
+      [drawerType]: false
+    }, () => this.props.onRenderCart(false));
   };
 
-  onLogOut = () => {
+  onLogout = () => {
     setCookie(localStorageKey.emailKey, '', -1);
     setCookie(localStorageKey.passwordKey, '', -1);
     this.props.getLoginUser(null);
-  }
+    notification.info({
+      message: 'Đăng xuất thành công!',
+      placement: 'topRight',
+      onClick: () => notification.destroy(),
+      duration: time.durationNotification
+    });
+  };
 
   render() {
     const { user, strShoppingCart, updateShoppingCart, history } = this.props;
@@ -119,9 +123,8 @@ class NavBarRight extends Component {
             onShowDrawer={() => this.onShowDrawer('isCartDrawerVisible')}
           />
         </MenuItem>
-        <MenuItem title="Đăng nhập">
-          {!user && <NavLink to={`/dang-nhap`}>Đăng nhập</NavLink>}          
-          <Icon type="user" onClick={this.onLogOut} />
+        <MenuItem>
+          <UserHeader user={user} onLogout={this.onLogout} />
         </MenuItem>
         <MenuItem>
           <CollapseMenuButton

@@ -12,15 +12,15 @@ import img4 from '../../../../assets/banners/banner4.jpg';
 const Wrapper = styled('div')`
   overflow-x: hidden;
 
-  .slick-dots{
+  .slick-dots {
     bottom: 20px;
 
-    li button:before{
+    li button:before {
       color: ${colors.white};
       font-size: 8px;
     }
 
-    li.slick-active button:before{
+    li.slick-active button:before {
       color: ${colors.white};
     }
   }
@@ -45,7 +45,8 @@ class Banner extends Component {
         <Slider
           dots={true}
           infinite
-          
+          autoplay
+          autoplaySpeed={10000}
           speed={500}
           slidesToShow={1}
           slidesToScroll={1}

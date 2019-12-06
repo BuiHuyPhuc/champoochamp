@@ -25,10 +25,9 @@ namespace Data.Entity
         public string Avatar { get; set; }
         public string Favorites { get; set; }
         public string ShoppingCarts { get; set; }
+        public string VerificationCode { get; set; }
         public DateTime CreatedDate { get; set; }
-        public short CreatedBy { get; set; }
         public DateTime? ModifiedDate { get; set; }
-        public short? ModifiedBy { get; set; }
         public bool? Status { get; set; }
 
         public virtual ICollection<Feedback> Feedback { get; set; }

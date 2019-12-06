@@ -110,7 +110,7 @@ class CheckoutPage extends Component {
             <Col xs={24} sm={12} md={10}>
               <Section>
                 <SmallTitle>Chi tiết đơn hàng</SmallTitle>
-                <CartInfo />
+                <CartInfo shoppingCartList={shoppingCartList}/>
               </Section>
             </Col>
           </Form>

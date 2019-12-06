@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import styled from '@emotion/styled';
 
 import { colors, typography } from '../../../../../../shared/principles';
-import { checkNewProduct } from '../../../../../../shared/utils';
+import { checkNewProduct, formatMoney } from '../../../../../../shared/utils';
 
 import { SectionTitle } from '../../../../../elements';
 
@@ -62,8 +62,10 @@ class HeaderInfo extends Component {
         <SectionTitle content={product.name}></SectionTitle>
         {isNew && <NewTag>New</NewTag>}
         <PriceWrapper>
-          <Price>{product.promotionPrice.toLocaleString()}đ</Price>
-          <OriginalPrice>{product.price.toLocaleString()}đ</OriginalPrice>
+          <Price>{formatMoney(product.promotionPrice, true)}đ</Price>
+          {product.discountAmount > 0 && (
+            <OriginalPrice>{formatMoney(product.price, true)}đ</OriginalPrice>
+          )}
         </PriceWrapper>
         <Description>{product.description}</Description>
       </Wrapper>

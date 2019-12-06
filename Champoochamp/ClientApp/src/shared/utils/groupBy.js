@@ -10,7 +10,7 @@
       arr.push(item);
     } else {
       collection.push(item);
-    }
+    }       
   });
 
   return arr;

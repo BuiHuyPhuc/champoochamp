@@ -28,24 +28,24 @@ class InvoiceInfo extends Component {
 
         <Wrapper>
           <Form.Item>
-            {getFieldDecorator('lastName', {
-              initialValue: user && user.lastName,
+            {getFieldDecorator('name', {
+              initialValue: user && user.name,
               rules: [{ required: true, message: 'Vui lòng nhập họ tên!' }]
-            })(<Input placeholder="Họ tên" />)}
+            })(<Input placeholder="Họ tên *" />)}
           </Form.Item>
 
           <Row gutter={16}>
             <Col xs={24} lg={12}>
               <Form.Item>
-                {getFieldDecorator('telephone', {
-                  initialValue: user && user.telephone,
+                {getFieldDecorator('phone', {
+                  initialValue: user && user.phone,
                   rules: [
                     {
                       required: true,
                       message: 'Vui lòng nhập số điện thoại!'
                     }
                   ]
-                })(<Input placeholder="Số điện thoại" />)}
+                })(<Input placeholder="Số điện thoại *" />)}
               </Form.Item>
             </Col>
             <Col xs={24} lg={12}>
@@ -53,7 +53,7 @@ class InvoiceInfo extends Component {
                 {getFieldDecorator('email', {
                   initialValue: user && user.email,
                   rules: [{ required: true, message: 'Vui lòng nhập email!' }]
-                })(<Input placeholder="Email" type="email" />)}
+                })(<Input placeholder="Email *" type="email" />)}
               </Form.Item>
             </Col>
           </Row>
@@ -69,7 +69,7 @@ class InvoiceInfo extends Component {
                       message: 'Vui lòng nhập tỉnh / thành phố!'
                     }
                   ]
-                })(<Input placeholder="Tỉnh / thành phố" />)}
+                })(<Input placeholder="Tỉnh / thành phố  *" />)}
               </Form.Item>
             </Col>
             <Col xs={24} lg={12}>
@@ -79,7 +79,7 @@ class InvoiceInfo extends Component {
                   rules: [
                     { required: true, message: 'Vui lòng nhập quận / huyện!' }
                   ]
-                })(<Input placeholder="Quận / huyện" />)}
+                })(<Input placeholder="Quận / huyện  *" />)}
               </Form.Item>
             </Col>
           </Row>
@@ -90,7 +90,7 @@ class InvoiceInfo extends Component {
                 {getFieldDecorator('ward', {
                   initialValue: user && user.ward,
                   rules: [{ required: true, message: 'Vui lòng nhập phường!' }]
-                })(<Input placeholder="Phường" />)}
+                })(<Input placeholder="Phường *" />)}
               </Form.Item>
             </Col>
             <Col xs={24} lg={12}>
@@ -100,7 +100,7 @@ class InvoiceInfo extends Component {
                   rules: [
                     { required: true, message: 'Vui lòng nhập số nhà, đường!' }
                   ]
-                })(<Input placeholder="Số nhà, đường" />)}
+                })(<Input placeholder="Số nhà, đường *" />)}
               </Form.Item>
             </Col>
           </Row>

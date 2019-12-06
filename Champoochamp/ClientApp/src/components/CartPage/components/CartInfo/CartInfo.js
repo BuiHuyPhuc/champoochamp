@@ -7,7 +7,7 @@ import { typography } from '../../../../shared/principles';
 import { callAPI, formatMoney, getTotalMoney } from '../../../../shared/utils';
 import { time } from '../../../../shared/constants';
 
-import { TextInput, Button, Link, Dialog } from '../../../elements';
+import { TextInput, Button, Link } from '../../../elements';
 
 const Wrapper = styled('div')`
   padding: 25px 0;

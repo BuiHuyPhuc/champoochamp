@@ -26,12 +26,15 @@ class VariantChoice extends Component {
     const { colors, product, getImageUrls, getColorId } = props;
     this.state = {
       selectedColor: colors[0],
-      sizes: groupBy(
-        product.productVariant.filter(
-          item => item.colorId === colors[0].colorId
-        ),
-        p => p.sizeId
-      ).map(item => item.size)
+      sizes: colors.length > 0 ?
+        groupBy(
+          product.productVariant.filter(
+            item => item.colorId === colors[0].colorId
+          ),
+          p => p.sizeId
+        ).map(item => item.size)
+        :
+        []
     };
 
     const { selectedColor } = this.state;
@@ -58,8 +61,8 @@ class VariantChoice extends Component {
 
   render() {
     const { sizes, selectedColor } = this.state;
-    const { colors, getSize, getQuantity } = this.props;
-
+    const { colors, getSize, getQuantity, quantityMax } = this.props;
+    
     return (
       <Wrapper>
         <ChoiceBox>
@@ -82,14 +85,17 @@ class VariantChoice extends Component {
           />
           <SizeReference />
         </ChoiceBox>
-        <ChoiceBox>
-          <BoxTitle>Số lượng</BoxTitle>
-          <QuantityInput
-            value={productQuantity.min}
-            callback={getQuantity}
-            width="120px"
-          />
-        </ChoiceBox>
+        {quantityMax > -1 &&
+          <ChoiceBox>
+            <BoxTitle>Số lượng</BoxTitle>
+            <QuantityInput
+              value={productQuantity.min}
+              quantityMax={quantityMax}
+              callback={getQuantity}
+              width="120px"
+            />
+          </ChoiceBox>
+        }
       </Wrapper>
     );
   }

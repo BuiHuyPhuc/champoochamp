@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 
 import { breakpoint, colors, typography } from '../../../shared/principles';
-import { getImageUrl, groupBy } from '../../../shared/utils';
+import { getImageUrl, groupBy, formatMoney } from '../../../shared/utils';
 
 import ColorRow from '../ColorRow';
 import Image from '../Image';
@@ -80,12 +80,12 @@ class ProductCard extends Component {
             size={20}
             selectedColor={selectedColor}
             getSelectedColor={this.getSelectedColor}
-          ></ColorRow>
+          />
         </ColorsWrapper>
         <Name>{product.name}</Name>
-        <Price>{product.promotionPrice.toLocaleString()}đ</Price>
+        <Price>{formatMoney(product.promotionPrice, true)}đ</Price>
         {product.discountAmount > 0 && (
-          <OriginalPrice>{product.price.toLocaleString()}đ</OriginalPrice>
+          <OriginalPrice>{formatMoney(product.price, true)}đ</OriginalPrice>
         )}
       </Wrapper>
     );

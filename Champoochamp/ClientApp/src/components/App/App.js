@@ -5,7 +5,7 @@ import history from "../App/history";
 import Header from "../Header";
 import RouterConfig from "../../router/RouterConfig";
 
-import { callAPI, getCookie } from '../../shared/utils';
+import { callAPI, setCookie, getCookie } from '../../shared/utils';
 import { localStorageKey } from '../../shared/constants';
 
 import "slick-carousel/slick/slick.css";
@@ -23,22 +23,28 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.getShoppingCartByUser(this.state.user);
-    this.checkLoginUserByCookie();
+    this.checkLoginUserByCookie()
+    .then(res => !res && this.getShoppingCartByUser(this.state.user))
   }
 
   checkLoginUserByCookie = () => {
-    const data = {
-      email: getCookie(localStorageKey.emailKey),
-      password: getCookie(localStorageKey.passwordKey)
-    }
-    callAPI('User/CheckLogin', '', 'POST', data).then(res => {
-      if (res.data) {
-        //setCookie(localStorageKey.emailKey, values.email, 1);
-        //setCookie(localStorageKey.passwordKey, values.password, 1);
-        this.getLoginUser(res.data);
-      }
-    });
+    return new Promise((resolve, reject) => {
+      const data = {
+        email: getCookie(localStorageKey.emailKey),
+        password: getCookie(localStorageKey.passwordKey)
+      };
+      callAPI('User/CheckLogin', '', 'POST', data).then(res => {
+        if (res.data) {
+          setCookie(localStorageKey.emailKey, res.data.email, 1);
+          setCookie(localStorageKey.passwordKey, res.data.password, 1);
+          this.getLoginUser(res.data);
+          return resolve(true);
+        }
+        else {
+          return resolve(false);
+        }
+      });
+    });    
   }
 
   getShoppingCartByUser = user => {
@@ -83,6 +89,7 @@ class App extends Component {
             getLoginUser={this.getLoginUser}
             strShoppingCart={strShoppingCart}
             updateShoppingCart={this.updateShoppingCart}
+            onRenderCart={this.onRenderCart}
             isCartDrawerVisible={isCartDrawerVisible}
           />
         }

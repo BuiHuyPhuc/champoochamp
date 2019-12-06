@@ -1,5 +1,5 @@
 ﻿import React, { Component } from 'react';
-import { Row, Col, Spin } from 'antd';
+import { Row, Col } from 'antd';
 
 import { callAPI } from '../../shared/utils';
 import { imagesGroup } from '../../shared/constants';
@@ -11,7 +11,6 @@ class SearchPage extends Component {
     this.state = {
       searchKey: props.match.params.key,
       isSearchKeyChanged: false,
-      isLoading: true,
       isLoadMore: true,
       pageSize: 8,
       page: 1,
@@ -25,8 +24,7 @@ class SearchPage extends Component {
     if (nextProps.match.params.key !== prevState.searchKey) {
       return {
         searchKey: nextProps.match.params.key,
-        isSearchKeyChanged: true,
-        isLoading: true
+        isSearchKeyChanged: true
       };
     }
 
@@ -54,7 +52,6 @@ class SearchPage extends Component {
       this.setState(
         {
           isSearchKeyChanged: false,
-          isLoading: false,
           isLoadMore: true,
           page: 1,
           totalProducts: res.data.length,
@@ -125,15 +122,19 @@ class SearchPage extends Component {
     });
 
   render() {
-    const { isLoading, totalProducts, showingProductList } = this.state;
+    const { totalProducts, showingProductList } = this.state;
 
-    return isLoading ? (
-      <Spin />
-    ) : (
+    return (
       <PageContainer>
         <Section>
-          <h3>{totalProducts} sản phẩm</h3>
-          <Row>{this.renderProductCard(showingProductList)}</Row>
+          {totalProducts ? 
+            <div>
+              <h3>{totalProducts} sản phẩm</h3>
+              <Row>{this.renderProductCard(showingProductList)}</Row>
+            </div>            
+            :
+            <h3>Không tìm thấy sản phẩm</h3>
+          }
         </Section>
       </PageContainer>
     );

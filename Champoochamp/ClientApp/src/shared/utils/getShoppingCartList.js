@@ -1,6 +1,6 @@
 ﻿const getShoppingCartList = strShoppingCart => {
   if (!strShoppingCart) {
-    return [];
+    return new Map();
   }
   
   const arr1 = strShoppingCart.split(',');

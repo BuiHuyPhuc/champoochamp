@@ -152,7 +152,7 @@ class CartSummary extends Component {
       message: 'Xóa sản phẩm thành công!',
       placement: 'topRight',
       onClick: () => notification.destroy(),
-      duration: time.durationNotification,
+      duration: time.durationNotification
     });
   };
 
@@ -189,26 +189,28 @@ class CartSummary extends Component {
     return (
       <Wrapper>
         <SectionTitle content="Giỏ hàng" />
-
-        <CartItemList>{this.renderCartItem(shoppingCartList)}</CartItemList>
-
-        <TotalWrapper>
-          <Row gutter={8}>
-            <Col span={12}>
-              <TotalTitle>Tổng cộng</TotalTitle>
-            </Col>
-            <Col span={12}>
-              <TotalPrice>
-                {formatMoney(getTotalMoney(shoppingCartList), true)}đ
+        {shoppingCartList.length > 0 ?
+          <div>
+            <CartItemList>{this.renderCartItem(shoppingCartList)}</CartItemList>
+            <TotalWrapper>
+              <Row gutter={8}>
+                <Col span={12}>
+                  <TotalTitle>Tổng cộng</TotalTitle>
+                </Col>
+                <Col span={12}>
+                  <TotalPrice>
+                    {formatMoney(getTotalMoney(shoppingCartList), true)}đ
               </TotalPrice>
-            </Col>
-          </Row>
-        </TotalWrapper>
-
-        <NavLink to={`/gio-hang`}>
-          <Button title="Xem giỏ hàng" isBlockButton onClick={onCloseDrawer} />
-        </NavLink>
-
+                </Col>
+              </Row>
+            </TotalWrapper>
+            <NavLink to={`/gio-hang`}>
+              <Button title="Xem giỏ hàng" isBlockButton onClick={onCloseDrawer} />
+            </NavLink>
+          </div>
+          :
+          <h3>Không có sản phẩm trong giỏ hàng</h3>
+        }
         <BackButton>
           <Link
             content="Quay lại"
