@@ -43,7 +43,7 @@ class ProductDetail extends Component {
     }
   }
 
-  getImageUrls = selectedColor => {
+  getImageUrls = (selectedColor) => {
     this.setState({
       imageUrls: selectedColor.productImages.imageUrls.split(',')
     });
@@ -65,35 +65,37 @@ class ProductDetail extends Component {
 
   render() {
     const { isLoading, product, imageUrls } = this.state;
-    const { user, updateShoppingCart } = this.props;
+    const { user, strShoppingCart, updateShoppingCart, onRenderCart } = this.props;
 
     return isLoading ? (
       <Spin />
     ) : (
-      <PageContainer>
-        <Section>
-          <Row gutter={32}>
-            <Col xs={24} md={12} lg={14} xl={16}>
-              <ImageThumbnails imageUrls={imageUrls} />
-            </Col>
-            <Col xs={24} md={12} lg={10} xl={8}>
-              <ProductSummary
-                product={product}
-                getImageUrls={this.getImageUrls}
-                user={user}
-                updateShoppingCart={updateShoppingCart}
-              />
-            </Col>
-          </Row>
-        </Section>
-        <Section>
-          <ExtraInfo product={product} />
-        </Section>
-        <Section>
-          <TopProducts product={product} sectionTitle={topProductsName.relatedProducts} />
-        </Section>
-      </PageContainer>
-    );
+        <PageContainer>
+          <Section>
+            <Row gutter={32}>
+              <Col xs={24} md={12} lg={14} xl={16}>
+                <ImageThumbnails imageUrls={imageUrls} />
+              </Col>
+              <Col xs={24} md={12} lg={10} xl={8}>
+                <ProductSummary
+                  product={product}
+                  getImageUrls={this.getImageUrls}
+                  user={user}
+                  strShoppingCart={strShoppingCart}
+                  updateShoppingCart={updateShoppingCart}
+                  onRenderCart={onRenderCart}
+                />
+              </Col>
+            </Row>
+          </Section>
+          <Section>
+            <ExtraInfo product={product} />
+          </Section>
+          <Section>
+            <TopProducts product={product} sectionTitle={topProductsName.relatedProducts} />
+          </Section>
+        </PageContainer>
+      );
   }
 }
 

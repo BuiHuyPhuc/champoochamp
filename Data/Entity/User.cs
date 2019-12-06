@@ -15,10 +15,9 @@ namespace Data.Entity
         public int Id { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        public string Name { get; set; }
         public DateTime? DateOfBirth { get; set; }
-        public string Telephone { get; set; }
+        public string Phone { get; set; }
         public string Province { get; set; }
         public string District { get; set; }
         public string Ward { get; set; }
@@ -26,10 +25,9 @@ namespace Data.Entity
         public string Avatar { get; set; }
         public string Favorites { get; set; }
         public string ShoppingCarts { get; set; }
+        public string VerificationCode { get; set; }
         public DateTime CreatedDate { get; set; }
-        public short CreatedBy { get; set; }
         public DateTime? ModifiedDate { get; set; }
-        public short? ModifiedBy { get; set; }
         public bool? Status { get; set; }
 
         public virtual ICollection<Feedback> Feedback { get; set; }

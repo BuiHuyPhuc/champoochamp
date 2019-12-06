@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import styled from '@emotion/styled';
-import { withRouter } from 'react-router-dom';
+import { withRouter, NavLink } from 'react-router-dom';
+import { notification } from 'antd';
 
 import { typography } from '../../../../shared/principles';
 import { callAPI, formatMoney, getTotalMoney } from '../../../../shared/utils';
+import { time } from '../../../../shared/constants';
 
-import { TextInput, Button, Link, Dialog } from '../../../elements';
+import { TextInput, Button, Link } from '../../../elements';
 
 const Wrapper = styled('div')`
   padding: 25px 0;
@@ -40,7 +42,12 @@ class CartInfo extends Component {
           discount: res.data
         }, () => {
           if (!this.state.discount) {
-            alert('Mã giảm giá không chính xác!')
+            notification.warning({
+              message: 'Mã giảm giá không chính xác!',
+              placement: 'topRight',
+              onClick: () => notification.destroy(),
+              duration: time.durationNotification,
+            });
           }
         }
       ));
@@ -55,10 +62,6 @@ class CartInfo extends Component {
     const { getDiscount, history } = this.props;
     getDiscount(discount);
     history.push(`/thanh-toan`);
-  };
-
-  continueShopping = () => {
-    this.props.history.push(`/`);
   };
 
   render() {
@@ -92,11 +95,12 @@ class CartInfo extends Component {
           <InfoText isTotal>Tổng cộng: {formatMoney(totalMoney, true)}đ</InfoText>
         </ContentRow>
         <ContentRow>
-          <Link
-            onClick={this.continueShopping}
-            content="Tiếp tục mua sắm"
-            iconType="fas fa-chevron-left"
-          />
+          <NavLink to="/">
+            <Link
+              content="Tiếp tục mua sắm"
+              iconType="fas fa-chevron-left"
+            />
+          </NavLink>          
         </ContentRow>
         <ContentRow>
           <Button onClick={this.checkout} title="Thanh toán" width="250px" />

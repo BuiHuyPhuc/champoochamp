@@ -21,6 +21,11 @@ namespace Business
           ).SingleOrDefault();
           User user = db.User.Where(p => p.Email == userEmail).SingleOrDefault();
 
+          //if (!checkProductQuantity(productVariant, user.ShoppingCarts, quantity))
+          //{
+          //  return "0";
+          //}
+
           if (String.IsNullOrEmpty(user.ShoppingCarts))
           {
             user.ShoppingCarts = productVariant.Id + "-" + quantity;
@@ -29,8 +34,8 @@ namespace Business
           {
             user.ShoppingCarts += "," + productVariant.Id + "-" + quantity;
           }
-          db.SaveChanges();
 
+          db.SaveChanges();
           return user.ShoppingCarts;
         }
         catch (Exception e)
@@ -40,21 +45,14 @@ namespace Business
       }
     }
 
-    public bool UpdateShoppingCart(string strShoppingCart, string userEmail)
+    public bool UpdateShoppingCart(User u)
     {
       using (champoochampContext db = new champoochampContext())
       {
         try
         {
-          User user = db.User.Where(p => p.Email == userEmail).SingleOrDefault();
-
-          if (string.IsNullOrEmpty(strShoppingCart) || strShoppingCart == "null")
-          {
-            user.ShoppingCarts = String.Empty;
-          }
-          else {
-            user.ShoppingCarts = strShoppingCart;
-          }
+          User user = db.User.Where(p => p.Email == u.Email).SingleOrDefault();
+          user.ShoppingCarts = u.ShoppingCarts;
           db.SaveChanges();
 
           return true;
@@ -66,10 +64,30 @@ namespace Business
       }
     }
 
+    public bool checkProductQuantity(ProductVariant productVariant, string strShoppingCarts, int quantity)
+    {
+      if (productVariant.Quantity < quantity)
+      {
+        return false;
+      }
+      else
+      {
+        foreach (KeyValuePair<string, int> item in getDictShoppingCarts(strShoppingCarts))
+        {
+          if (item.Key == productVariant.Id && productVariant.Quantity < item.Value + quantity)
+          {
+            return false;
+          }
+        }
+      }
+
+      return true;
+    }
+
     public Dictionary<string, int> getDictShoppingCarts(string strShoppingCarts)
     {
       Dictionary<string, int> dictShoppingCarts = new Dictionary<string, int>();
-      
+
       string[] arrShoppingCarts = strShoppingCarts.Split(",");
       for (int i = 0; i < arrShoppingCarts.Length; i++)
       {

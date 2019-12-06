@@ -23,6 +23,6 @@ namespace API.Controllers
     public bool SaveInVoice(CheckoutModel checkoutModel)
     {
       return checkoutBusiness.SaveInVoice(checkoutModel);
-    }    
+    }
   }  
 }

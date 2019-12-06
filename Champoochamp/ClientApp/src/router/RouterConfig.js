@@ -12,14 +12,26 @@ import LoginAdminPage from '../components/LoginAdminPage';
 import AdminPage from '../components/AdminPage';
 import LoginPage from '../components/LoginPage';
 import RegisterPage from '../components/RegisterPage';
+import ForgetPasswordPage from '../components/ForgetPasswordPage';
 
 class RouterConfig extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isLoginAdminSuccess: false,
-      discount: null
+      discount: null,
+      strShoppingCart: props.strShoppingCart
     };
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.strShoppingCart !== prevState.strShoppingCart) {
+      return {
+        strShoppingCart: nextProps.strShoppingCart
+      };
+    }
+
+    return null;
   }
 
   onLoginAdmin = isLoginAdminSuccess => {
@@ -31,11 +43,11 @@ class RouterConfig extends Component {
   };
 
   render() {
-    const { isLoginAdminSuccess, discount } = this.state;
+    const { isLoginAdminSuccess, discount, strShoppingCart } = this.state;
     const {
+      onRenderCart,
       onRenderMenu,
-      user,
-      strShoppingCart,
+      user,     
       updateShoppingCart,
       getLoginUser,
       history
@@ -53,7 +65,15 @@ class RouterConfig extends Component {
           render={props => (
             <RegisterPage
               {...props}
-              getLoginUser={getLoginUser}
+              history={history}
+            />
+          )}
+        />
+        <Route
+          path="/quen-mat-khau"
+          render={props => (
+            <ForgetPasswordPage
+              {...props}
               history={history}
             />
           )}
@@ -67,33 +87,41 @@ class RouterConfig extends Component {
             <ProductDetail
               {...props}
               user={user}
+              strShoppingCart={strShoppingCart}
               updateShoppingCart={updateShoppingCart}
+              onRenderCart={onRenderCart}
             />
           )}
         />
         <Route
           path="/gio-hang"
-          render={props => (
-            <Cart
-              {...props}
-              user={user}
-              strShoppingCart={strShoppingCart}
-              updateShoppingCart={updateShoppingCart}
-              getDiscount={this.getDiscount}
-            />
-          )}
+          render={props => 
+            strShoppingCart ?               
+              <Cart
+                {...props}
+                user={user}
+                strShoppingCart={strShoppingCart}
+                updateShoppingCart={updateShoppingCart}
+                getDiscount={this.getDiscount}
+              />              
+              :
+              history.push('/')            
+          }
         />
         <Route
           path="/thanh-toan"
-          render={props => (
-            <CheckoutPage
-              {...props}
-              user={user}
-              updateShoppingCart={updateShoppingCart}
-              discount={discount}
-              history={history}
-            />
-          )}
+          render={props => 
+            strShoppingCart ?
+              <CheckoutPage
+                {...props}
+                user={user}
+                updateShoppingCart={updateShoppingCart}
+                discount={discount}
+                history={history}
+              />
+              :
+              history.push('/')
+          }
         />
         <Route
           path="/admin/dang-nhap"

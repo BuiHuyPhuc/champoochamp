@@ -227,14 +227,14 @@ namespace Data.Entity
 
                 entity.Property(e => e.Name).HasColumnType("varchar(255)");
 
+                entity.Property(e => e.Phone).HasColumnType("varchar(255)");
+
                 entity.Property(e => e.Province).HasColumnType("varchar(255)");
 
                 entity.Property(e => e.Status)
                     .IsRequired()
                     .HasColumnType("bit(1)")
                     .HasDefaultValueSql("'b\\'1\\''");
-
-                entity.Property(e => e.Telephone).HasColumnType("varchar(255)");
 
                 entity.Property(e => e.Ward).HasColumnType("varchar(255)");
             });
@@ -294,17 +294,17 @@ namespace Data.Entity
                     .IsRequired()
                     .HasColumnType("varchar(255)");
 
-                entity.Property(e => e.FirstName).HasColumnType("varchar(255)");
-
-                entity.Property(e => e.LastName).HasColumnType("varchar(255)");
-
                 entity.Property(e => e.ModifiedBy).HasColumnType("smallint(6)");
 
                 entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
 
+                entity.Property(e => e.Name).HasColumnType("varchar(255)");
+
                 entity.Property(e => e.Password)
                     .IsRequired()
                     .HasColumnType("varchar(2555)");
+
+                entity.Property(e => e.Phone).HasColumnType("varchar(255)");
 
                 entity.Property(e => e.RoleId).HasColumnType("smallint(6)");
 
@@ -312,8 +312,6 @@ namespace Data.Entity
                     .IsRequired()
                     .HasColumnType("bit(1)")
                     .HasDefaultValueSql("'b\\'1\\''");
-
-                entity.Property(e => e.Telephone).HasColumnType("varchar(255)");
 
                 entity.HasOne(d => d.Role)
                     .WithMany(p => p.Employee)
@@ -536,13 +534,11 @@ namespace Data.Entity
 
                 entity.Property(e => e.CustomerEmail).HasColumnType("varchar(255)");
 
-                entity.Property(e => e.CustomerFirstName).HasColumnType("varchar(255)");
+                entity.Property(e => e.CustomerName).HasColumnType("varchar(255)");
 
-                entity.Property(e => e.CustomerLastName).HasColumnType("varchar(255)");
+                entity.Property(e => e.CustomerPhone).HasColumnType("varchar(255)");
 
                 entity.Property(e => e.CustomerProvince).HasColumnType("varchar(255)");
-
-                entity.Property(e => e.CustomerTelephone).HasColumnType("varchar(255)");
 
                 entity.Property(e => e.CustomerWard).HasColumnType("varchar(255)");
 
@@ -566,7 +562,7 @@ namespace Data.Entity
 
                 entity.Property(e => e.Status)
                     .HasColumnType("smallint(6)")
-                    .HasDefaultValueSql("'1'");
+                    .HasDefaultValueSql("'0'");
 
                 entity.Property(e => e.Total)
                     .HasColumnType("decimal(10,0)")
@@ -1133,12 +1129,12 @@ namespace Data.Entity
 
                 entity.Property(e => e.Name).HasColumnType("varchar(255)");
 
+                entity.Property(e => e.Phone).HasColumnType("varchar(255)");
+
                 entity.Property(e => e.Status)
                     .IsRequired()
                     .HasColumnType("bit(1)")
                     .HasDefaultValueSql("'b\\'1\\''");
-
-                entity.Property(e => e.Telephone).HasColumnType("varchar(255)");
             });
 
             modelBuilder.Entity<Tag>(entity =>
@@ -1199,8 +1195,6 @@ namespace Data.Entity
 
                 entity.Property(e => e.Avatar).HasColumnType("varchar(255)");
 
-                entity.Property(e => e.CreatedBy).HasColumnType("smallint(6)");
-
                 entity.Property(e => e.CreatedDate)
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("'current_timestamp()'");
@@ -1215,17 +1209,15 @@ namespace Data.Entity
 
                 entity.Property(e => e.Favorites).HasColumnType("varchar(2555)");
 
-                entity.Property(e => e.FirstName).HasColumnType("varchar(255)");
-
-                entity.Property(e => e.LastName).HasColumnType("varchar(255)");
-
-                entity.Property(e => e.ModifiedBy).HasColumnType("smallint(6)");
-
                 entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Name).HasColumnType("varchar(255)");
 
                 entity.Property(e => e.Password)
                     .IsRequired()
                     .HasColumnType("varchar(2555)");
+
+                entity.Property(e => e.Phone).HasColumnType("varchar(255)");
 
                 entity.Property(e => e.Province).HasColumnType("varchar(255)");
 
@@ -1236,7 +1228,7 @@ namespace Data.Entity
                     .HasColumnType("bit(1)")
                     .HasDefaultValueSql("'b\\'1\\''");
 
-                entity.Property(e => e.Telephone).HasColumnType("varchar(255)");
+                entity.Property(e => e.VerificationCode).HasColumnType("varchar(255)");
 
                 entity.Property(e => e.Ward).HasColumnType("varchar(255)");
             });

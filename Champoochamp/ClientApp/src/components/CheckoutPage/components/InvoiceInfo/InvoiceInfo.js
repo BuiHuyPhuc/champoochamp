@@ -28,8 +28,8 @@ class InvoiceInfo extends Component {
 
         <Wrapper>
           <Form.Item>
-            {getFieldDecorator('fullName', {
-              initialValue: user && user.lastName,
+            {getFieldDecorator('name', {
+              initialValue: user && user.name,
               rules: [{ required: true, message: 'Vui lòng nhập họ tên!' }]
             })(<Input placeholder="Họ tên *" />)}
           </Form.Item>
@@ -38,7 +38,7 @@ class InvoiceInfo extends Component {
             <Col xs={24} lg={12}>
               <Form.Item>
                 {getFieldDecorator('phone', {
-                  initialValue: user && user.telephone,
+                  initialValue: user && user.phone,
                   rules: [
                     {
                       required: true,

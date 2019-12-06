@@ -35,13 +35,20 @@ const HeaderInner = styled('div')`
 
 class Header extends Component {
   render() {
-    const { user, getLoginUser, strShoppingCart, updateShoppingCart } = this.props;
+    const { user, getLoginUser, strShoppingCart, updateShoppingCart, onRenderCart, isCartDrawerVisible } = this.props;
     
     return (
       <Wrapper>
         <HeaderInner>
           <NavBarLeft />
-          <NavBarRight user={user} getLoginUser={getLoginUser} strShoppingCart={strShoppingCart} updateShoppingCart={updateShoppingCart} />
+          <NavBarRight
+            user={user}
+            getLoginUser={getLoginUser}
+            strShoppingCart={strShoppingCart}
+            updateShoppingCart={updateShoppingCart}
+            onRenderCart={onRenderCart}
+            isCartDrawerVisible={isCartDrawerVisible}
+          />
         </HeaderInner>
       </Wrapper>
     );

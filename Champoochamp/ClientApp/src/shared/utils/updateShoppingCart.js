@@ -1,4 +1,4 @@
-﻿import { storageShoppingCartKey } from '../constants';
+﻿import { localStorageKey } from '../constants';
 import callAPI from './callAPI';
 
 const updateShoppingCart = (strShoppingCart, user, updateShoppingCart) => {
@@ -7,18 +7,20 @@ const updateShoppingCart = (strShoppingCart, user, updateShoppingCart) => {
       strShoppingCart = null;
     }
 
-    const url = `Cart/UpdateShoppingCart-${strShoppingCart}-${user.email}`
-    callAPI(url).then(res => {
+    const url = `Cart/UpdateShoppingCart`;
+    const data = {
+      email: user.email,
+      shoppingCarts: strShoppingCart
+    };
+
+    callAPI(url, '', 'POST', data).then(res => {
       if (res.data) {
         updateShoppingCart(strShoppingCart);
-      }
-      else {
-        alert('Cập nhật thất bại');
       }
     });
   }
   else {
-    localStorage.setItem(storageShoppingCartKey, strShoppingCart);
+    localStorage.setItem(localStorageKey.storageShoppingCartKey, strShoppingCart);
     updateShoppingCart(strShoppingCart);
   }
 }

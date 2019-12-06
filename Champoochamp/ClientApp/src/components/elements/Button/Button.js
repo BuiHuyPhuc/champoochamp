@@ -16,7 +16,7 @@ const Wrapper = styled('button')`
   transition: all 0.2s;
   width: ${props => (props.isBlockButton ? '100%' : props.width)};
 
-  &:hover {
+  &:hover, &[disabled] {
     background: ${colors.lightGray};
     border: solid 1px ${colors.lightGray};
     color: ${colors.black};

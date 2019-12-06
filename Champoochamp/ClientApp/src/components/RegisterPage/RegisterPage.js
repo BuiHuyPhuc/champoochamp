@@ -1,15 +1,14 @@
 ﻿import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Row, Col, Form, Input } from 'antd';
+import { Row, Col, Form, Input, notification } from 'antd';
 import styled from '@emotion/styled';
 
 import {
   callAPI,
-  setCookie,
   formatForm,
   formatCheckbox
 } from '../../shared/utils';
-import { emailKey, passwordKey, viewportWidth } from '../../shared/constants';
+import { time, viewportWidth } from '../../shared/constants';
 import { colors, breakpoint } from '../../shared/principles';
 
 import { PageContainer, Button, SectionTitle, Link } from '../elements';
@@ -46,23 +45,74 @@ const LoginButton = styled(Button)`
 `;
 
 class RegisterPage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      confirmDirty: false,
+    };
+  }
+
   onSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        const { history, getLoginUser } = this.props;
+        const { history } = this.props;
         callAPI('User/Register', '', 'POST', values).then(res => {
-          if (res.data) {
-            getLoginUser(res.data);
-            setCookie(emailKey, res.data.email, 1);
-            setCookie(passwordKey, res.data.password, 1);
-            history.push('/');
-          } else {
-            alert('Đăng ký thất bại!');
+          if (res.data === 1) {
+            notification.info({
+              message: 'Đăng kí thành công!',
+              placement: 'topRight',
+              btn: (
+                <div>
+                  <Button title="Đăng nhập" isSecondary onClick={() => history.push('/dang-nhap')} />
+                  <Button title="Trang chủ" isSecondary onClick={() => history.push('/')} />
+                </div>
+              ),
+              onClick: () => notification.destroy(),
+              duration: time.durationNotification
+            });
+          }
+          else if (res.data === 0) {
+            notification.warning({
+              message: 'Email đã tồn tại, vui lòng nhập email khác!',
+              placement: 'topRight',
+              onClick: () => notification.destroy(),
+              duration: time.durationNotification
+            });
+          }
+          else {
+            notification.warning({
+              message: 'Đăng kí thất bại!',
+              placement: 'topRight',
+              onClick: () => notification.destroy(),
+              duration: time.durationNotification
+            });
           }
         });
       }
     });
+  };
+
+  validateToNextPassword = (rule, value, callback) => {
+    const { form } = this.props;
+    if (value && this.state.confirmDirty) {
+      form.validateFields(['rePassword'], { force: true });
+    }
+    callback();
+  };
+
+  compareToFirstPassword = (rule, value, callback) => {
+    const { form } = this.props;
+    if (value && value !== form.getFieldValue('password')) {
+      callback('Mật khẩu không trùng khớp!');
+    } else {
+      callback();
+    }
+  };
+
+  handleConfirmBlur = e => {
+    const { value } = e.target;
+    this.setState({ confirmDirty: this.state.confirmDirty || !!value });
   };
 
   render() {
@@ -81,7 +131,7 @@ class RegisterPage extends Component {
             </RegisterContainer>
 
             <Form.Item>
-              {getFieldDecorator('fullName', {
+              {getFieldDecorator('name', {
                 rules: [{ required: true, message: 'Vui lòng nhập họ tên!' }]
               })(<Input placeholder="Họ tên *" />)}
             </Form.Item>
@@ -113,7 +163,8 @@ class RegisterPage extends Component {
                 <Form.Item>
                   {getFieldDecorator('password', {
                     rules: [
-                      { required: true, message: 'Vui lòng nhập mật khẩu!' }
+                      { required: true, message: 'Vui lòng nhập mật khẩu!' },
+                      { validator: this.validateToNextPassword }
                     ]
                   })(<Input type="password" placeholder="Mật khẩu *" />)}
                 </Form.Item>
@@ -122,10 +173,15 @@ class RegisterPage extends Component {
                 <Form.Item>
                   {getFieldDecorator('rePassword', {
                     rules: [
-                      { required: true, message: 'Vui lòng nhập lại mật khẩu!' }
+                      { required: true, message: 'Vui lòng nhập lại mật khẩu!' },
+                      { validator: this.compareToFirstPassword }
                     ]
                   })(
-                    <Input type="password" placeholder="Nhập lại mật khẩu *" />
+                    <Input
+                      type="password"
+                      placeholder="Nhập lại mật khẩu *"
+                      onBlur={this.handleConfirmBlur}
+                    />
                   )}
                 </Form.Item>
               </Col>
@@ -172,4 +228,4 @@ class RegisterPage extends Component {
   }
 }
 
-export default Form.create({ name: 'register' })(RegisterPage);
+export default Form.create({ name: 'RegisterPage' })(RegisterPage);

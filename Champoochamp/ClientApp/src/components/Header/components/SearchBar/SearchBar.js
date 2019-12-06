@@ -96,10 +96,10 @@ class SearchBar extends Component {
   };
 
   onKeyDownInput = e => {
-    if (e.keyCode === 13) {
-      const { userInput } = this.state;
-      const { location, push } = this.props.history;
+    const { userInput } = this.state;
+    const { location, push } = this.props.history;
 
+    if (e.keyCode === 13 && userInput) {
       if (
         location.pathname.slice(10).toLowerCase() !== userInput.toLowerCase()
       ) {
@@ -177,7 +177,7 @@ class SearchBar extends Component {
 
     return (
       <Wrapper>
-        <NavLink to={`/tim-kiem/${userInput}`} onClick={this.onHideSuggestions}>
+        <NavLink to={`/tim-kiem/${userInput}`} onClick={this.onHideSuggestions} disabled={!userInput}>
           <SearchIcon type="search" title="Tìm kiếm" />
         </NavLink>
         <SearchInput

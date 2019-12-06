@@ -47,8 +47,23 @@ class QuantityInput extends Component {
     super(props);
 
     this.state = {
-      number: props.value
+      number: props.value,
+      quantityMax: props.quantityMax > 0 ?
+        props.quantityMax < productQuantity.max ? props.quantityMax : productQuantity.max
+        :
+        productQuantity.max
     };
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.quantityMax !== prevState.quantityMax || prevState.number > prevState.quantityMax ) {
+      return {
+        quantityMax: nextProps.quantityMax > 0 ? nextProps.quantityMax : productQuantity.max,
+        number: nextProps.quantityMax > 0 && prevState.number > nextProps.quantityMax ? nextProps.quantityMax : prevState.number
+      };
+    }
+
+    return null;
   }
 
   handleInputChange = e => {
@@ -58,12 +73,13 @@ class QuantityInput extends Component {
   };
 
   handleInputBlur = e => {
+    const { quantityMax } = this.state;
     const number = e.target.value;
 
     if (isNaN(number) || number < productQuantity.min) {
       this.setState({ number: productQuantity.min });
-    } else if (number > productQuantity.max) {
-      this.setState({ number: productQuantity.max });
+    } else if (number > quantityMax) {
+      this.setState({ number: quantityMax });
     } else {
       this.setState(
         {
@@ -76,11 +92,11 @@ class QuantityInput extends Component {
   };
 
   handleButtonClick = isIncrease => {
-    const { number } = this.state;
+    const { number, quantityMax } = this.state;
     const { callback } = this.props;
 
     if (isIncrease) {
-      if (number >= productQuantity.max) {
+      if (number >= quantityMax) {
         return;
       }
       this.setState(
@@ -128,7 +144,8 @@ QuantityInput.propTypes = {
   callback: PropTypes.func,
   width: PropTypes.string,
   value: PropTypes.number,
-  productVariantId: PropTypes.string
+  productVariantId: PropTypes.string,
+  quantityMax: PropTypes.number
 };
 
 export default QuantityInput;

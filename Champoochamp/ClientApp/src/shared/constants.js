@@ -1,6 +1,11 @@
 ﻿const apiPort = 'http://localhost:4000';
 
-const emailKey = 'ChampoochampEmail';
+const localStorageKey = {
+  storageShoppingCartKey: 'MyShoppingCart',
+  emailKey: 'ChampoochampEmail',
+  passwordKey: 'ChampoochampPassword'
+}
+
 
 const filtersGroup = {
   brand: 'Thương hiệu',
@@ -15,9 +20,10 @@ const imagesGroup = {
   collections: 'collections'
 };
 
-const newProductPeriod = 30;
-
-const passwordKey = 'ChampoochampPassword';
+const time = {
+  newProductPeriod: 30,
+  durationNotification: 3
+}
 
 const paymentMethod = {
   cod: 'COD',
@@ -53,8 +59,6 @@ const sortsGroup = [
   }
 ];
 
-const storageShoppingCartKey = 'MyShoppingCart';
-
 const topProductsName = {
   discountProducts: 'Khuyến mãi hot',
   newProducts: 'Sản phẩm mới',
@@ -70,16 +74,14 @@ const viewportWidth = {
 
 export {
   apiPort,
-  emailKey,
+  localStorageKey,
   filtersGroup,
   imagesGroup,
-  newProductPeriod,
-  passwordKey,
+  time,
   paymentMethod,
   productQuantity,
   searchGroup,
   sortsGroup,
-  storageShoppingCartKey,
   topProductsName,
   viewportWidth
 };

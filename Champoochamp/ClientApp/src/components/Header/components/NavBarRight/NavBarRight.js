@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+﻿import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { Icon, Drawer } from 'antd';
+import { Icon, Drawer, notification } from 'antd';
 import styled from '@emotion/styled';
 
 import { callAPI, setCookie } from '../../../../shared/utils';
 import { breakpoint } from '../../../../shared/principles';
-import { emailKey, passwordKey } from '../../../../shared/constants';
+import { localStorageKey, time } from '../../../../shared/constants';
 
 import SearchBar from '../SearchBar';
 import CartSummary from './components/CartSummary';
@@ -68,6 +68,16 @@ class NavBarRight extends Component {
     };
   }
 
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (!prevState.isCartDrawerVisible && nextProps.isCartDrawerVisible) {
+      return {
+        isCartDrawerVisible: true
+      };
+    }
+
+    return null;
+  }
+
   componentDidMount() {
     callAPI(`Search/GetSearchData`).then(res =>
       this.setState({ searchData: res.data })
@@ -83,13 +93,19 @@ class NavBarRight extends Component {
   onCloseDrawer = drawerType => {
     this.setState({
       [drawerType]: false
-    });
+    }, () => this.props.onRenderCart(false));
   };
 
   onLogout = () => {
-    setCookie(emailKey, '', -1);
-    setCookie(passwordKey, '', -1);
+    setCookie(localStorageKey.emailKey, '', -1);
+    setCookie(localStorageKey.passwordKey, '', -1);
     this.props.getLoginUser(null);
+    notification.info({
+      message: 'Đăng xuất thành công!',
+      placement: 'topRight',
+      onClick: () => notification.destroy(),
+      duration: time.durationNotification
+    });
   };
 
   render() {

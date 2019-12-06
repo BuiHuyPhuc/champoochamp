@@ -94,7 +94,7 @@ class CartItemList extends Component {
   renderCartItem = shoppingCartList =>
     shoppingCartList.map(item => {
       const { onUpdateQuantity, onDeleteProduct, history } = this.props;
-      const { product, color, size, id, thumbnail } = item.productVariant;
+      const { product, color, size, id, thumbnail, quantity } = item.productVariant;
 
       return (
         <CartItem key={id}>
@@ -124,6 +124,7 @@ class CartItemList extends Component {
                   productVariantId={id}
                   value={item.quantity}
                   callback={onUpdateQuantity}
+                  quantityMax={quantity}
                   width="120px"
                 />
                 <PriceWrapper>

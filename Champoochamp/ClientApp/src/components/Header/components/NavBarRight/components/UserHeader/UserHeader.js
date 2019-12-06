@@ -4,6 +4,8 @@ import listensToClickOutside from 'react-onclickoutside';
 import { Icon } from 'antd';
 import styled from '@emotion/styled';
 
+import { getImageUrl } from '../../../../../../shared/utils';
+import { imagesGroup } from '../../../../../../shared/constants';
 import { colors } from '../../../../../../shared/principles';
 
 const Wrapper = styled('div')`
@@ -90,7 +92,7 @@ class UserHeader extends Component {
         {user ? (
           <UserAvatar
             onClick={this.onShowPanel}
-            url="https://bit.ly/2OKSVnB"
+            url={getImageUrl(user.avatar, imagesGroup.users)}
             title="Tài khoản"
           />
         ) : (
@@ -110,8 +112,8 @@ class UserHeader extends Component {
                 </NavLink>
                 <ActionItem
                   onClick={() => {
-                    this.onHidePanel();
                     onLogout();
+                    this.onHidePanel();
                   }}
                 >
                   Đăng xuất

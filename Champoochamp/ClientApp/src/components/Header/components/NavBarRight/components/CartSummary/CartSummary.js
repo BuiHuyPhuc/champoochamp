@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Row, Col } from 'antd';
+import { Row, Col, notification } from 'antd';
 import styled from '@emotion/styled';
 
 import {
@@ -17,8 +17,9 @@ import {
   updateShoppingCart
 } from '../../../../../../shared/utils';
 import {
-  storageShoppingCartKey,
-  imagesGroup
+  localStorageKey,
+  imagesGroup,
+  time
 } from '../../../../../../shared/constants';
 
 import { Image, Link, Button, SectionTitle } from '../../../../../elements';
@@ -109,11 +110,13 @@ class CartSummary extends Component {
   }
 
   getShoppingCart = user => {
-    const url = `Cart/GetShoppingCart-${
-      user ? user.email : null
-    }||${localStorage.getItem(storageShoppingCartKey)}`;
+    const url = 'Cart/GetShoppingCart';
+    const data = {
+      email: user && user.email,
+      shoppingCarts: `${localStorage.getItem(localStorageKey.storageShoppingCartKey)}`
+    };
 
-    callAPI(url).then(res =>
+    callAPI(url, '', 'POST', data).then(res =>
       this.setState(
         {
           isShoppingCartChanged: false,
@@ -144,6 +147,13 @@ class CartSummary extends Component {
       user,
       this.props.updateShoppingCart
     );
+
+    notification.info({
+      message: 'Xóa sản phẩm thành công!',
+      placement: 'topRight',
+      onClick: () => notification.destroy(),
+      duration: time.durationNotification
+    });
   };
 
   renderCartItem = shoppingCartList =>
@@ -179,26 +189,28 @@ class CartSummary extends Component {
     return (
       <Wrapper>
         <SectionTitle content="Giỏ hàng" />
-
-        <CartItemList>{this.renderCartItem(shoppingCartList)}</CartItemList>
-
-        <TotalWrapper>
-          <Row gutter={8}>
-            <Col span={12}>
-              <TotalTitle>Tổng cộng</TotalTitle>
-            </Col>
-            <Col span={12}>
-              <TotalPrice>
-                {formatMoney(getTotalMoney(shoppingCartList), true)}đ
+        {shoppingCartList.length > 0 ?
+          <div>
+            <CartItemList>{this.renderCartItem(shoppingCartList)}</CartItemList>
+            <TotalWrapper>
+              <Row gutter={8}>
+                <Col span={12}>
+                  <TotalTitle>Tổng cộng</TotalTitle>
+                </Col>
+                <Col span={12}>
+                  <TotalPrice>
+                    {formatMoney(getTotalMoney(shoppingCartList), true)}đ
               </TotalPrice>
-            </Col>
-          </Row>
-        </TotalWrapper>
-
-        <NavLink to={`/gio-hang`}>
-          <Button title="Xem giỏ hàng" isBlockButton onClick={onCloseDrawer} />
-        </NavLink>
-
+                </Col>
+              </Row>
+            </TotalWrapper>
+            <NavLink to={`/gio-hang`}>
+              <Button title="Xem giỏ hàng" isBlockButton onClick={onCloseDrawer} />
+            </NavLink>
+          </div>
+          :
+          <h3>Không có sản phẩm trong giỏ hàng</h3>
+        }
         <BackButton>
           <Link
             content="Quay lại"

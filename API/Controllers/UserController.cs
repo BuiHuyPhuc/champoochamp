@@ -41,9 +41,23 @@ namespace API.Controllers
 
     [Route("Register")]
     [HttpPost]
-    public User Register(User user)
+    public int Register(User user)
     {
       return userBusiness.register(user);
+    }
+
+    [Route("ForgetPassword")]
+    [HttpPost]
+    public string ForgetPassword(User user)
+    {
+      return userBusiness.forgetPassword(user.Email, user.VerificationCode, user.Password);
+    }
+
+    [Route("SendVerificationCode-{email}")]
+    [HttpGet]
+    public int SendVerificationCode(string email)
+    {
+      return userBusiness.sendVerificationCode(email);
     }
   }
 }

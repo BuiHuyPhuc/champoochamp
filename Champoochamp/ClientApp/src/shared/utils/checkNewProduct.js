@@ -1,9 +1,9 @@
-﻿import { newProductPeriod } from '../constants';
+﻿import { time } from '../constants';
 
 const checkNewProduct = productCreateDate => {
   return (
     Math.abs(Date.parse(productCreateDate) - Date.parse(new Date())) <=
-    newProductPeriod * 60 * 60 * 1000
+    time.newProductPeriod * 60 * 60 * 1000
   );
 };
 

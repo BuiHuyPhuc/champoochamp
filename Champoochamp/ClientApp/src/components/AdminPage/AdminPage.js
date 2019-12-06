@@ -1,4 +1,5 @@
 ﻿import React, { Component } from 'react';
+import InvoicePage from './components/InvoicePage';
 
 class AdminPage extends Component {
   constructor(props) {
@@ -10,7 +11,7 @@ class AdminPage extends Component {
   render() {
     return (
       <div>
-        Admin
+        <InvoicePage />
       </div>
     );
   }

@@ -12,9 +12,8 @@ namespace Data.Entity
 
         public int Id { get; set; }
         public string CustomerEmail { get; set; }
-        public string CustomerFirstName { get; set; }
-        public string CustomerLastName { get; set; }
-        public string CustomerTelephone { get; set; }
+        public string CustomerName { get; set; }
+        public string CustomerPhone { get; set; }
         public string CustomerProvince { get; set; }
         public string CustomerDistrict { get; set; }
         public string CustomerWard { get; set; }

@@ -1,6 +1,6 @@
 ﻿import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Form, Input, Checkbox } from 'antd';
+import { Form, Input, Checkbox, notification } from 'antd';
 import styled from '@emotion/styled';
 
 import {
@@ -9,7 +9,7 @@ import {
   formatForm,
   formatCheckbox
 } from '../../shared/utils';
-import { emailKey, passwordKey, viewportWidth } from '../../shared/constants';
+import { localStorageKey, time, viewportWidth } from '../../shared/constants';
 import { colors } from '../../shared/principles';
 
 import { PageContainer, Button, SectionTitle, Link } from '../elements';
@@ -42,29 +42,51 @@ const LoginButton = styled(Button)`
 `;
 
 class LoginPage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isRemember: false
+    };
+  }
+
   onSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
+        const { isRemember } = this.state;
         const { history, getLoginUser } = this.props;
         const url = `User/CheckLogin`;
         callAPI(url, '', 'POST', values).then(res => {
           if (res.data) {
             getLoginUser(res.data);
-            setCookie(emailKey, res.data.email, 1);
-            setCookie(passwordKey, res.data.password, 1);
+
+            if (isRemember) {
+              setCookie(localStorageKey.emailKey, values.email, 1);
+              setCookie(localStorageKey.passwordKey, values.password, 1);
+            }
+
+            notification.info({
+              message: 'Đăng nhập thành công!',
+              placement: 'topRight',
+              onClick: () => notification.destroy(),
+              duration: time.durationNotification
+            });
             history.goBack();
-            alert('Đăng nhập thanh công!');
           } else {
-            alert('Email hoặc mật khẩu không chính xác!');
+            notification.warning({
+              message: 'Email hoặc mật khẩu không chính xác!',
+              placement: 'topRight',
+              onClick: () => notification.destroy(),
+              duration: time.durationNotification
+            });
           }
         });
       }
     });
   };
 
-  rememberMe = () => {
-    // Handle remember me here.
+  rememberMe = (e) => {
+    this.setState({ isRemember: e.target.checked });
   };
 
   render() {
@@ -105,4 +127,4 @@ class LoginPage extends Component {
   }
 }
 
-export default Form.create({ name: 'login' })(LoginPage);
+export default Form.create({ name: 'LoginPage' })(LoginPage);
