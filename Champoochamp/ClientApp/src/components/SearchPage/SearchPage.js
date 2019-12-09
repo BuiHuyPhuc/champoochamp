@@ -1,9 +1,33 @@
-﻿import React, { Component } from 'react';
+﻿import React, { Component, Fragment } from 'react';
+import { NavLink } from 'react-router-dom';
 import { Row, Col } from 'antd';
+import styled from '@emotion/styled';
 
 import { callAPI } from '../../shared/utils';
 import { imagesGroup } from '../../shared/constants';
-import { ProductCard, PageContainer, Section } from '../elements';
+import { typography, breakpoint, colors } from '../../shared/principles';
+import {
+  ProductCard,
+  PageContainer,
+  Section,
+  SectionTitle,
+  Link
+} from '../elements';
+
+const ResultText = styled('div')`
+  ${typography.boldText};
+  border-bottom: solid 1px ${colors.gray};
+  margin: 0 10px 10px 10px;
+  padding-bottom: 5px;
+
+  ${breakpoint.sm`
+    margin: 0 5px 10px 5px;
+  `};
+`;
+
+const BackButton = styled('div')`
+  margin-top: 10px;
+`;
 
 class SearchPage extends Component {
   constructor(props) {
@@ -127,14 +151,22 @@ class SearchPage extends Component {
     return (
       <PageContainer>
         <Section>
-          {totalProducts ? 
-            <div>
-              <h3>{totalProducts} sản phẩm</h3>
+          <SectionTitle content="Kết quả tìm kiếm" />
+          {totalProducts ? (
+            <Fragment>
+              <ResultText>{totalProducts} sản phẩm</ResultText>
               <Row>{this.renderProductCard(showingProductList)}</Row>
-            </div>            
-            :
-            <h3>Không tìm thấy sản phẩm</h3>
-          }
+            </Fragment>
+          ) : (
+            <Fragment>
+              <span>Không tìm thấy sản phẩm nào.</span>
+              <NavLink to="/">
+                <BackButton>
+                  <Link content="Về trang chủ" iconType="fas fa-chevron-left" />
+                </BackButton>
+              </NavLink>
+            </Fragment>
+          )}
         </Section>
       </PageContainer>
     );

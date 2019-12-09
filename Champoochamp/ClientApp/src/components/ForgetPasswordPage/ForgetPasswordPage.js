@@ -1,11 +1,8 @@
-﻿import React, { Component } from 'react';
+﻿import React, { Component, Fragment } from 'react';
 import { Form, Input, notification } from 'antd';
 import styled from '@emotion/styled';
 
-import {
-  callAPI,
-  formatForm
-} from '../../shared/utils';
+import { callAPI, formatForm } from '../../shared/utils';
 import { time, viewportWidth } from '../../shared/constants';
 
 import { PageContainer, Button, SectionTitle } from '../elements';
@@ -22,7 +19,7 @@ const ForgetPasswordForm = styled(Form)`
   width: 100%;
 `;
 
-const LoginButton = styled(Button)`
+const StyledButton = styled(Button)`
   margin-bottom: 15px;
 `;
 
@@ -50,8 +47,7 @@ class ForgetPasswordPage extends Component {
               duration: time.durationNotification
             });
             history.push('/dang-nhap');
-          }
-          else {
+          } else {
             notification.warning({
               message: 'Email hoặc mã xác nhận không chính xác!',
               placement: 'topRight',
@@ -79,16 +75,14 @@ class ForgetPasswordPage extends Component {
               onClick: () => notification.destroy(),
               duration: time.durationNotification
             });
-          }
-          else if (res.data === 0) {
+          } else if (res.data === 0) {
             notification.warning({
               message: 'Email không tồn tại!',
               placement: 'topRight',
               onClick: () => notification.destroy(),
               duration: time.durationNotification
             });
-          }
-          else {
+          } else {
             notification.warning({
               message: 'Gửi mã xác nhận thất bại!',
               placement: 'topRight',
@@ -99,7 +93,7 @@ class ForgetPasswordPage extends Component {
         });
       }
     });
-  }
+  };
 
   validateToNextPassword = (rule, value, callback) => {
     const { form } = this.props;
@@ -137,18 +131,27 @@ class ForgetPasswordPage extends Component {
                 rules: [{ required: true, message: 'Vui lòng nhập email!' }]
               })(<Input type="email" placeholder="Email" />)}
             </Form.Item>
-            <LoginButton title="Gửi mã xác nhận" onClick={e => this.sendVerificationCode(e)} isBlockButton />
-            {isSendVerificationCodeSuccess &&
-              <div>
+            <StyledButton
+              title="Gửi mã xác nhận"
+              onClick={e => this.sendVerificationCode(e)}
+              isBlockButton
+            />
+            {isSendVerificationCodeSuccess && (
+              <Fragment>
                 <Form.Item>
                   {getFieldDecorator('verificationCode', {
-                    rules: [{ required: true, message: 'Vui lòng nhập mã xác nhận!' }]
+                    rules: [
+                      { required: true, message: 'Vui lòng nhập mã xác nhận!' }
+                    ]
                   })(<Input type="text" placeholder="Mã xác nhận" />)}
                 </Form.Item>
                 <Form.Item>
                   {getFieldDecorator('password', {
                     rules: [
-                      { required: true, message: 'Vui lòng nhập mật khẩu mới!' },
+                      {
+                        required: true,
+                        message: 'Vui lòng nhập mật khẩu mới!'
+                      },
                       { validator: this.validateToNextPassword }
                     ]
                   })(<Input type="password" placeholder="Mật khẩu mới" />)}
@@ -156,18 +159,27 @@ class ForgetPasswordPage extends Component {
                 <Form.Item>
                   {getFieldDecorator('rePassword', {
                     rules: [
-                      { required: true, message: 'Vui lòng nhập lại mật khẩu mới!' },
+                      {
+                        required: true,
+                        message: 'Vui lòng nhập lại mật khẩu mới!'
+                      },
                       { validator: this.compareToFirstPassword }
                     ]
-                  })(<Input
-                    type="password"
-                    placeholder="Nhập lại mật khẩu mới"
-                    onBlur={this.handleConfirmBlur}
-                  />)}
+                  })(
+                    <Input
+                      type="password"
+                      placeholder="Nhập lại mật khẩu mới"
+                      onBlur={this.handleConfirmBlur}
+                    />
+                  )}
                 </Form.Item>
-                <LoginButton title="Hoàn tất" htmlType="submit" isBlockButton />
-              </div>
-            }
+                <StyledButton
+                  title="Hoàn tất"
+                  htmlType="submit"
+                  isBlockButton
+                />
+              </Fragment>
+            )}
           </ForgetPasswordForm>
         </Wrapper>
       </PageContainer>
