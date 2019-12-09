@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Row, Col, notification } from 'antd';
 import styled from '@emotion/styled';
@@ -113,7 +113,9 @@ class CartSummary extends Component {
     const url = 'Cart/GetShoppingCart';
     const data = {
       email: user && user.email,
-      shoppingCarts: `${localStorage.getItem(localStorageKey.storageShoppingCartKey)}`
+      shoppingCarts: `${localStorage.getItem(
+        localStorageKey.storageShoppingCartKey
+      )}`
     };
 
     callAPI(url, '', 'POST', data).then(res =>
@@ -189,8 +191,8 @@ class CartSummary extends Component {
     return (
       <Wrapper>
         <SectionTitle content="Giỏ hàng" />
-        {shoppingCartList.length > 0 ?
-          <div>
+        {shoppingCartList.length > 0 ? (
+          <Fragment>
             <CartItemList>{this.renderCartItem(shoppingCartList)}</CartItemList>
             <TotalWrapper>
               <Row gutter={8}>
@@ -200,17 +202,21 @@ class CartSummary extends Component {
                 <Col span={12}>
                   <TotalPrice>
                     {formatMoney(getTotalMoney(shoppingCartList), true)}đ
-              </TotalPrice>
+                  </TotalPrice>
                 </Col>
               </Row>
             </TotalWrapper>
             <NavLink to={`/gio-hang`}>
-              <Button title="Xem giỏ hàng" isBlockButton onClick={onCloseDrawer} />
+              <Button
+                title="Xem giỏ hàng"
+                isBlockButton
+                onClick={onCloseDrawer}
+              />
             </NavLink>
-          </div>
-          :
-          <h3>Không có sản phẩm trong giỏ hàng</h3>
-        }
+          </Fragment>
+        ) : (
+          <span>Không có sản phẩm trong giỏ hàng</span>
+        )}
         <BackButton>
           <Link
             content="Quay lại"

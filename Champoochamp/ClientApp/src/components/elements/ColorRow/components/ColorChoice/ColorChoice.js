@@ -5,7 +5,8 @@ import PropTypes from 'prop-types';
 import { colors } from '../../../../../shared/principles';
 
 const Wrapper = styled('div')`
-  border: ${props => (props.isSelected ? `solid 1px ${colors.black}` : `solid 1px transparent`)};
+  border: solid 1px
+    ${props => (props.isSelected ? colors.black : colors.lightGray)};
   cursor: pointer;
   margin-right: ${props => props.size / 5}px;
   padding: 1px;
@@ -26,7 +27,11 @@ class ColorChoice extends Component {
     const { color, size, isSelected, getSelectedColor } = this.props;
 
     return (
-      <Wrapper isSelected={isSelected} onClick={() => this.onClick(color, getSelectedColor)} size={size}>
+      <Wrapper
+        isSelected={isSelected}
+        onClick={() => this.onClick(color, getSelectedColor)}
+        size={size}
+      >
         <SingleColor color={color.color.code} size={size} />
       </Wrapper>
     );
