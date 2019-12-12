@@ -1,6 +1,6 @@
 ﻿import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Row, Col, Form, Input, notification } from 'antd';
+import { Row, Col, Form, Input, Select, notification } from 'antd';
 import styled from '@emotion/styled';
 
 import {
@@ -10,6 +10,7 @@ import {
 } from '../../shared/utils';
 import { time, viewportWidth } from '../../shared/constants';
 import { colors, breakpoint } from '../../shared/principles';
+import { cities, districts, wards } from '../../shared/address';
 
 import { PageContainer, Button, SectionTitle, Link } from '../elements';
 
@@ -44,11 +45,15 @@ const LoginButton = styled(Button)`
   margin-bottom: 15px;
 `;
 
+const { Option } = Select;
+
 class RegisterPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
       confirmDirty: false,
+      districtsData: [],
+      wardsData: []
     };
   }
 
@@ -115,7 +120,30 @@ class RegisterPage extends Component {
     this.setState({ confirmDirty: this.state.confirmDirty || !!value });
   };
 
+  handleCityChange = value => {
+    this.props.form.setFieldsValue({
+      district: undefined,
+      ward: undefined
+    });
+
+    this.setState({
+      districtsData: districts[value],
+      wardsData: []
+    });
+  };
+
+  handleDistrictChange = value => {
+    this.props.form.setFieldsValue({
+      ward: undefined
+    });
+
+    this.setState({
+      wardsData: wards[value]
+    });
+  };
+
   render() {
+    const { districtsData, wardsData } = this.state;
     const { getFieldDecorator } = this.props.form;
 
     return (
@@ -188,28 +216,63 @@ class RegisterPage extends Component {
             </Row>
 
             <Row gutter={16}>
-              <Col xs={24} md={12}>
+              <Col xs={24} lg={12}>
                 <Form.Item>
                   {getFieldDecorator('province', {
-                    rules: [{ message: 'Vui lòng nhập tỉnh!' }]
-                  })(<Input placeholder="Tỉnh / thành phố" />)}
+                    rules: [
+                      {
+                        required: true,
+                        message: 'Vui lòng chọn tỉnh / thành phố!'
+                      }
+                    ],
+                    onChange: this.handleCityChange
+                  })(
+                    <Select placeholder="Tỉnh / thành phố *">
+                      {cities.map(city => (
+                        <Option key={city}>{city}</Option>
+                      ))}
+                    </Select>
+                  )}
                 </Form.Item>
               </Col>
-              <Col xs={24} md={12}>
+              <Col xs={24} lg={12}>
                 <Form.Item>
                   {getFieldDecorator('district', {
-                    rules: [{ message: 'Vui lòng nhập huyện!' }]
-                  })(<Input placeholder="Quận / huyện" />)}
+                    rules: [
+                      {
+                        required: true,
+                        message: 'Vui lòng chọn quận / huyện!'
+                      }
+                    ],
+                    onChange: this.handleDistrictChange
+                  })(
+                    <Select placeholder="Quận / huyện *">
+                      {districtsData.map(district => (
+                        <Option key={district}>{district}</Option>
+                      ))}
+                    </Select>
+                  )}
                 </Form.Item>
               </Col>
             </Row>
 
             <Row gutter={16}>
-              <Col xs={24} md={12}>
+              <Col xs={24} lg={12}>
                 <Form.Item>
                   {getFieldDecorator('ward', {
-                    rules: [{ message: 'Vui lòng nhập phường!' }]
-                  })(<Input placeholder="Phường" />)}
+                    rules: [
+                      {
+                        required: true,
+                        message: 'Vui lòng chọn phường / xã!'
+                      }
+                    ],
+                  })(
+                    <Select placeholder="Phường / xã *">
+                      {wardsData.map(ward => (
+                        <Option key={ward}>{ward}</Option>
+                      ))}
+                    </Select>
+                  )}
                 </Form.Item>
               </Col>
               <Col xs={24} md={12}>

@@ -6,6 +6,17 @@ const localStorageKey = {
   passwordKey: 'ChampoochampPassword'
 }
 
+const champoochampAddress = {
+  city: 'Thành phố Hồ Chí Minh',
+  district: 'Quận 1',
+}
+
+const ghtk = {
+  token: '1eaf5cdc13036460fe42259b4C58eBDcF3855A38',
+  apiDev: 'https://dev.ghtk.vn',
+  apiTransportFee: '/services/shipment/fee'
+}
+
 
 const filtersGroup = {
   brand: 'Thương hiệu',
@@ -75,6 +86,8 @@ const viewportWidth = {
 export {
   apiPort,
   localStorageKey,
+  champoochampAddress,
+  ghtk,
   filtersGroup,
   imagesGroup,
   time,

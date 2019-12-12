@@ -19,7 +19,7 @@ namespace API.Controllers
       {
         try
         {
-          return db.Discount.Where(p => p.Code == code).SingleOrDefault();
+          return db.Discount.Where(p => String.Compare(p.Code, code, false) == 0).SingleOrDefault();
         }
         catch (Exception e)
         {

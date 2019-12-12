@@ -22,7 +22,7 @@ namespace API.Controllers
       {
         try
         {
-          return db.User.Where(p => p.Email == userEmail).SingleOrDefault();
+          return db.User.Where(p => String.Compare(p.Email, userEmail, false) == 0).SingleOrDefault();
         }
         catch (Exception e)
         {
@@ -36,7 +36,7 @@ namespace API.Controllers
     [HttpPost]
     public User CheckLogin(User user)
     {
-      return userBusiness.checkLogin(user.Email, user.Password);
+      return userBusiness.checkLogin(user);
     }
 
     [Route("Register")]

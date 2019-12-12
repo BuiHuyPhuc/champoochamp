@@ -56,6 +56,9 @@ class LoginPage extends Component {
         const { isRemember } = this.state;
         const { history, getLoginUser } = this.props;
         const url = `User/CheckLogin`;
+        if (localStorage.getItem(localStorageKey.storageShoppingCartKey)) {
+          values.shoppingCarts = localStorage.getItem(localStorageKey.storageShoppingCartKey);
+        }
         callAPI(url, '', 'POST', values).then(res => {
           if (res.data) {
             getLoginUser(res.data);
@@ -71,7 +74,8 @@ class LoginPage extends Component {
               onClick: () => notification.destroy(),
               duration: time.durationNotification
             });
-            history.goBack();
+            localStorage.setItem(localStorageKey.storageShoppingCartKey, '')
+            history.push(`/`);
           } else {
             notification.warning({
               message: 'Email hoặc mật khẩu không chính xác!',

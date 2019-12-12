@@ -24,7 +24,8 @@ class CheckoutPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      shoppingCartList: []
+      shoppingCartList: [],
+      transportFee: 0
     };
   }
 
@@ -46,12 +47,16 @@ class CheckoutPage extends Component {
     );
   };
 
+  getTransportFee = transportFee => {
+    this.setState({ transportFee })
+  }
+
   onSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
         const { shoppingCartList } = this.state;
-        const { user, discount } = this.props;
+        const { user, discount, getDiscount } = this.props;
         const data = {
           user: values,
           shoppingCartList,
@@ -65,14 +70,10 @@ class CheckoutPage extends Component {
         callAPI('Checkout/SaveInVoice', '', 'POST', data).then(res => {
           if (res.data) {
             updateShoppingCart('', user, this.props.updateShoppingCart);
+            getDiscount(null);
             notification.info({
               message: 'Thanh toán thành công!',
               placement: 'topRight',
-              btn: (
-                <div>
-                  <Button title="Trở về trang chủ" isSecondary onClick={() => this.props.history.push('/')} />
-                </div>
-              ),
               onClick: () => notification.destroy(),
               duration: time.durationNotification,
             });
@@ -90,8 +91,8 @@ class CheckoutPage extends Component {
   };
 
   render() {
-    const { shoppingCartList } = this.state;
-    const { user, form } = this.props;
+    const { shoppingCartList, transportFee } = this.state;
+    const { user, form, discount } = this.props;
 
     return (
       <PageContainer>
@@ -100,7 +101,7 @@ class CheckoutPage extends Component {
             <Col xs={24} sm={12} md={14}>
               <Section>
                 <SmallTitle>Thông tin giao hàng</SmallTitle>
-                <InvoiceInfo user={user} form={form} />
+                <InvoiceInfo user={user} form={form} getTransportFee={this.getTransportFee} />
               </Section>
               <Section>
                 <SmallTitle>Phương thức thanh toán</SmallTitle>
@@ -110,7 +111,7 @@ class CheckoutPage extends Component {
             <Col xs={24} sm={12} md={10}>
               <Section>
                 <SmallTitle>Chi tiết đơn hàng</SmallTitle>
-                <CartInfo shoppingCartList={shoppingCartList}/>
+                <CartInfo shoppingCartList={shoppingCartList} discount={discount} transportFee={transportFee}/>
               </Section>
             </Col>
           </Form>

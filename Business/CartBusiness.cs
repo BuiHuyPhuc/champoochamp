@@ -19,12 +19,7 @@ namespace Business
             && p.ColorId == colorId
             && p.SizeId == sizeId
           ).SingleOrDefault();
-          User user = db.User.Where(p => p.Email == userEmail).SingleOrDefault();
-
-          //if (!checkProductQuantity(productVariant, user.ShoppingCarts, quantity))
-          //{
-          //  return "0";
-          //}
+          User user = db.User.Where(p => String.Compare(p.Email, userEmail, false) == 0).SingleOrDefault();
 
           if (String.IsNullOrEmpty(user.ShoppingCarts))
           {
@@ -51,7 +46,7 @@ namespace Business
       {
         try
         {
-          User user = db.User.Where(p => p.Email == u.Email).SingleOrDefault();
+          User user = db.User.Where(p => String.Compare(p.Email, u.Email, false) == 0).SingleOrDefault();
           user.ShoppingCarts = u.ShoppingCarts;
           db.SaveChanges();
 
@@ -74,7 +69,7 @@ namespace Business
       {
         foreach (KeyValuePair<string, int> item in getDictShoppingCarts(strShoppingCarts))
         {
-          if (item.Key == productVariant.Id && productVariant.Quantity < item.Value + quantity)
+          if (item.Key.Equals(productVariant.Id) && productVariant.Quantity < item.Value + quantity)
           {
             return false;
           }
@@ -103,6 +98,27 @@ namespace Business
       }
 
       return dictShoppingCarts;
+    }
+
+    public string getShoppingCarts(Dictionary<string, int> dictShoppingCarts)
+    {
+      string shoppingCarts = string.Empty;
+      foreach (KeyValuePair<string, int> item in dictShoppingCarts)
+      {
+        if(item.Value > 0)
+        {
+          if (String.IsNullOrEmpty(shoppingCarts))
+          {
+            shoppingCarts += item.Key + "-" + item.Value;
+          }
+          else
+          {
+            shoppingCarts += "," + item.Key + "-" + item.Value;
+          }
+        }             
+      }
+
+      return shoppingCarts;
     }
   }
 }
