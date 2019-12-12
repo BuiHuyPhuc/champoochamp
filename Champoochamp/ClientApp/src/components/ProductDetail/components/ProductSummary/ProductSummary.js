@@ -1,13 +1,23 @@
 import React, { Component, Fragment } from 'react';
 import { notification } from 'antd';
 import { withRouter } from 'react-router-dom';
+import styled from '@emotion/styled';
 
 import { time } from '../../../../shared/constants';
-import { groupBy, addCartItem, getShoppingCartList } from '../../../../shared/utils';
+import {
+  groupBy,
+  addCartItem,
+  getShoppingCartList
+} from '../../../../shared/utils';
 
 import { Button } from '../../../elements';
 import HeaderInfo from './components/HeaderInfo';
 import VariantChoice from './components/VariantChoice';
+
+const NotificationButton = styled(Button)`
+  margin-left: 10px;
+  padding: 0.5rem 1rem;
+`;
 
 class ProductSummary extends Component {
   constructor(props) {
@@ -34,7 +44,6 @@ class ProductSummary extends Component {
     return null;
   }
 
-
   getColorId = colorId => {
     this.setState({
       colorId,
@@ -52,20 +61,26 @@ class ProductSummary extends Component {
 
   getQuantity = (productVariantId, quantity) => {
     this.setState({ quantity });
-  }
+  };
 
   getQuantityMax = (colorId, sizeId) => {
     const { shoppingCartList } = this.state;
     const { product } = this.props;
-    const productVariant = product.productVariant.find(p => p.colorId === colorId && p.sizeId === sizeId);
+    const productVariant = product.productVariant.find(
+      p => p.colorId === colorId && p.sizeId === sizeId
+    );
 
     if (product.totalQuantity <= 0) {
       return -1;
     }
 
-    if (productVariant) {  
-      if (shoppingCartList.size > 0 && shoppingCartList.has(productVariant.id)) {
-        const quantity = productVariant.quantity - shoppingCartList.get(productVariant.id);
+    if (productVariant) {
+      if (
+        shoppingCartList.size > 0 &&
+        shoppingCartList.has(productVariant.id)
+      ) {
+        const quantity =
+          productVariant.quantity - shoppingCartList.get(productVariant.id);
         return quantity > 0 ? quantity : -1;
       }
 
@@ -73,7 +88,7 @@ class ProductSummary extends Component {
     }
 
     return 0;
-  }
+  };
 
   onAddCartItem = user => {
     const { colorId, sizeId, quantity } = this.state;
@@ -97,25 +112,37 @@ class ProductSummary extends Component {
         quantity,
         user,
         updateShoppingCart
-      )
-      .then(res => {
+      ).then(res => {
         if (res) {
-          this.setState({
-            quantityMax: this.getQuantityMax(this.state.colorId, this.state.sizeId)
-          }, () => notification.info({
-            message: 'Thêm sản phẩm vào giỏ hàng thành công!',
-            placement: 'topRight',
-            btn: (
-              <div>
-                <Button title="Thanh toán" isSecondary onClick={() => this.props.history.push('/thanh-toan')} />
-                <Button title="Xem giỏ hàng" isSecondary onClick={() => this.props.onRenderCart(true)} />
-              </div>
-            ),
-            onClick: () => notification.destroy(),
-            duration: time.durationNotification
-          }));
-        }
-        else {
+          this.setState(
+            {
+              quantityMax: this.getQuantityMax(
+                this.state.colorId,
+                this.state.sizeId
+              )
+            },
+            () =>
+              notification.info({
+                message: 'Thêm sản phẩm vào giỏ hàng thành công!',
+                placement: 'topRight',
+                btn: (
+                  <div>
+                    <NotificationButton
+                      title="Thanh toán"
+                      isSecondary
+                      onClick={() => this.props.history.push('/thanh-toan')}
+                    />
+                    <NotificationButton
+                      title="Xem giỏ hàng"
+                      onClick={() => this.props.onRenderCart(true)}
+                    />
+                  </div>
+                ),
+                onClick: () => notification.destroy(),
+                duration: time.durationNotification
+              })
+          );
+        } else {
           notification.warning({
             message: 'Thêm sản phẩm vào giỏ hàng thất bại!',
             placement: 'topRight',
@@ -124,8 +151,7 @@ class ProductSummary extends Component {
           });
         }
       });
-    }
-    else {
+    } else {
       notification.warning({
         message: 'Vui lòng chọn kích thước!',
         placement: 'topRight',
@@ -133,7 +159,7 @@ class ProductSummary extends Component {
         duration: time.durationNotification
       });
     }
-  }
+  };
 
   render() {
     const { colors, quantityMax } = this.state;
@@ -152,7 +178,13 @@ class ProductSummary extends Component {
           quantityMax={quantityMax}
         />
         <Button
-          title={colors.length > 0 ? (quantityMax > -1 ? 'Thêm vào giỏ' : 'Tạm thời hết hàng') : 'Tạm thời hết hàng'}
+          title={
+            colors.length > 0
+              ? quantityMax > -1
+                ? 'Thêm vào giỏ'
+                : 'Tạm thời hết hàng'
+              : 'Tạm thời hết hàng'
+          }
           disabled={!(colors.length > 0 && quantityMax > -1)}
           isBlockButton
           onClick={() => this.onAddCartItem(user)}

@@ -3,11 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { Row, Col, Form, Input, Select, notification } from 'antd';
 import styled from '@emotion/styled';
 
-import {
-  callAPI,
-  formatForm,
-  formatCheckbox
-} from '../../shared/utils';
+import { callAPI, formatForm, formatCheckbox } from '../../shared/utils';
 import { time, viewportWidth } from '../../shared/constants';
 import { colors, breakpoint } from '../../shared/principles';
 import { cities, districts, wards } from '../../shared/address';
@@ -45,6 +41,11 @@ const LoginButton = styled(Button)`
   margin-bottom: 15px;
 `;
 
+const NotificationButton = styled(Button)`
+  margin-left: 10px;
+  padding: 0.5rem 1rem;
+`;
+
 const { Option } = Select;
 
 class RegisterPage extends Component {
@@ -69,23 +70,28 @@ class RegisterPage extends Component {
               placement: 'topRight',
               btn: (
                 <div>
-                  <Button title="Đăng nhập" isSecondary onClick={() => history.push('/dang-nhap')} />
-                  <Button title="Trang chủ" isSecondary onClick={() => history.push('/')} />
+                  <NotificationButton
+                    title="Về trang chủ"
+                    isSecondary
+                    onClick={() => history.push('/')}
+                  />
+                  <NotificationButton
+                    title="Đăng nhập"
+                    onClick={() => history.push('/dang-nhap')}
+                  />
                 </div>
               ),
               onClick: () => notification.destroy(),
               duration: time.durationNotification
             });
-          }
-          else if (res.data === 0) {
+          } else if (res.data === 0) {
             notification.warning({
               message: 'Email đã tồn tại, vui lòng nhập email khác!',
               placement: 'topRight',
               onClick: () => notification.destroy(),
               duration: time.durationNotification
             });
-          }
-          else {
+          } else {
             notification.warning({
               message: 'Đăng kí thất bại!',
               placement: 'topRight',
@@ -201,7 +207,10 @@ class RegisterPage extends Component {
                 <Form.Item>
                   {getFieldDecorator('rePassword', {
                     rules: [
-                      { required: true, message: 'Vui lòng nhập lại mật khẩu!' },
+                      {
+                        required: true,
+                        message: 'Vui lòng nhập lại mật khẩu!'
+                      },
                       { validator: this.compareToFirstPassword }
                     ]
                   })(

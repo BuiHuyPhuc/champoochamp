@@ -28,7 +28,7 @@ const Header = styled('div')`
   padding-bottom: 5px;
 
   ${breakpoint.sm`
-  margin: 0 5px 10px 5px;
+    margin: 0 5px 10px 5px;
   `};
 `;
 

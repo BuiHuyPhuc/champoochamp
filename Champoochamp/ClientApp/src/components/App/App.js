@@ -35,8 +35,8 @@ class App extends Component {
       };
       callAPI('User/CheckLogin', '', 'POST', data).then(res => {
         if (res.data) {
-          setCookie(localStorageKey.emailKey, res.data.email, 1);
-          setCookie(localStorageKey.passwordKey, res.data.password, 1);
+          setCookie(localStorageKey.emailKey, data.email, 1);
+          setCookie(localStorageKey.passwordKey, data.password, 1);
           this.getLoginUser(res.data);
           return resolve(true);
         }
