@@ -21,20 +21,43 @@ namespace Business
           {
             bool result = false;
             Invoice invoice = getInvoice(checkoutModel);
+            //Lưu hóa đơn
             db.Add(invoice);
             db.SaveChanges();
-
+            //Lưu chi tiết hóa đơn
             List<InvoiceDetail> invoiceDetailList = getInvoiceDetail(checkoutModel.shoppingCartList, invoice.Id);
             foreach (InvoiceDetail item in invoiceDetailList)
             {
               db.Add(item);
             }
+            //Cập nhật sản phẩm
+            foreach (CartItemModel item in checkoutModel.shoppingCartList)
+            {
+              ProductVariant pv = db.ProductVariant.Find(item.productVariant.Id);
+              Product p = db.Product.Find(item.productVariant.ProductId);
+              if (pv != null && p != null)
+              {
+                pv.Quantity -= (short)item.quantity;
+                p.TotalQuantity -= (short)item.quantity;
+              }
+              else
+              {
+                return false;
+              }
+            }
 
+            //Cập nhật giỏ hàng người dùng
             User user = db.User.Find(checkoutModel.user.Id);
             if(user != null)
             {
               user.ShoppingCarts = string.Empty;
             }
+            else if(checkoutModel.user.Id > 0)
+            {
+              return false;
+            }
+
+
             db.SaveChanges();
 
             result = SendEmail(checkoutModel);
@@ -92,7 +115,7 @@ namespace Business
         {
           PriceCurrent = item.productVariant.Product.PromotionPrice,
           Quantity = (short)item.quantity,
-          Total = item.productVariant.Product.PromotionPrice * item.quantity,
+          Total = Math.Round((decimal)(item.productVariant.Product.PromotionPrice * item.quantity), 0),
           CreatedDate = DateTime.Now,
           ProductVariantId = item.productVariant.Id,
           InvoiceId = invoiceId

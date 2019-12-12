@@ -56,7 +56,9 @@ class CartPage extends Component {
     callAPI(url, '', 'POST', data).then(res => this.setState({
       isShoppingCartChanged: false,
       shoppingCartList: res.data
-    }));
+    }), () =>
+        !user && localStorage.setItem(localStorageKey.storageShoppingCartKey, getStrShoppingCart(this.state.shoppingCartList))
+    );
   };
 
   onUpdateQuantity = (productVariantId, quantity) => {

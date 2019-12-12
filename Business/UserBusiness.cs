@@ -10,17 +10,28 @@ namespace Business
 {
   public class UserBusiness
   {
-    public User checkLogin(string email, string password)
+    public User checkLogin(User u)
     {
       using (champoochampContext db = new champoochampContext())
       {
         try
         {
-          string passwordMD5 = PasswordConverter.MD5Hash_Encode(password);
-          User user = db.User.Where(p => p.Email == email && p.Password == passwordMD5).SingleOrDefault();
-          if(user != null)
+          string passwordMD5 = PasswordConverter.MD5Hash_Encode(u.Password);
+          User user = db.User.Where(p => String.Compare(p.Email, u.Email, false) == 0 && p.Password == passwordMD5).SingleOrDefault();
+          if (user != null && !String.IsNullOrEmpty(u.ShoppingCarts))
           {
-            user.Password = password;
+            if(String.IsNullOrEmpty(user.ShoppingCarts))
+            {
+              user.ShoppingCarts = u.ShoppingCarts;
+            }
+            else
+            {
+              user.ShoppingCarts += "," + u.ShoppingCarts;
+            }
+
+            db.SaveChanges();
+
+            user.Password = u.Password;
           }
           return user;
         }
@@ -38,14 +49,19 @@ namespace Business
       {
         try
         {
-          User u = db.User.Where(p => p.Email == user.Email).SingleOrDefault();
+          User u = db.User.Where(p => String.Compare(p.Email, user.Email, false) == 0).SingleOrDefault();
           if (u != null)
           {
             return 0;
-          }
+          }          
 
           user.Password = PasswordConverter.MD5Hash_Encode(user.Password);
+          if (String.IsNullOrEmpty(user.Avatar))
+          {
+            user.Avatar = "default.png";
+          }
           db.User.Add(user);
+
           db.SaveChanges();
           return 1;
         }
@@ -63,7 +79,7 @@ namespace Business
       {
         try
         {
-          User user = db.User.Where(p => p.Email == email && p.VerificationCode == verificationCode).SingleOrDefault();
+          User user = db.User.Where(p => String.Compare(p.Email, email, false) == 0 && p.VerificationCode == verificationCode).SingleOrDefault();
           if (user == null)
           {
             return null;
@@ -89,7 +105,7 @@ namespace Business
       {
         try
         {
-          User user = db.User.Where(p => p.Email == email).SingleOrDefault();
+          User user = db.User.Where(p => String.Compare(p.Email, email, false) == 0).SingleOrDefault();
           if (user == null)
           {
             return 0;
@@ -115,7 +131,7 @@ namespace Business
     public string GetNewVerificationCode(Random rd, string verificationCode)
     {
       string code = rd.Next(100000, 999999).ToString();
-      while(code == verificationCode)
+      while (code == verificationCode)
       {
         code = rd.Next(100000, 999999).ToString();
       }

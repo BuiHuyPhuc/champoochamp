@@ -125,6 +125,7 @@ class CartSummary extends Component {
           shoppingCartList: res ? res.data : []
         },
         () => {
+          !user && localStorage.setItem(localStorageKey.storageShoppingCartKey, getStrShoppingCart(this.state.shoppingCartList))
           if (this.state.isUserChanged) {
             this.setState({ isUserChanged: false });
             updateShoppingCart(

@@ -19,6 +19,17 @@ const TextRow = styled('div')`
   margin-bottom: 15px;
 `;
 
+const ProductName = styled('a')`
+  ${typography.boldText};
+  color: ${colors.black};
+  display: block;
+
+  &:hover {
+    color: ${colors.black};
+    text-decoration: underline;
+  }
+`;
+
 const LeftText = styled('span')`
   ${typography.boldText};
   margin-right: 10px;
@@ -37,24 +48,44 @@ const FinishButton = styled(Button)`
 `;
 
 class CartInfo extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      transportFee: props.transportFee
+    };
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.transportFee !== prevState.transportFee) {
+      return {
+        transportFee: nextProps.transportFee
+      };
+    }
+
+    return null;
+  }
+
   renderCartItem = shoppingCartList =>
     shoppingCartList.map(item => {
       const { id, product } = item.productVariant;
 
       return (
         <TextRow key={id}>
-          <LeftText>{item.quantity} x {product.name}</LeftText>
+          <NavLink to={`/chi-tiet/${product.metaTitle}-${product.id}`}>
+            <ProductName>{item.quantity} x {product.name}</ProductName>
+          </NavLink>
           <RightText>{formatMoney(product.promotionPrice * item.quantity, true)}đ</RightText>
         </TextRow>
       );
     });
 
   render() {
+    const { transportFee } = this.state;
     const { shoppingCartList, discount } = this.props;
     const discountAmount = discount ? discount.rate : 0;
     const tempMoney = formatMoney(getTotalMoney(shoppingCartList), false);
     const discountMoney = formatMoney(tempMoney * discountAmount / 100, false);
-    const totalMoney = tempMoney - discountMoney;
+    const totalMoney = tempMoney - discountMoney - transportFee;
 
     return (
       <Fragment>
@@ -72,7 +103,7 @@ class CartInfo extends Component {
         </TextRow>
         <TextRow>
           <LeftText>Phí vận chuyển</LeftText>
-          <RightText>30.000đ</RightText>
+          <RightText>{formatMoney(transportFee, true)}đ</RightText>
         </TextRow>
         {discountMoney > 0 &&
           <TextRow>

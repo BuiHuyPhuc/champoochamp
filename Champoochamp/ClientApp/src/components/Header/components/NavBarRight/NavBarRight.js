@@ -91,9 +91,10 @@ class NavBarRight extends Component {
   };
 
   onCloseDrawer = drawerType => {
+    this.props.onRenderCart(false);
     this.setState({
       [drawerType]: false
-    }, () => this.props.onRenderCart(false));
+    });
   };
 
   onLogout = () => {

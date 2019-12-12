@@ -1,5 +1,6 @@
 import addCartItem from './addCartItem';
 import callAPI from './callAPI';
+import callghtkAPI from './callghtkAPI';
 import checkCurrentFilter from './checkCurrentFilter';
 import checkNewProduct from './checkNewProduct';
 import formatCheckbox from './formatCheckbox';
@@ -23,6 +24,7 @@ import updateShoppingCart from './updateShoppingCart';
 export {
   addCartItem,
   callAPI,
+  callghtkAPI,
   checkCurrentFilter,
   checkNewProduct,
   formatCheckbox,

@@ -24,7 +24,7 @@ class App extends Component {
 
   componentDidMount() {
     this.checkLoginUserByCookie()
-    .then(res => !res && this.getShoppingCartByUser(this.state.user))
+    .then(res => !res && this.getStrShoppingCartByUser(this.state.user))
   }
 
   checkLoginUserByCookie = () => {
@@ -35,8 +35,8 @@ class App extends Component {
       };
       callAPI('User/CheckLogin', '', 'POST', data).then(res => {
         if (res.data) {
-          setCookie(localStorageKey.emailKey, res.data.email, 1);
-          setCookie(localStorageKey.passwordKey, res.data.password, 1);
+          setCookie(localStorageKey.emailKey, data.email, 1);
+          setCookie(localStorageKey.passwordKey, data.password, 1);
           this.getLoginUser(res.data);
           return resolve(true);
         }
@@ -47,20 +47,22 @@ class App extends Component {
     });    
   }
 
-  getShoppingCartByUser = user => {
-    if (user) {
-      const url = `User/GetUserByEmail-${user.email}`;
-      callAPI(url).then(res => this.setState({ strShoppingCart: res.data.shoppingCarts }));
-    }
-    else if (localStorage.getItem(localStorageKey.storageShoppingCartKey)) {
-      this.setState({ strShoppingCart: localStorage.getItem(localStorageKey.storageShoppingCartKey) })
-    }
+  getStrShoppingCartByUser = user => {
+    const url = 'Cart/GetStrShoppingCart';
+    const data = {
+      email: user && user.email,
+      shoppingCarts: `${localStorage.getItem(localStorageKey.storageShoppingCartKey)}`
+    };
+
+    callAPI(url, '', 'POST', data).then(res => this.setState({
+      strShoppingCart: res.data
+    }));
   }
 
   getLoginUser = user => {
     this.setState({
       user
-    }, () => this.getShoppingCartByUser(this.state.user));
+    }, () => this.getStrShoppingCartByUser(this.state.user));
   }
 
   updateShoppingCart = strShoppingCart => {

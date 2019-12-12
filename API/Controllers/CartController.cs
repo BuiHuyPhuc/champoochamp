@@ -63,11 +63,12 @@ namespace API.Controllers
         try
         {
           List<CartItemModel> shoppingCartList = new List<CartItemModel>();
+          bool isUpdateCart = false;
 
           string shoppingCarts = String.Empty;
           if (u.Email != null)
           {
-            shoppingCarts = db.User.Where(p => p.Email == u.Email).Select(p => p.ShoppingCarts).SingleOrDefault();
+            shoppingCarts = db.User.Where(p => String.Compare(p.Email, u.Email, false) == 0).Select(p => p.ShoppingCarts).SingleOrDefault();
           }
           else if (!string.IsNullOrEmpty(u.ShoppingCarts))
           {
@@ -76,6 +77,7 @@ namespace API.Controllers
 
           if (!String.IsNullOrEmpty(shoppingCarts))
           {
+            Dictionary<string, int> dictShoppingCarts = cartBusiness.getDictShoppingCarts(shoppingCarts);
             foreach (KeyValuePair<string, int> item in cartBusiness.getDictShoppingCarts(shoppingCarts))
             {
               ProductVariant pv = db.ProductVariant.Where(p => p.Id == item.Key)
@@ -83,11 +85,89 @@ namespace API.Controllers
                                   .Include(p => p.Color)
                                   .Include(p => p.Size)
                                   .SingleOrDefault();
-              shoppingCartList.Add(new CartItemModel(productBusiness.ShortProductVariant(pv), item.Value));
+              if (pv.Quantity >= item.Value)
+              {
+                shoppingCartList.Add(new CartItemModel(pv, item.Value));
+              }
+              else
+              {
+                if(pv.Quantity > 0)
+                {
+                  shoppingCartList.Add(new CartItemModel(pv, (int)pv.Quantity));
+                }
+
+                dictShoppingCarts[item.Key] = (int)pv.Quantity;
+                isUpdateCart = true;
+              }
+            }
+
+            if (isUpdateCart && u.Email != null)
+            {
+              u.ShoppingCarts = cartBusiness.getShoppingCarts(dictShoppingCarts);
+              cartBusiness.UpdateShoppingCart(u);
             }
           }
 
+          foreach(CartItemModel item in shoppingCartList)
+          {
+            item.productVariant = productBusiness.ShortProductVariant(item.productVariant);
+          }
+
           return shoppingCartList;
+        }
+        catch (Exception e)
+        {
+          Console.WriteLine(e.Message);
+          return null;
+        }
+      }
+    }
+
+    [HttpPost]
+    [Route("GetStrShoppingCart")]
+    public string GetStrShoppingCart(User u)
+    {
+      using (champoochampContext db = new champoochampContext())
+      {
+        try
+        {
+          bool isUpdateCart = false;
+          string shoppingCarts = String.Empty;
+
+          if (u.Email != null)
+          {
+            shoppingCarts = db.User.Where(p => String.Compare(p.Email, u.Email, false) == 0).Select(p => p.ShoppingCarts).SingleOrDefault();
+          }
+          else if (!string.IsNullOrEmpty(u.ShoppingCarts))
+          {
+            shoppingCarts = u.ShoppingCarts;
+          }
+
+          if (!String.IsNullOrEmpty(shoppingCarts))
+          {
+            Dictionary<string, int> dictShoppingCarts = cartBusiness.getDictShoppingCarts(shoppingCarts);
+            foreach (KeyValuePair<string, int> item in cartBusiness.getDictShoppingCarts(shoppingCarts))
+            {
+              ProductVariant pv = db.ProductVariant.Where(p => p.Id == item.Key).SingleOrDefault();
+              if (pv.Quantity < item.Value)
+              {
+                dictShoppingCarts[item.Key] = (int)pv.Quantity;
+                isUpdateCart = true;
+              }
+            }
+
+            if (isUpdateCart)
+            {
+              shoppingCarts = cartBusiness.getShoppingCarts(dictShoppingCarts);
+              if (u.Email != null)
+              {
+                u.ShoppingCarts = shoppingCarts;
+                cartBusiness.UpdateShoppingCart(u);
+              }
+            }
+          }
+
+          return shoppingCarts;
         }
         catch (Exception e)
         {

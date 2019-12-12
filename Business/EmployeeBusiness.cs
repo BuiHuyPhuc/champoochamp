@@ -15,7 +15,7 @@ namespace Business
         try
         {
           password = PasswordConverter.MD5Hash_Encode(password);
-          Employee employee = db.Employee.Where(p => p.Email == email && p.Password == password).SingleOrDefault();
+          Employee employee = db.Employee.Where(p => String.Compare(p.Email, email, false) == 0 && p.Password == password).SingleOrDefault();
           return employee;
         }
         catch (Exception e)

@@ -117,6 +117,7 @@ class RouterConfig extends Component {
                 user={user}
                 updateShoppingCart={updateShoppingCart}
                 discount={discount}
+                getDiscount={this.getDiscount}
                 history={history}
               />
               :

@@ -23,7 +23,7 @@ const SingleInput = styled(Input)`
 `;
 
 class TextInput extends Component {
-  handleInputBlur = e => {
+  handleInputChange = e => {
     this.props.callback && this.props.callback(e.target.value);
   };
 
@@ -38,7 +38,7 @@ class TextInput extends Component {
 
     return (
       <SingleInput
-        onBlur={this.handleInputBlur}
+        onChange={this.handleInputChange}
         placeholder={placeholder}
         width={width}
       />

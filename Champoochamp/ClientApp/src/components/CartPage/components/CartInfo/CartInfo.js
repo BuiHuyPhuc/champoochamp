@@ -29,11 +29,13 @@ class CartInfo extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      discount: null
+      discount: null,
+      code: ''
     };
   }
 
-  applyDiscountCode = code => {
+  applyDiscountCode = () => {
+    const { code } = this.state;
     if (code && code!=='') {
       const url = `Discount/GetDiscountByCode-${code}`;
 
@@ -56,6 +58,10 @@ class CartInfo extends Component {
       this.setState({ discount: null })
     }
   };
+
+  getCode = code => {
+    this.setState({ code })
+  }
 
   checkout = () => {
     const { discount } = this.state;
@@ -88,8 +94,11 @@ class CartInfo extends Component {
             id="name"
             placeholder="Nhập mã giảm giá"
             width="200px"
-            callback={this.applyDiscountCode}
+            callback={this.getCode}
           />
+        </ContentRow>
+        <ContentRow>
+          <Button onClick={this.applyDiscountCode} title="Áp dụng" width="250px" />
         </ContentRow>
         <ContentRow>
           <InfoText isTotal>Tổng cộng: {formatMoney(totalMoney, true)}đ</InfoText>
